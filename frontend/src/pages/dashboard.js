@@ -6,12 +6,12 @@ const Dashboard = () => {
         <AppLayout
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
+                    Peliculas
                 </h2>
             }>
 
             <Head>
-                <title>Netflix - Dashboard</title>
+                <title>Netflix - Peliculas</title>
             </Head>
 
             <div className="py-12">

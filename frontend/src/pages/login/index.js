@@ -17,7 +17,7 @@ const Login = () => {
 
   const { login } = useAuth({
     middleware: 'guest',
-    redirectIfAuthenticated: '/dashboard',
+    redirectIfAuthenticated: '/browse',
   })
 
   const [email, setEmail] = useState('romacode@gmail.com')
@@ -55,14 +55,14 @@ const Login = () => {
               <AuthValidationErrors errors={errors} />
               {/* form login */}
               <form onSubmit={submitForm}>
-                <input
+                <Input
                   className={styles.inputs}
                   type="email"
                   placeholder="Dirección de correo electronico"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 />
-                <input
+                <Input
                   type="password"
                   placeholder="Contraseña"
                   value={password}
@@ -72,7 +72,7 @@ const Login = () => {
               </form>
               <div className={styles.content_options}>
                 <div className={styles.check}>
-                  <input type="checkbox" />
+                  <Input type="checkbox" />
                   <span>Recúerdame</span>
                 </div>
                 <h6>¿Necesitas ayuda? </h6>
