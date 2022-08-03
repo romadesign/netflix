@@ -7,6 +7,12 @@ import styles from '../../styles/layout.module.css'
 export default function Home() {
   const { user } = useAuth({ middleware: 'guest' })
 
+  //Direccionando si esta logeado
+//   const { login } = useAuth({
+//     middleware: 'guest',
+//     redirectIfAuthenticated: '/browse',
+//   })
+
   return (
     <>
       <Head>

@@ -15,6 +15,7 @@ import styles from '../../../styles/login.module.css'
 const Login = () => {
   const router = useRouter()
 
+  //Direccionando si esta logeado
   const { login } = useAuth({
     middleware: 'guest',
     redirectIfAuthenticated: '/browse',
