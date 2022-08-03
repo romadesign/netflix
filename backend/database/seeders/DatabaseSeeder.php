@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Film;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        //remove table
+        DB::table('users')->truncate();
+        DB::table('films')->truncate();
+        //Create data
+        User::factory(5)->create();
+        Film::factory(5)->create();
     }
 }
