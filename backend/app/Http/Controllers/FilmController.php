@@ -25,7 +25,33 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'title' => ['required', 'string', 'max:255'],
+        //     'description' => ['required', 'longText', 'description'],
+        // ]);
+        $film = Film::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'movieStatus' => $request->movieStatus,
+            'duration' => $request->duration,
+            'studio' => $request->studio,
+            'protagonists' => $request->protagonists,
+            'country' => $request->country,
+            'premiere' => $request->premiere,
+            'category' => $request->category,
+            'genre' => $request->genre,
+            'rating' => $request->rating,
+            'director' => $request->director,
+            'producer' => $request->producer,
+            'award' => $request->award,
+            'provider_id' => $request->provider_id,
+        ]);
+
+        return response()->json([
+            'Message' => 'ok',
+            'Post' => $film
+        ]);
+
     }
 
     /**
@@ -36,7 +62,15 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        //
+        $film = Film::find($id);
+        if (!$film)
+		{
+			// Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+			// En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+			return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra una pelicula con ese código.'])],404);
+		}
+
+		return response()->json(['status'=>'ok','data'=>$film],200);
     }
 
     /**
@@ -48,7 +82,25 @@ class FilmController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $film = Film::find($id);
+        $film->title = $request->input('title');
+        $film->description = $request->input('description');
+        $film->movieStatus = $request->input('movieStatus');
+        $film->duration = $request->input('duration');
+        $film->studio = $request->input('studio');
+        $film->protagonists = $request->input('protagonists');
+        $film->country = $request->input('country');
+        $film->premiere = $request->input('premiere');
+        $film->category = $request->input('category');
+        $film->genre = $request->input('genre');
+        $film->rating = $request->input('rating');
+        $film->director = $request->input('director');
+        $film->producer = $request->input('producer');
+        $film->award = $request->input('award');
+        $film->provider_id = $request->input('provider_id');
+        $film->save();
+        return response()->json(['message' => 'Post update succesfully']);
+
     }
 
     /**
@@ -59,6 +111,8 @@ class FilmController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $film = Film::find($id);
+        $film->delete();
+        return response()->json(['message' => 'Film delete succesfully']);
     }
 }

@@ -16,7 +16,14 @@ use App\Http\Controllers\FilmController;
 */
 // Public routes
 Route::get('/films', [FilmController::class, 'index']);
+Route::get('/films/{id}', [FilmController::class, 'show']);
+Route::post('/films', [FilmController::class, 'store']);
+Route::post('/films/{id}', [FilmController::class, 'update']);
+Route::post('/films/{id}', [FilmController::class, 'destroy']);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
