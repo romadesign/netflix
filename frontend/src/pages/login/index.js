@@ -1,0 +1,95 @@
+import ApplicationLogo from '@/components/ApplicationLogo'
+import AuthCard from '@/components/AuthCard'
+import AuthSessionStatus from '@/components/AuthSessionStatus'
+import AuthValidationErrors from '@/components/AuthValidationErrors'
+import Button from '@/components/Button'
+import GuestLayout from '@/components/Layouts/GuestLayout'
+import Input from '@/components/Input'
+import Label from '@/components/Label'
+import Link from 'next/link'
+import { useAuth } from '@/hooks/auth'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import styles from '../../../styles/login.module.css'
+
+const Login = () => {
+  const router = useRouter()
+
+  const { login } = useAuth({
+    middleware: 'guest',
+    redirectIfAuthenticated: '/dashboard',
+  })
+
+  const [email, setEmail] = useState('romacode@gmail.com')
+  const [password, setPassword] = useState('romacode')
+  const [errors, setErrors] = useState([])
+  const [status, setStatus] = useState(null)
+
+  useEffect(() => {
+    if (router.query.reset?.length > 0 && errors.length === 0) {
+      setStatus(atob(router.query.reset))
+    } else {
+      setStatus(null)
+    }
+  })
+
+  const submitForm = async event => {
+    event.preventDefault()
+
+    login({ email, password, setErrors, setStatus })
+  }
+
+  return (
+    <section className={styles.content}>
+      <div className={styles.content_data}>
+        <img className={styles.imgLayout} src="/img/background.jpg" />
+        <div className={styles.concord_img_gradient}></div>
+        <div className={styles.conent_login}>
+          <div className={styles.background}>
+            <div className={styles.with_content}>
+              <h4>Iniciar sesión</h4>
+              {/* Session Status */}
+              <AuthSessionStatus status={status} />
+
+              {/* Validation Errors */}
+              <AuthValidationErrors errors={errors} />
+              {/* form login */}
+              <form onSubmit={submitForm}>
+                <input
+                  className={styles.inputs}
+                  type="email"
+                  placeholder="Dirección de correo electronico"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <button className={styles.button}>Iniciar sesión</button>
+              </form>
+              <div className={styles.content_options}>
+                <div className={styles.check}>
+                  <input type="checkbox" />
+                  <span>Recúerdame</span>
+                </div>
+                <h6>¿Necesitas ayuda? </h6>
+              </div>
+              <h5>
+                ¿Todavía sin Netflix? <a href="/">Suscríbete ya.</a>
+              </h5>
+              <h6>
+                Esta página utiliza Google reCAPTCHA para garantizar que no eres
+                un robot.
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Login
