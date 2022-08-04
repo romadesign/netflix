@@ -18,6 +18,8 @@ class CreateFilmsTable extends Migration
 			$table->foreignId('provider_id');
 			$table->string('title');
 			$table->longText('description');
+            $table->string('backdrop_path');
+            $table->string('poster_path');
 			$table->boolean('movieStatus');
 			$table->string('duration');
 			$table->string('studio');

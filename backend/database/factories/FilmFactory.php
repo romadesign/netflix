@@ -16,6 +16,8 @@ class FilmFactory extends Factory
         return [
             "title" => $this->faker->title(),
             "description" => $this->faker->text(40),
+            "backdrop_path" => $this->faker->imageUrl(1200, 700),
+            "poster_path" => $this->faker->imageUrl(200, 300),
             "movieStatus" => $this->faker->boolean(),
             "duration" => $this->faker->name(),
             "studio" => $this->faker->streetAddress(),

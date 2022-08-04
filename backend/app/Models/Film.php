@@ -13,6 +13,8 @@ class Film extends Model
     protected $fillable = [
         'title',
         'description',
+        'backdrop_path',
+        'poster_path',
         'movieStatus',
         'duration',
         'studio',

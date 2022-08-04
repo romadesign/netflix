@@ -7,112 +7,115 @@ use Illuminate\Http\Request;
 
 class FilmController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return response()->json(['status'=>'ok','data'=>Film::all()], 200);
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index(Request $request)
+	{
+        $pageSize = $request->page_size ?? 2;
+		$films = Film::query()->paginate($pageSize);
+		return response()->json(['status' => 'ok', 'data' => $films], 200);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // $request->validate([
-        //     'title' => ['required', 'string', 'max:255'],
-        //     'description' => ['required', 'longText', 'description'],
-        // ]);
-        $film = Film::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'movieStatus' => $request->movieStatus,
-            'duration' => $request->duration,
-            'studio' => $request->studio,
-            'protagonists' => $request->protagonists,
-            'country' => $request->country,
-            'premiere' => $request->premiere,
-            'category' => $request->category,
-            'genre' => $request->genre,
-            'rating' => $request->rating,
-            'director' => $request->director,
-            'producer' => $request->producer,
-            'award' => $request->award,
-            'provider_id' => $request->provider_id,
-        ]);
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		// $request->validate([
+		//     'title' => ['required', 'string', 'max:255'],
+		//     'description' => ['required', 'longText', 'description'],
+		// ]);
+		$film = Film::create([
+			'title' => $request->title,
+			'description' => $request->description,
+			'backdrop_path' => $request->backdrop_path,
+			'poster_path' => $request->poster_path,
+			'movieStatus' => $request->movieStatus,
+			'duration' => $request->duration,
+			'studio' => $request->studio,
+			'protagonists' => $request->protagonists,
+			'country' => $request->country,
+			'premiere' => $request->premiere,
+			'category' => $request->category,
+			'genre' => $request->genre,
+			'rating' => $request->rating,
+			'director' => $request->director,
+			'producer' => $request->producer,
+			'award' => $request->award,
+			'provider_id' => $request->provider_id,
+		]);
 
-        return response()->json([
-            'Message' => 'ok',
-            'Post' => $film
-        ]);
+		return response()->json([
+			'Message' => 'ok',
+			'Post' => $film
+		]);
+	}
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $film = Film::find($id);
-        if (!$film)
-		{
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show($id)
+	{
+		$film = Film::find($id);
+		if (!$film) {
 			// Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
 			// En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
-			return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra una pelicula con ese código.'])],404);
+			return response()->json(['errors' => array(['code' => 404, 'message' => 'No se encuentra una pelicula con ese código.'])], 404);
 		}
 
-		return response()->json(['status'=>'ok','data'=>$film],200);
-    }
+		return response()->json(['status' => 'ok', 'data' => $film], 200);
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $film = Film::find($id);
-        $film->title = $request->input('title');
-        $film->description = $request->input('description');
-        $film->movieStatus = $request->input('movieStatus');
-        $film->duration = $request->input('duration');
-        $film->studio = $request->input('studio');
-        $film->protagonists = $request->input('protagonists');
-        $film->country = $request->input('country');
-        $film->premiere = $request->input('premiere');
-        $film->category = $request->input('category');
-        $film->genre = $request->input('genre');
-        $film->rating = $request->input('rating');
-        $film->director = $request->input('director');
-        $film->producer = $request->input('producer');
-        $film->award = $request->input('award');
-        $film->provider_id = $request->input('provider_id');
-        $film->save();
-        return response()->json(['message' => 'Post update succesfully']);
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id)
+	{
+		$film = Film::find($id);
+		$film->title = $request->input('title');
+		$film->description = $request->input('description');
+		$film->backdrop_path = $request->input('backdrop_path');
+		$film->poster_path = $request->input('poster_path');
+		$film->movieStatus = $request->input('movieStatus');
+		$film->duration = $request->input('duration');
+		$film->studio = $request->input('studio');
+		$film->protagonists = $request->input('protagonists');
+		$film->country = $request->input('country');
+		$film->premiere = $request->input('premiere');
+		$film->category = $request->input('category');
+		$film->genre = $request->input('genre');
+		$film->rating = $request->input('rating');
+		$film->director = $request->input('director');
+		$film->producer = $request->input('producer');
+		$film->award = $request->input('award');
+		$film->provider_id = $request->input('provider_id');
+		$film->save();
+		return response()->json(['message' => 'Post update succesfully']);
+	}
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $film = Film::find($id);
-        $film->delete();
-        return response()->json(['message' => 'Film delete succesfully']);
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		$film = Film::find($id);
+		$film->delete();
+		return response()->json(['message' => 'Film delete succesfully']);
+	}
 }
