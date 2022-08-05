@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategorieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmController;
@@ -14,12 +15,19 @@ use App\Http\Controllers\FilmController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Public routes
+// Public routes films
 Route::get('/films', [FilmController::class, 'index']);
-Route::get('/films/{id}', [FilmController::class, 'show']);
-Route::post('/films', [FilmController::class, 'store']);
-Route::post('/films/{id}', [FilmController::class, 'update']);
-Route::post('/films/{id}', [FilmController::class, 'destroy']);
+Route::get('/film/{id}', [FilmController::class, 'show']);
+Route::post('/film', [FilmController::class, 'store']); //create film
+Route::post('/film/{id}/edit', [FilmController::class, 'update']);
+Route::post('/film/{id}/delete', [FilmController::class, 'destroy']);
+
+// Public routes categories
+Route::get('/categories', [CategorieController::class, 'index']);
+Route::get('/categories/{id}', [CategorieController::class, 'show']);
+Route::post('/categories', [CategorieController::class, 'store']);
+Route::put('/categorie/{id}/edit', [CategorieController::class, 'update']);
+Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();

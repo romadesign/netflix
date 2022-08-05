@@ -16,6 +16,8 @@ class FilmFactory extends Factory
         return [
             "title" => $this->faker->title(),
             "description" => $this->faker->text(40),
+            "provider_id" => 1,
+            "categorie_id" => 1,
             "backdrop_path" => $this->faker->imageUrl(1200, 700),
             "poster_path" => $this->faker->imageUrl(200, 300),
             "movieStatus" => $this->faker->boolean(),
@@ -24,13 +26,11 @@ class FilmFactory extends Factory
             "protagonists" => $this->faker->words(5),
             "country" => $this->faker->city(),
             "premiere" => $this->faker->date(),
-            "category" => $this->faker->name(),
             "genre" => $this->faker->name(),
             "rating" =>100,
             "director" =>$this->faker->name(),
             "producer" =>$this->faker->company(),
             "award" =>$this->faker->year(),
-            "provider_id" => 1,
         ];
     }
 }

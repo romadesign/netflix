@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Categorie;
 use App\Models\Film;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //Posible error solución
+        //https://stackoverflow.com/questions/31192207/laravel-5-1-migration-and-seeding-cannot-truncate-a-table-referenced-in-a-foreig
+        // SQLSTATE[42000]: Syntax error or access violation: 1701 Cannot truncate a table referenced in a foreign key constraint (`netflix-clone`.`films`, CONSTRAINT `films_provider_id_foreign` FOREIGN KEY (`provider_id`) REFERENCES `netflix-clone`.`users` (`id`)) (SQL: truncate table `users`)
+
+        //Add solution
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         //remove table
         DB::table('users')->truncate();
         DB::table('films')->truncate();
+        DB::table('categories')->truncate();
         //Create data
         User::factory(5)->create();
         Film::factory(5)->create();
+        Categorie::factory(5)->create();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

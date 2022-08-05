@@ -14,7 +14,7 @@ class FilmController extends Controller
 	 */
 	public function index(Request $request)
 	{
-        $pageSize = $request->page_size ?? 2;
+        $pageSize = $request->page_size ?? 4;
 		$films = Film::query()->paginate($pageSize);
 		return response()->json(['status' => 'ok', 'data' => $films], 200);
 	}
@@ -27,13 +27,12 @@ class FilmController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		// $request->validate([
-		//     'title' => ['required', 'string', 'max:255'],
-		//     'description' => ['required', 'longText', 'description'],
-		// ]);
-		$film = Film::create([
+            // dd($request->provider_id);
+    		$film = Film::create([
 			'title' => $request->title,
 			'description' => $request->description,
+            'provider_id' => $request->provider_id,
+			'categorie_id' => $request->categorie_id,
 			'backdrop_path' => $request->backdrop_path,
 			'poster_path' => $request->poster_path,
 			'movieStatus' => $request->movieStatus,
@@ -42,18 +41,17 @@ class FilmController extends Controller
 			'protagonists' => $request->protagonists,
 			'country' => $request->country,
 			'premiere' => $request->premiere,
-			'category' => $request->category,
 			'genre' => $request->genre,
 			'rating' => $request->rating,
 			'director' => $request->director,
 			'producer' => $request->producer,
 			'award' => $request->award,
-			'provider_id' => $request->provider_id,
+
 		]);
 
 		return response()->json([
 			'Message' => 'ok',
-			'Post' => $film
+			'Films' => $film
 		]);
 	}
 
@@ -87,6 +85,8 @@ class FilmController extends Controller
 		$film = Film::find($id);
 		$film->title = $request->input('title');
 		$film->description = $request->input('description');
+		$film->provider_id = $request->input('provider_id');
+		$film->categorie_id = $request->input('categorie_id');
 		$film->backdrop_path = $request->input('backdrop_path');
 		$film->poster_path = $request->input('poster_path');
 		$film->movieStatus = $request->input('movieStatus');
@@ -95,15 +95,13 @@ class FilmController extends Controller
 		$film->protagonists = $request->input('protagonists');
 		$film->country = $request->input('country');
 		$film->premiere = $request->input('premiere');
-		$film->category = $request->input('category');
 		$film->genre = $request->input('genre');
 		$film->rating = $request->input('rating');
 		$film->director = $request->input('director');
 		$film->producer = $request->input('producer');
 		$film->award = $request->input('award');
-		$film->provider_id = $request->input('provider_id');
 		$film->save();
-		return response()->json(['message' => 'Post update succesfully']);
+		return response()->json(['message' => 'Film update succesfully']);
 	}
 
 	/**
