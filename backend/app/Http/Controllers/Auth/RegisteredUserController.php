@@ -12,49 +12,56 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+	/**
+	 * Handle an incoming registration request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 *
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function store(Request $request)
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'max:255'],
+			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+			'password' => ['required', 'confirmed', Rules\Password::defaults()],
+		]);
 
-        if($request->role == 'provider'){
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => 'provider',
-                'password' => Hash::make($request->password),
-            ]);
-        }else{
-            $role = 'client';
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $role,
-                'password' => Hash::make($request->password),
-            ]);
-        }
+		if ($request->role == 'provider') {
+			$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'role' => 'provider',
+				'password' => Hash::make($request->password),
+			]);
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-
-        // return response()->json([
-        //     'status' => true,
-        //     'message' => 'User Created Successfully',
-        //     'token' => $user->createToken("API TOKEN")->plainTextToken
-        // ], 200);
+		} else {
+			$role = 'client';
+			$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'role' => $role,
+				'password' => Hash::make($request->password),
+			]);
+            $token = $user->createToken('auth_token')->plainTextToken;
+		}
 
 
-        event(new Registered($user));
-        Auth::login($user);
-        return response()->noContent();
-    }
+		event(new Registered($user, $token));
+
+		Auth::login($user);
+		// return response()->noContent();
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearrer'
+        ], 200);
+
+
+        // event(new Registered($user));
+        // Auth::login($user);
+        // return response()->noContent();
+	}
 }
