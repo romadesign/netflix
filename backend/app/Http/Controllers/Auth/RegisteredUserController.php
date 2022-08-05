@@ -22,20 +22,29 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $role = 'client';
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $role,
-            'password' => Hash::make($request->password),
-        ]);
+        if($request->role == 'provider'){
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'provider',
+                'password' => Hash::make($request->password),
+            ]);
+        }else{
+            $role = 'client';
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => $role,
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
 
         // return response()->json([
         //     'status' => true,

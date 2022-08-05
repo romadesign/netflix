@@ -24,8 +24,8 @@ Route::post('/film/{id}/delete', [FilmController::class, 'destroy']);
 
 // Public routes categories
 Route::get('/categories', [CategorieController::class, 'index']);
-Route::get('/categories/{id}', [CategorieController::class, 'show']);
-Route::post('/categories', [CategorieController::class, 'store']);
+Route::get('/categorie/{id}', [CategorieController::class, 'show']);
+Route::post('/categorie', [CategorieController::class, 'store']); //create categorie
 Route::put('/categorie/{id}/edit', [CategorieController::class, 'update']);
 Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
 
