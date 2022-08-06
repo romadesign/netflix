@@ -36,7 +36,7 @@
     padding: 60px 68px 40px;
     margin: 0 auto;
 }
-.with_content input { 
+.with_content input {
     font-size: 1rem;
     padding: 1rem;
     width: 100%;
@@ -55,7 +55,7 @@
     top: 50%;
     transform: translateY(-50%);
     transition: font .1s ease,top .1s ease,transform .1s ease;
-}    
+}
 .with_content h4{
     color: #fff;
     font-size: 32px;
@@ -113,3 +113,4 @@
     left: -20px;
     width: 16px;
 }
+

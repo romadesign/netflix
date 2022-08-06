@@ -52,13 +52,13 @@ const Register = () => {
     <div>
         <div className={styles.content_navbar}>
           <div className={styles.content_links}>
-            <div>
-              <li className={styles.logo}>
-                <Link href="/">
-                  <a>NETFLIX</a>
-                </Link>
-              </li>
-            </div>
+          <div>
+            <li className={styles.logo}>
+              <Link href="/">
+                <a>NETFLIX</a>
+              </Link>
+            </li>
+          </div>
             <div>
               {user ? (
                 <Link href="/dashboard">
