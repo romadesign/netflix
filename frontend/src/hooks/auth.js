@@ -11,14 +11,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     axios
       .get('/api/user')
       .then(res => {
-        if (res.data.role === 'provider') {
-          router.push('/provider')
-          return res.data.role
-        }
-        if (res.data.role === 'client') {
-          router.push('/dashboard')
-          return res.data
-        }
+        // if (res.data.role === 'provider') {
+        //   router.push('/provider')
+        //   return res.data.role
+        // }
+        // if (res.data.role === 'client') {
+        //   router.push('/dashboard')
+        // }
+        return res.data
       })
       .catch(error => {
         if (error.response.status !== 409) throw error

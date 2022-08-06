@@ -1,12 +1,8 @@
 import AppLayout from '@/components/BackOfficeProvider/Layouts/AppLayout'
 import Head from 'next/head'
-import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 
-const Admin = () => {
-
-    useEffect(() => {
-    }, [])
+const Newpage = () => {
 
     return (
         <AppLayout>
@@ -17,7 +13,7 @@ const Admin = () => {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            You're logged in! te dirigiste a provider principal
+                            You're logged in! te dirigiste a provider new pahe
                         </div>
                     </div>
                 </div>
@@ -26,4 +22,4 @@ const Admin = () => {
     )
 }
 
-export default Admin
+export default Newpage

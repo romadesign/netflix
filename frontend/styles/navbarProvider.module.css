@@ -1,0 +1,14 @@
+.content_nav_children{
+    float: right;
+    width: 83%;
+}
+@media (max-width: 872px) {
+    .content_nav {
+        display: none;
+      }
+      .content_nav_children{
+          width: 100%;
+      }
+  }
+
+
