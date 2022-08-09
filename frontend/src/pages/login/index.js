@@ -15,9 +15,11 @@ import styleslayout from '../../../styles/layout.module.css'
 
 const Login = () => {
   const router = useRouter()
+  const {login } = useAuth({
+    middleware: 'guest',
+    redirectIfAuthenticated: '/browse',
+  })
 
-  const {login } = useAuth()
-  
   const [email, setEmail] = useState('romacode@gmail.com')
   const [password, setPassword] = useState('romacode')
   const [errors, setErrors] = useState([])
@@ -33,7 +35,6 @@ const Login = () => {
 
   const submitForm = async event => {
     event.preventDefault()
-
     login({ email, password, setErrors, setStatus })
   }
 

@@ -1,6 +1,11 @@
 .content_nav_children{
-    float: right;
-    width: 83%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #f3f4f6;
+    width: 80%;
+    height: 100vh;
+    overflow: overlay;
 }
 @media (max-width: 872px) {
     .content_nav {

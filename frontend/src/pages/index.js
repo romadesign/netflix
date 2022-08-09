@@ -6,10 +6,7 @@ import styles from '../../styles/layout.module.css'
 import AppLayout from '@/components/Layouts/AppLayout'
 
 export default function Home() {
-  const { user } = useAuth({ middleware: 'guest' })
-
-//   Direccionando si esta logeado
-  const { login } = useAuth({
+  const { user } = useAuth({
     middleware: 'guest',
     redirectIfAuthenticated: '/browse',
   })

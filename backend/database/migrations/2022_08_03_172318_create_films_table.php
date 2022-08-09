@@ -31,7 +31,7 @@ class CreateFilmsTable extends Migration
             $table->integer('rating');
             $table->text('director');
             $table->text('producer');
-            $table->text('award');
+            $table->text('  ');
             $table->timestamps();
 
             $table->foreign('provider_id')->references('id')->on('users');
