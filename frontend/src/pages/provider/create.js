@@ -11,7 +11,6 @@ import { useRouter } from 'next/router'
 
 const Create = () => {
   const router = useRouter()
-
   const [getcategories, setGetCategories] = useState([]) //GetCategories
 
   const arr = [
@@ -19,11 +18,10 @@ const Create = () => {
     { value: 1, text: 'Private' },
   ]
 
-  //   const [files, setFile] = useState([])
+  //data register new films
   const [backdrop_path, setbackdrop_path] = useState('')
   const [poster_path, setposter_path] = useState('')
   const [message, setMessage] = useState()
-  //data register new films
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [categorie, setCategorie] = useState('')

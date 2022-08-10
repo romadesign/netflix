@@ -6,25 +6,44 @@ import Head from 'next/head'
 import Label from '@/components/Label'
 import Input from '@/components/Input'
 import DynamicDataUpdate from '@/components/BackOfficeProvider/DynamicDataUpdate'
+import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 
-const FilmDetail = ({ films }) => { //data traida de getServerSideProps
-    const [film, setFilm] = useState(films.data)
-    console.log(film)
+const FilmDetail = ({ films }) => {
+  //data traida de getServerSideProps
+  const [film, setFilm] = useState(films.data)
+  const [getcategories, setGetCategories] = useState([]) //GetCategories
 
-    const [getcategories, setGetCategories] = useState([]) //GetCategories
-    const [updateCategorie, setUpdateCategorie] = useState(film.categorie_id) //Update Data Categorie selected
-    const [updateStatus, setUpdateStatus] = useState(film.movieStatus) //Update Data Categorie selected
-    const [dataProtagonists, setDataProtagonists] = useState(JSON.parse(film.protagonists)) //Update Protagonists
-    const [dataGnre, setDataGnres] = useState(JSON.parse(film.genre)) //Update Protagonists
+  //update film
+  const [id, setId] = useState(film.id) //Update Data id
+  const [updateTitle, setUpdateTitle] = useState(film.title) //Update Data title
+  const [updateDescription, setUpdateDescription] = useState(film.description) //Update Data description
+  const [updateCategorie, setUpdateCategorie] = useState(film.categorie_id) //Update Data Categorie selected
+  const [updateStatus, setUpdateStatus] = useState(film.movieStatus) //Update Data Categorie selected
+  const [updateDuration, setUpdateDuration] = useState(film.duration) //Update Data duration
+  const [updateStudio, setUpdateStudio] = useState(film.studio) //Update Data studio
+  const [updateCountry, setUpdateCountry] = useState(film.country) //Update Data country
+  const [updateDirector, setUpdateDirector] = useState(film.director) //Update Data director
+  const [updateProducer, setUpdateProducer] = useState(film.producer) //Update Data producer
+  const [updatePremiere, setUpdatePremiere] = useState(film.premiere) //Update Data premiere
+  const [updateRating, setUpdateRating] = useState(film.rating) //Update Data rating
+  const [updateAward, setUpdateAward] = useState(film.award) //Update Data award
 
-    const arr = [
-      { value: 0, text: 'Public' },
-      { value: 1, text: 'Private' },
-    ]
+  const [dataProtagonists, setDataProtagonists] = useState(
+    JSON.parse(film.protagonists),
+  ) //Update Protagonists
+  const [dataGnre, setDataGnres] = useState(JSON.parse(film.genre)) //Update Protagonists backdrop_path
+  const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path
+  const [dataPoster_path, setDataPoster_path] = useState(film.poster_path) //Update poster_path
+
+  const arr = [
+    { value: 0, text: 'Public' },
+    { value: 1, text: 'Private' },
+  ]
 
   useEffect(() => {
     getCategories()
   }, [])
+
   //get categories
   async function getCategories() {
     const response = await axios.get(
@@ -34,8 +53,37 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
     return setGetCategories(data)
   }
 
-  const submitForm = () => {}
+  const updateFilm = async e => {
+    e.preventDefault()
+    let formData = new FormData()
+    formData.append('title', updateTitle)
+    formData.append('description', updateDescription)
+    formData.append('backdrop_path', dataBackdrop_path)
+    formData.append('poster_path', dataPoster_path)
+    formData.append('categorie_id', updateCategorie)
+    formData.append('movieStatus', updateStatus)
+    formData.append('duration', updateDuration)
+    formData.append('studio', updateStudio)
+    formData.append('country', updateCountry)
+    formData.append('director', updateDirector)
+    formData.append('producer', updateProducer)
+    formData.append('premiere', updatePremiere)
+    formData.append('rating', updateRating)
+    formData.append('award', updateAward)
+    formData.append('protagonists', JSON.stringify(dataProtagonists))
+    formData.append('genre', JSON.stringify(dataGnre))
 
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${id}/edit`, formData)
+      .then(function (response) {
+        console.log(response, 'llega')
+        // router.push("/")
+
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
   return (
     <AppLayout>
       <Head>
@@ -49,8 +97,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
               id="title"
               type="text"
               placeholder="title"
-              value={film.title}
-              onChange={event => setTitle(event.target.value)}
+              value={updateTitle}
+              onChange={event => setUpdateTitle(event.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -58,8 +106,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
             <textarea
               id="description"
               type="description"
-              value={film.description}
-              onChange={event => setDescription(event.target.value)}
+              value={updateDescription}
+              onChange={event => setUpdateDescription(event.target.value)}
               className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
           </div>
           {/* tree content */}
@@ -103,8 +151,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="duration"
                 type="text"
                 placeholder="duration"
-                value={film.duration}
-                onChange={event => setDuration(event.target.value)}
+                value={updateDuration}
+                onChange={event => setUpdateDuration(event.target.value)}
               />
             </div>
           </div>
@@ -118,8 +166,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 type="text"
                 placeholder="studio"
                 id="studio"
-                value={film.studio}
-                onChange={event => setStudio(event.target.value)}
+                value={updateStudio}
+                onChange={event => setUpdateStudio(event.target.value)}
               />
             </div>
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -129,8 +177,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="country"
                 type="text"
                 placeholder="country"
-                value={film.country}
-                onChange={event => setCountry(event.target.value)}
+                value={updateCountry}
+                onChange={event => setUpdateCountry(event.target.value)}
               />
             </div>
           </div>
@@ -143,8 +191,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="director"
                 type="text"
                 placeholder="director"
-                value={film.director}
-                onChange={event => setDirector(event.target.value)}
+                value={updateDirector}
+                onChange={event => setUpdateDirector(event.target.value)}
               />
             </div>
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -153,8 +201,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="producer"
                 type="text"
                 placeholder="producer"
-                value={film.producer}
-                onChange={event => setProducer(event.target.value)}
+                value={updateProducer}
+                onChange={event => setUpdateProducer(event.target.value)}
               />
             </div>
           </div>
@@ -167,8 +215,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="premiere"
                 type="text"
                 placeholder="premiere"
-                value={film.premiere}
-                onChange={event => setPremiere(event.target.value)}
+                value={updatePremiere}
+                onChange={event => setUpdatePremiere(event.target.value)}
               />
             </div>
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -177,8 +225,8 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="rating"
                 type="number"
                 placeholder="rating"
-                value={film.rating}
-                onChange={event => setRating(event.target.value)}
+                value={updateRating}
+                onChange={event => setUpdateRating(event.target.value)}
               />
             </div>
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -187,42 +235,43 @@ const FilmDetail = ({ films }) => { //data traida de getServerSideProps
                 id="award"
                 type="text"
                 placeholder="award"
-                value={film.award}
-                onChange={event => setAward(event.target.value)}
+                value={updateAward}
+                onChange={event => setUpdateAward(event.target.value)}
               />
             </div>
           </div>
 
           <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <DynamicDataUpdate
-                    title={'Protagonist List'}
-                    dataDinamicUpdate={dataProtagonists}
-                    setDataDinamic={setDataProtagonists}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <DynamicDataUpdate
-                    title={'Genre List'}
-                    dataDinamicUpdate={dataGnre}
-                    setDataDinamic={setDataGnres}
-                  />
-                </div>
-              </div>
-              {/* <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <DynamicImage
-                    datafiles={backdrop_path}
-                    setFile={setbackdrop_path}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <DynamicImage
-                    datafiles={poster_path}
-                    setFile={setposter_path}
-                  />
-                </div>
-              </div> */}
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
+              <DynamicDataUpdate
+                title={'Protagonist List'}
+                dataDinamicUpdate={dataProtagonists}
+                setDataDinamic={setDataProtagonists}
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <DynamicDataUpdate
+                title={'Genre List'}
+                dataDinamicUpdate={dataGnre}
+                setDataDinamic={setDataGnres}
+              />
+            </div>
+          </div>
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
+              <DynamicImage
+                datafiles={dataBackdrop_path}
+                setFile={setDataBackdrop_path}
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
+              <DynamicImage
+                datafiles={dataPoster_path}
+                setFile={setDataPoster_path}
+              />
+            </div>
+          </div>
+          <button onClick={updateFilm}>post</button>
         </form>
       </div>
     </AppLayout>

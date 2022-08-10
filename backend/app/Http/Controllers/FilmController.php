@@ -83,10 +83,12 @@ class FilmController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
+        $provider = 1;
 		$film = Film::find($id);
 		$film->title = $request->input('title');
 		$film->description = $request->input('description');
-		$film->provider_id = $request->input('provider_id');
+		// $film->provider_id = $request->input('provider_id');
+		$film->provider_id = $provider;
 		$film->categorie_id = $request->input('categorie_id');
 		$film->backdrop_path = $request->input('backdrop_path');
 		$film->poster_path = $request->input('poster_path');
