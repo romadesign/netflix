@@ -19,8 +19,8 @@ class CreateFilmsTable extends Migration
             $table->longText('description');
             $table->unsignedBigInteger('provider_id');
             $table->unsignedBigInteger('categorie_id');
-            $table->string('backdrop_path');
-            $table->string('poster_path');
+            $table->text('backdrop_path');
+            $table->text('poster_path');
             $table->boolean('movieStatus');
             $table->string('duration');
             $table->string('studio');
@@ -31,7 +31,7 @@ class CreateFilmsTable extends Migration
             $table->integer('rating');
             $table->text('director');
             $table->text('producer');
-            $table->text('  ');
+            $table->text('award');
             $table->timestamps();
 
             $table->foreign('provider_id')->references('id')->on('users');

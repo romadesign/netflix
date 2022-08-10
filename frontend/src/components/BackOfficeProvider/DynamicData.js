@@ -1,31 +1,28 @@
-import { useState } from 'react'
+function DynamicData({dataDinamic, setDataDinamic, title}) {
 
-function Protagonists() {
-  const [protagonistsList, setProtagonists] = useState([{ name: '' }])
-
-  const handleProtagonistsChange = (e, i) => {
+  const handleDataChange = (e, i) => {
     //capture el valor de la etiqueta name
     const { name, value } = e.target
-    const list = [...protagonistsList]
+    const list = [...dataDinamic]
     list[i][name] = value
-    setProtagonists(list)
+    setDataDinamic(list)
   }
 
-  const handleProtagonistsRemove = i => {
-    const list = [...protagonistsList]
+  const handleDataRemove = i => {
+    const list = [...dataDinamic]
     list.splice(i, 1)
-    setProtagonists(list)
+    setDataDinamic(list)
   }
 
-  const handleProtagonistsAdd = () => {
-    setProtagonists([...protagonistsList, { name: '' }])
+  const handleDataAdd = () => {
+    setDataDinamic([...dataDinamic, { name: '' }])
   }
 
   return (
     <div>
       <div>
-        <label>protagonists(s)</label>
-        {protagonistsList.map((protagonist, i) => (
+        <label  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{title}</label>
+        {dataDinamic.map((protagonist, i) => (
           <div key={i}>
             <div className="grid grid-cols-3 gap-4">
               <input
@@ -33,22 +30,22 @@ function Protagonists() {
                 name="name"
                 type="text"
                 value={protagonist.name}
-                onChange={e => handleProtagonistsChange(e, i)}
+                onChange={e => handleDataChange(e, i)}
                 required
               />
-              {protagonistsList.length - 1 === i &&
-                protagonistsList.length < 20 && (
+              {dataDinamic.length - 1 === i &&
+                dataDinamic.length < 20 && (
                   <button
                   className=" my-2 col-span-1 bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                   type="button" onClick={handleProtagonistsAdd}>
+                   type="button" onClick={handleDataAdd}>
                     Add
                   </button>
                 )}
-                {protagonistsList.length !== 1 && (
+                {dataDinamic.length !== 1 && (
                 <button
                   className=" my-2 col-span-1 bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   type="button"
-                  onClick={() => handleProtagonistsRemove(i)}>
+                  onClick={() => handleDataRemove(i)}>
                   Remove
                 </button>
               )}
@@ -60,4 +57,4 @@ function Protagonists() {
   )
 }
 
-export default Protagonists
+export default DynamicData
