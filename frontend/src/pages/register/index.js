@@ -12,7 +12,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 const Register = () => {
-
   //getdata with ruta
   const router = useRouter()
   const query = router.query
