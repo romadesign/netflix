@@ -36,8 +36,10 @@ const Create = () => {
   const [premiere, setPremiere] = useState('')
   const [rating, setRating] = useState('')
   const [award, setAward] = useState('')
-  const [protagonistsList, setProtagonists] = useState([{ name: '' }]) //Dynamic json data
-  const [genreList, setGenre] = useState([{ name: '' }]) //Dynamic json data
+  const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
+
+  console.log(protagonistsList)
+  const [genreList, setGenre] = useState([ '' ]) //Dynamic json data
 
   useEffect(() => {
     getCategories()
@@ -69,14 +71,14 @@ const Create = () => {
     formData.append('premiere', premiere)
     formData.append('rating', rating)
     formData.append('award', award)
-    formData.append('protagonists', protagonistsList)
-    formData.append('genre', genreList)
+    formData.append('protagonists', JSON.stringify(protagonistsList))
+    formData.append('genre', JSON.stringify(genreList))
 
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
       .then(function (response) {
         console.log(response)
-        router.push("/provider")
+        // router.push("/")
 
       })
       .catch(function (error) {

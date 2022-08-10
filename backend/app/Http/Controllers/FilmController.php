@@ -26,10 +26,12 @@ class FilmController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request)
+
 	{
-         $provider = 1;
-    		$film = Film::create([
-			'title' => $request->title,
+
+        $provider = 1;
+        $film = Film::create([
+            'title' => $request->title,
 			'description' => $request->description,
             'provider_id' => $provider,
 			'categorie_id' => $request->categorie_id,
@@ -46,7 +48,6 @@ class FilmController extends Controller
 			'director' => $request->director,
 			'producer' => $request->producer,
 			'award' => $request->award,
-
 		]);
 
 		return response()->json([
