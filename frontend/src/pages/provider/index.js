@@ -7,7 +7,6 @@ import axios from 'axios'
 import NavLink from 'next/link'
 import { useRouter } from 'next/router'
 
-
 const Admin = () => {
   const router = useRouter()
 
@@ -25,6 +24,18 @@ const Admin = () => {
     return setFilms(data)
   }
 
+  async function handleDelete(id) {
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${id}/delete`)
+      .then(function (response) {
+        console.log(response.data.message)
+        getFilms()
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
   return (
     <AppLayout>
       <Head>
@@ -39,12 +50,10 @@ const Admin = () => {
             </div>
           </div>
           <div className="pt-3">
-            <NavLink
-                href="/provider/create"
-                active={router.pathname === '/provider/create'}>
-                <button className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
-              New film
-            </button>
+            <NavLink href="/provider/create">
+              <button className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
+                New film
+              </button>
             </NavLink>
           </div>
           {/* show films */}
@@ -100,7 +109,9 @@ const Admin = () => {
                             type="checkbox"
                             className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <label for="checkbox-table-search-1" className="sr-only">
+                          <label
+                            for="checkbox-table-search-1"
+                            className="sr-only">
                             checkbox
                           </label>
                         </div>
@@ -117,10 +128,7 @@ const Admin = () => {
                       </td>
                       <td className="py-4 px-6">{film?.title}</td>
                       <td className="py-4 px-6">{film?.categorie_id}</td>
-                      <td className="py-4 px-6">
-                        {film?.movieStatus}
-
-                      </td>
+                      <td className="py-4 px-6">{film?.movieStatus}</td>
                       <td className="py-4 px-6">
                         {film?.rating}
                         <div className="flex items-center mb-5">
@@ -139,7 +147,9 @@ const Admin = () => {
                         <button className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
                           Edit
                         </button>
-                        <button className="transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 text-white font-bold py-2 px-4">
+                        <button
+                          onClick={() => handleDelete(film?.id)}
+                          className="transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 text-white font-bold py-2 px-4">
                           Delete
                         </button>
                       </td>

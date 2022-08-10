@@ -6,8 +6,12 @@ import { useEffect, useState } from 'react'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
+import { useRouter } from 'next/router'
+
 
 const Create = () => {
+  const router = useRouter()
+
   const [getcategories, setGetCategories] = useState([]) //GetCategories
 
   const arr = [
@@ -47,47 +51,10 @@ const Create = () => {
     return setGetCategories(data)
   }
 
-  // const [selectedImage, setSelectedImage] = useState()
-
-  // // This function will be triggered when the file field change
-  // const imageChange = e => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setSelectedImage(e.target.files[0])
-  //   }
-  // }
-
-  // // This function will be triggered when the "Remove This Image" button is clicked
-  // const removeSelectedImage = () => {
-  //   setSelectedImage()
-  // }
-
-  const [base64code, setbase64code] = useState('')
-
-  console.log(base64code)
-
-  const send = e => {
-    const files = e.target.files
-    const file = files[0]
-    getBase64(file)
-  }
-
-  const onLoad = fileString => {
-    setbase64code(fileString)
-  }
-
-  const getBase64 = file => {
-    let reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      onLoad(reader.result)
-    }
-  }
-
+  //Post Film
   const postData = async e => {
     e.preventDefault()
-
     let formData = new FormData()
-
     formData.append('title', title)
     formData.append('description', description)
     formData.append('backdrop_path', backdrop_path)
@@ -105,19 +72,22 @@ const Create = () => {
     formData.append('protagonists', protagonistsList)
     formData.append('genre', genreList)
 
-    axios
+    await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
-      .then({ data })
-      .catch(({ response }) => {
-        if (response.status === 422) {
-        }
+      .then(function (response) {
+        console.log(response)
+        router.push("/provider")
+
+      })
+      .catch(function (error) {
+        console.log(error)
       })
   }
 
   return (
     <AppLayout>
       <Head>
-        <title>Dashboard provider</title>
+        <title>Create Film</title>
       </Head>
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -130,13 +100,8 @@ const Create = () => {
           <div className="w-full py-8">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">
-                <Label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="title">
-                  title
-                </Label>
+                <Label htmlFor="title">title</Label>
                 <Input
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="title"
                   type="text"
                   placeholder="title"
@@ -145,11 +110,7 @@ const Create = () => {
                 />
               </div>
               <div className="mb-4">
-                <Label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="description">
-                  Description
-                </Label>
+                <Label htmlFor="description">Description</Label>
                 <textarea
                   id="description"
                   type="description"
@@ -162,11 +123,7 @@ const Create = () => {
               {/* tree content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="categorie">
-                    Categorie
-                  </Label>
+                  <Label htmlFor="categorie">Categorie</Label>
                   <div className="relative">
                     <select
                       type="select"
@@ -183,11 +140,7 @@ const Create = () => {
                   </div>
                 </div>
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="status">
-                    Status
-                  </Label>
+                  <Label htmlFor="status">Status</Label>
                   <div className="relative">
                     <select
                       value={status}
@@ -203,13 +156,8 @@ const Create = () => {
                 </div>
 
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="duration">
-                    Duration
-                  </Label>
+                  <Label htmlFor="duration">Duration</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="duration"
                     type="text"
                     placeholder="duration"
@@ -222,11 +170,7 @@ const Create = () => {
               {/* two content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="studio">
-                    Studio
-                  </Label>
+                  <Label htmlFor="studio">Studio</Label>
                   <Input
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
@@ -237,11 +181,7 @@ const Create = () => {
                   />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="country">
-                    Country
-                  </Label>
+                  <Label htmlFor="country">Country</Label>
                   <Input
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="country"
@@ -256,13 +196,8 @@ const Create = () => {
               {/* two content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="director">
-                    Director
-                  </Label>
+                  <Label htmlFor="director">Director</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="director"
                     type="text"
                     placeholder="director"
@@ -271,13 +206,8 @@ const Create = () => {
                   />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="producer">
-                    Producer
-                  </Label>
+                  <Label htmlFor="producer">Producer</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="producer"
                     type="text"
                     placeholder="producer"
@@ -290,13 +220,8 @@ const Create = () => {
               {/* Three content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="premiere">
-                    Premiere
-                  </Label>
+                  <Label htmlFor="premiere">Premiere</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="premiere"
                     type="text"
                     placeholder="premiere"
@@ -305,13 +230,8 @@ const Create = () => {
                   />
                 </div>
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="rating">
-                    Rating
-                  </Label>
+                  <Label htmlFor="rating">Rating</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="rating"
                     type="number"
                     placeholder="rating"
@@ -320,13 +240,8 @@ const Create = () => {
                   />
                 </div>
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <Label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="award">
-                    Award
-                  </Label>
+                  <Label htmlFor="award">Award</Label>
                   <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="award"
                     type="text"
                     placeholder="award"
@@ -354,17 +269,20 @@ const Create = () => {
                 </div>
               </div>
               {/* image */}
-              <DynamicImage
-                datafiles={backdrop_path}
-                setFile={setbackdrop_path}
-              />
-
-              <DynamicImage
-                datafiles={poster_path}
-                setFile={setposter_path}
-              />
-
-              {/* <input type="file" onChange={send} /> */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicImage
+                    datafiles={backdrop_path}
+                    setFile={setbackdrop_path}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicImage
+                    datafiles={poster_path}
+                    setFile={setposter_path}
+                  />
+                </div>
+              </div>
 
               <button onClick={postData}>post</button>
             </form>
