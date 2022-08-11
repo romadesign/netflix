@@ -19,6 +19,7 @@ const Admin = () => {
   const [next_page_url, setnext_page_url] = useState('')
   const [first_page_url, setfirst_page_url] = useState('')
   const [prev_page_url, setprev_page_url] = useState('')
+  const [totalPage, settotalPage] = useState('')
 
   useEffect(() => {
     getFilms()
@@ -34,6 +35,7 @@ const Admin = () => {
     setnext_page_url(response.data.data.next_page_url)
     setfirst_page_url(response.data.data.first_page_url)
     setprev_page_url(response.data.data.prev_page_url)
+    settotalPage(response.data.data.total)
     setFilms(data.data)
   }
 
@@ -69,19 +71,25 @@ const Admin = () => {
               </button>
             </NavLink>
             {/* Pagination */}
-            <Pagination
-              pagination={pagination}
-              current_page={current_page}
-              next_page_url={next_page_url}
-              first_page_url={first_page_url}
-              prev_page_url={prev_page_url}
-              setpagination={setpagination}
-              setcurrent_page={setcurrent_page}
-              setnext_page_url={setnext_page_url}
-              setfirst_page_url={setfirst_page_url}
-              setprev_page_url={setprev_page_url}
-              setFilms={setFilms}
-            />
+            <div className="flex justify-between content-center items-center">
+              <Pagination
+                pagination={pagination}
+                current_page={current_page}
+                next_page_url={next_page_url}
+                first_page_url={first_page_url}
+                prev_page_url={prev_page_url}
+                setpagination={setpagination}
+                setcurrent_page={setcurrent_page}
+                setnext_page_url={setnext_page_url}
+                setfirst_page_url={setfirst_page_url}
+                setprev_page_url={setprev_page_url}
+                setFilms={setFilms}
+              />
+              <div className='pt-2 grid justify-items-center'>
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold  px-2.5 py-3  dark:bg-indigo-200 dark:text-indigo-900"> Films: {totalPage}</span>
+
+              </div>
+            </div>
           </div>
           {/* show films */}
           <div className="pt-3">

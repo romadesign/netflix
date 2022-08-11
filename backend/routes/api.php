@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\CategorieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\CategorieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +18,7 @@ use App\Http\Controllers\FilmController;
 // Public routes films
 Route::get('/films', [FilmController::class, 'index']);
 Route::get('/film/{id}', [FilmController::class, 'show']);
+Route::get('/films/search/title={title}/desc={description}/provider={provider}', [FilmController::class, 'search']);
 Route::post('/film', [FilmController::class, 'store']); //create film
 Route::post('/film/{id}/edit', [FilmController::class, 'update']);
 Route::post('/film/{id}/delete', [FilmController::class, 'destroy']);
