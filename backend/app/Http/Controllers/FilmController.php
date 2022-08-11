@@ -14,7 +14,7 @@ class FilmController extends Controller
 	 */
 	public function index(Request $request)
 	{
-        $pageSize = $request->page_size ?? 20;
+        $pageSize = $request->page_size ?? 6;
 		$films = Film::query()->paginate($pageSize);
 		return response()->json(['status' => 'ok', 'data' => $films], 200);
 	}

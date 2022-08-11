@@ -7,13 +7,19 @@ import axios from 'axios'
 import NavLink from 'next/link'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Pagination from '@/components/BackOfficeProvider/Pagination'
 
 const Admin = () => {
   const router = useRouter()
 
-useState
   const [films, setFilms] = useState([])
-  console.log(films)
+  //pagination config
+  const [pagination, setpagination] = useState('')
+  const [current_page, setcurrent_page] = useState('')
+  const [next_page_url, setnext_page_url] = useState('')
+  const [first_page_url, setfirst_page_url] = useState('')
+  const [prev_page_url, setprev_page_url] = useState('')
+
   useEffect(() => {
     getFilms()
   }, [])
@@ -22,22 +28,26 @@ useState
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/films`,
     )
-    const data = response.data.data.data
-    return setFilms(data)
+    const data = response.data.data
+    setpagination(response.data.data)
+    setcurrent_page(response.data.data.current_page)
+    setnext_page_url(response.data.data.next_page_url)
+    setfirst_page_url(response.data.data.first_page_url)
+    setprev_page_url(response.data.data.prev_page_url)
+    setFilms(data.data)
   }
 
   async function handleDelete(id) {
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${id}/delete`)
       .then(function (response) {
-        console.log(response.data.message)
+        // console.log(response.data.message)
         getFilms()
       })
       .catch(function (error) {
         console.log(error)
       })
   }
-
 
   return (
     <AppLayout>
@@ -52,12 +62,26 @@ useState
               elimnar.
             </div>
           </div>
-          <div className="pt-3">
+          <div className="pt-3 flex justify-between">
             <NavLink href="/provider/create">
               <button className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
                 New film
               </button>
             </NavLink>
+            {/* Pagination */}
+            <Pagination
+              pagination={pagination}
+              current_page={current_page}
+              next_page_url={next_page_url}
+              first_page_url={first_page_url}
+              prev_page_url={prev_page_url}
+              setpagination={setpagination}
+              setcurrent_page={setcurrent_page}
+              setnext_page_url={setnext_page_url}
+              setfirst_page_url={setfirst_page_url}
+              setprev_page_url={setprev_page_url}
+              setFilms={setFilms}
+            />
           </div>
           {/* show films */}
           <div className="pt-3">
@@ -145,12 +169,17 @@ useState
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                           </svg>
                         </div>
-                      </td> 
+                      </td>
                       <td className="py-4 px-6">
                         {/* <Link href={`/provider/film/${film?.id}`}> iR </Link> */}
                         <button
-                        onClick={(e) => router.push('/provider/film/[id]', `/provider/film/${film?.id}`)}
-                        className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
+                          onClick={e =>
+                            router.push(
+                              '/provider/film/[id]',
+                              `/provider/film/${film?.id}`,
+                            )
+                          }
+                          className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
                           Edit
                         </button>
                         <button
@@ -165,62 +194,6 @@ useState
               </tbody>
             </table>
           </div>
-          {/* Pagination */}
-
-          <nav aria-label="Page navigation example">
-            <ul className="inline-flex -space-x-px">
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  Previous
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  1
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  2
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  aria-current="page"
-                  className="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                  3
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  4
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  5
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </AppLayout>

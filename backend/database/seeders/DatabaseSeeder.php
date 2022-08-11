@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
         DB::table('films')->truncate();
         DB::table('categories')->truncate();
         //Create data
-        User::factory(5)->create();
-        Film::factory(5)->create();
-        Categorie::factory(5)->create();
+        User::factory(4)->create();
+        Film::factory(40)->create();
+        Categorie::factory(40)->create();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
