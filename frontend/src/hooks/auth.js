@@ -52,7 +52,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     axios
       .post('/login', props)
-      .then(() => mutate())
+      .then(() => {
+        mutate()
+      })
       .catch(error => {
         if (error.response.status !== 422) throw error
 

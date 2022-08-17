@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmController;
+use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,7 @@ use App\Http\Controllers\CategorieController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 // Public routes films
 Route::get('/films', [FilmController::class, 'index']);
 Route::get('/film/{id}', [FilmController::class, 'show']);
@@ -33,6 +36,4 @@ Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
 

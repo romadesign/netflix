@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Film;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class FilmController extends Controller
 {
 
@@ -17,14 +18,12 @@ class FilmController extends Controller
 
     public function index(Request $request)
     {
-
         $pageSize = $request->page_size ?? 6;
         $films = Film::query()->paginate($pageSize);
         return response()->json(
             [
                 'status' => 'ok',
                 'data' => $films,
-               
             ],
             200
         );
