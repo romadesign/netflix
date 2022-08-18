@@ -7,9 +7,16 @@ import Input from '@/components/Input'
 import Label from '@/components/Label'
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useRouter } from 'next/router'
-
+import { useAuth } from '@/hooks/auth'
 
 const Create = () => {
+  const { getCookie} = useAuth()
+  if (typeof window !== 'undefined') {
+    console.log('You are on the browser')
+    console.log(getCookie('id'), 'asd')
+  } else {
+    console.log('You are on the server')
+  }
   const router = useRouter()
   const [getcategories, setGetCategories] = useState([]) //GetCategories
 
@@ -37,7 +44,7 @@ const Create = () => {
   const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
 
   console.log(protagonistsList)
-  const [genreList, setGenre] = useState([ '' ]) //Dynamic json data
+  const [genreList, setGenre] = useState(['']) //Dynamic json data
 
   useEffect(() => {
     getCategories()
@@ -77,7 +84,6 @@ const Create = () => {
       .then(function (response) {
         console.log(response)
         // router.push("/")
-
       })
       .catch(function (error) {
         console.log(error)

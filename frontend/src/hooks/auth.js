@@ -6,6 +6,33 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter()
 
+  //cookies save
+  const setCookie = (key, value) => {
+    if (getCookie('id') == null) {
+     document.cookie = key +'='+ value +'; Path=/;';
+    }
+    if (getCookie('type') == null) {
+     document.cookie = key +'='+ value +'; Path=/;';
+    }
+  }
+
+  //cookie getdata
+  function getCookie(name) {
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
+    if (parts.length >= 2) return parts.pop().split(';').shift()
+  }
+
+  //cookie delete
+  const deleteCookie = name => {
+    if(getCookie('id')){
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    if(getCookie('type') ){
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+  }
+
   //Get user data
   const { data: user, error, mutate } = useSWR('/api/user', () =>
     axios
@@ -18,6 +45,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         // if (res.data.role === 'client') {
         //   router.push('/dashboard')
         // }
+        const userID = res.data.id
+        const roleTYpe = res.data.role
+        setCookie('id', userID)
+        setCookie('type', roleTYpe)
+
         return res.data
       })
       .catch(error => {
@@ -103,10 +135,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   }
 
   const logout = async () => {
+    deleteCookie('id')
+    deleteCookie('type')
     if (!error) {
-      await axios.post('/logout').then(() => mutate())
+      await axios.post('/logout').then(() => {
+        mutate()
+      })
     }
-
     window.location.pathname = '/login'
   }
 
@@ -127,5 +162,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     resetPassword,
     resendEmailVerification,
     logout,
+    //cookie
+    setCookie,
+    getCookie,
+    deleteCookie,
   }
 }

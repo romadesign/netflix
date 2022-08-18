@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class FilmController extends Controller
 {
 
-
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +17,14 @@ class FilmController extends Controller
 
     public function index(Request $request)
     {
+        $user = $request->bearerToken();
         $pageSize = $request->page_size ?? 6;
         $films = Film::query()->paginate($pageSize);
         return response()->json(
             [
                 'status' => 'ok',
                 'data' => $films,
+                'user' => $user
             ],
             200
         );
