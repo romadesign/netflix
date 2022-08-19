@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../../../styles/browse.module.css'
 import Image from 'next/image'
 import Input from '@/components/Input'
 import Button from '@/components/Button'
 import Head from 'next/head'
+import { useAuth } from '@/hooks/auth'
+import { useRouter } from 'next/router'
 
 
 export default function Browse() {
+  const router = useRouter()
+
+  //redirect page si no es provedor
+  const { getCookie } = useAuth()
+  if (typeof window !== 'undefined') {
+    var userTypeCookie = getCookie('type')
+  }
+
   // hideRegister
   const [hiddenAddProfile, setHidenAddProfile] = useState(false)
 
@@ -14,9 +24,15 @@ export default function Browse() {
     hiddenAddProfile ? setHidenAddProfile(false) : setHidenAddProfile(true)
   }
 
+  useEffect(() => {
+    userTypeCookie == 'client' ?
+    router.push("/browse") :
+    router.push('/provider');
+  }, [])
+
   return (
     <div>
-         <Head>
+      <Head>
         <title>Netflix</title>
       </Head>
       {hiddenAddProfile ? (
@@ -33,11 +49,17 @@ export default function Browse() {
                 width="120vw"
                 height="120vw"
               />
-              <Input type="text" placeholder="Nombre" className={styles.input}/>
+              <Input
+                type="text"
+                placeholder="Nombre"
+                className={styles.input}
+              />
             </div>
             <div className={styles.content_button}>
               <Button>Continuar</Button>
-              <Button onClick={() => handleClick(hiddenAddProfile)}>Cancelar</Button>
+              <Button onClick={() => handleClick(hiddenAddProfile)}>
+                Cancelar
+              </Button>
             </div>
           </div>
         </div>
@@ -75,7 +97,9 @@ export default function Browse() {
               </div>
               <div className={styles.content_card_option}>
                 <div className={styles.content_perfil}>
-                  <div className={styles.icon} onClick={() => handleClick(hiddenAddProfile)}>
+                  <div
+                    className={styles.icon}
+                    onClick={() => handleClick(hiddenAddProfile)}>
                     +
                   </div>
                   <span>Añadir perfil</span>

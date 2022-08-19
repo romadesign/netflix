@@ -18,8 +18,11 @@ const Admin = () => {
     var userTypeCookie = getCookie('type')
   }
 
+  const [getcategories, setGetCategories] = useState([]) //GetCategories
+  console.log(getcategories)
 
   const [films, setFilms] = useState([])
+
   //pagination config
   const [pagination, setpagination] = useState('')
   const [current_page, setcurrent_page] = useState('')
@@ -30,9 +33,9 @@ const Admin = () => {
 
   useEffect(() => {
     getFilms()
-    userTypeCookie == 'client' ?
-    router.push("/browse") :
-    console.log('/provider');
+    userTypeCookie == 'client'
+      ? router.push('/browse')
+      : router.push('/provider')
   }, [])
 
   async function getFilms() {
@@ -47,6 +50,18 @@ const Admin = () => {
     setprev_page_url(response.data.data.prev_page_url)
     settotalPage(response.data.data.total)
     setFilms(data.data)
+  }
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
+  async function getCategories() {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`,
+    )
+    const data = response.data.data
+    return setGetCategories(data)
   }
 
   async function handleDelete(id) {
@@ -95,9 +110,11 @@ const Admin = () => {
                 setprev_page_url={setprev_page_url}
                 setFilms={setFilms}
               />
-              <div className='pt-2 grid justify-items-center'>
-                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold  px-2.5 py-3  dark:bg-indigo-200 dark:text-indigo-900"> Films: {totalPage}</span>
-
+              <div className="pt-2 grid justify-items-center">
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold  px-2.5 py-3  dark:bg-indigo-200 dark:text-indigo-900">
+                  {' '}
+                  Films: {totalPage}
+                </span>
               </div>
             </div>
           </div>
@@ -172,7 +189,13 @@ const Admin = () => {
                         />
                       </td>
                       <td className="py-4 px-6">{film?.title}</td>
-                      <td className="py-4 px-6">{film?.categorie_id}</td>
+
+                      <td className="py-4 px-6">
+                        {getcategories.map(cat =>
+                          cat.id == film.categorie_id ? cat.title : '',
+                        )}
+                      </td>
+
                       <td className="py-4 px-6">{film?.movieStatus}</td>
                       <td className="py-4 px-6">
                         {film?.rating}
