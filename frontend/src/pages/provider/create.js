@@ -10,15 +10,16 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 
 const Create = () => {
-  const { getCookie} = useAuth()
+  const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
-    console.log('You are on the browser')
-    console.log(getCookie('id'), 'asd')
-  } else {
-    console.log('You are on the server')
+    var userIdCookie = getCookie('id')
+    var userTypeCookie = getCookie('type')
   }
   const router = useRouter()
   const [getcategories, setGetCategories] = useState([]) //GetCategories
+  const [userId, setUserId] = useState(userIdCookie) //userId Login save, cookie get data
+  const [userType, setUserType] = useState(userTypeCookie) //userId Login save, cookie get data
+  console.log(userType, 'userIdCookiesssss log')
 
   const arr = [
     { value: 0, text: 'Public' },
@@ -43,7 +44,6 @@ const Create = () => {
   const [award, setAward] = useState('')
   const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
 
-  console.log(protagonistsList)
   const [genreList, setGenre] = useState(['']) //Dynamic json data
 
   useEffect(() => {
@@ -62,6 +62,8 @@ const Create = () => {
   const postData = async e => {
     e.preventDefault()
     let formData = new FormData()
+    formData.append('userId', userId)
+    formData.append('userType', userType)
     formData.append('title', title)
     formData.append('description', description)
     formData.append('backdrop_path', backdrop_path)

@@ -7,8 +7,19 @@ import Label from '@/components/Label'
 import Input from '@/components/Input'
 import DynamicDataUpdate from '@/components/BackOfficeProvider/DynamicDataUpdate'
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
+import { useAuth } from '@/hooks/auth'
 
 const FilmDetail = ({ films }) => {
+  const { getCookie } = useAuth()
+  if (typeof window !== 'undefined') {
+    var userIdCookie = getCookie('id')
+    var userTypeCookie = getCookie('type')
+  }
+
+  const [userIdToken, setUserIdToken] = useState(userIdCookie) //userId Login save, cookie get data
+  const [userTypeToken, setUserTypeToken] = useState(userTypeCookie) //userId Login save, cookie get data
+  console.log(userTypeToken, 'userIdCookiesssss log')
+
   //data traida de getServerSideProps
   const [film, setFilm] = useState(films.data)
   const [getcategories, setGetCategories] = useState([]) //GetCategories
@@ -56,6 +67,9 @@ const FilmDetail = ({ films }) => {
   const updateFilm = async e => {
     e.preventDefault()
     let formData = new FormData()
+    formData.append('userType', userTypeToken)
+
+    formData.append('provider_id', userIdToken)
     formData.append('title', updateTitle)
     formData.append('description', updateDescription)
     formData.append('backdrop_path', dataBackdrop_path)
@@ -74,11 +88,13 @@ const FilmDetail = ({ films }) => {
     formData.append('genre', JSON.stringify(dataGnre))
 
     await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${id}/edit`, formData)
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${id}/edit`,
+        formData,
+      )
       .then(function (response) {
         console.log(response, 'llega')
         // router.push("/")
-
       })
       .catch(function (error) {
         console.log(error)
