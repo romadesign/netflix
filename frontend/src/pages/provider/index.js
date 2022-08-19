@@ -12,6 +12,13 @@ import Pagination from '@/components/BackOfficeProvider/Pagination'
 const Admin = () => {
   const router = useRouter()
 
+  //redirect page si no es provedor
+  const { getCookie } = useAuth()
+  if (typeof window !== 'undefined') {
+    var userTypeCookie = getCookie('type')
+  }
+
+
   const [films, setFilms] = useState([])
   //pagination config
   const [pagination, setpagination] = useState('')
@@ -23,6 +30,9 @@ const Admin = () => {
 
   useEffect(() => {
     getFilms()
+    userTypeCookie == 'client' ?
+    router.push("/browse") :
+    console.log('/provider');
   }, [])
 
   async function getFilms() {
