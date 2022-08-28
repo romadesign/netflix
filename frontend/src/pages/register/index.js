@@ -26,7 +26,7 @@ const Register = () => {
 
   const { register, user } = useAuth({
     middleware: 'guest',
-    redirectIfAuthenticated: '/dashboard',
+    redirectIfAuthenticated: '/browse',
   })
 
   const [name, setName] = useState('')
