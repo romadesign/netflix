@@ -1,5 +1,17 @@
 <?php
 
+// config
+$frontendUrl = env('FRONTEND_URL', '*');
+if($frontendUrl !== '*'){
+    $parsed = parse_url($frontendUrl);
+    $frontendUrl = sprintf(
+        '%s://%s%s',
+        $parsed['scheme'],
+        $parsed['host'],
+        isset($parsed['port']) ? ':' . $parsed['port'] : ''
+    );
+}
+
 return [
 
     /*
@@ -15,11 +27,27 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'login', 'logout', 'sanctum/csrf-cookie'],
+    // 'paths' => ['api/*', 'login', 'logout', 'sanctum/csrf-cookie'],
+
+    // 'allowed_methods' => ['*'],
+
+    // 'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+
+    // 'allowed_origins_patterns' => [],
+
+    // 'allowed_headers' => ['*'],
+
+    // 'exposed_headers' => [],
+
+    // 'max_age' => 0,
+
+    // 'supports_credentials' => true,
+
+    'paths' => ['*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => [$frontendUrl],
 
     'allowed_origins_patterns' => [],
 
