@@ -44,6 +44,7 @@ class FilmController extends Controller
         $user = User::find($request->userId);
         //capture role
         $userType = $request->userType;
+        $userId = 5;
         if ($user === null) {
             return response()->json(['data' => 'Este usuario no existe'], 400);
         } else {
@@ -51,7 +52,7 @@ class FilmController extends Controller
                 $film = Film::create([
                     'title' => $request->title,
                     'description' => $request->description,
-                    'provider_id' => $user->id,
+                    'provider_id' => $userId,
                     'categorie_id' => $request->categorie_id,
                     'backdrop_path' => $request->backdrop_path,
                     'poster_path' => $request->poster_path,
@@ -180,6 +181,18 @@ class FilmController extends Controller
             ->orWhere('description', 'like', '%' . $description . '%')
             ->orWhere('provider_id', 'like', '%' . $provider . '%')
             ->get();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $country
+     * @return \Illuminate\Http\Response
+     */
+    public function getCountryFilms($country)
+    {   
+        $filmCountry = Film::where('country' ,'=', $country)->get();
+        return response()->json($filmCountry);
     }
 
 }

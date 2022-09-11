@@ -23,6 +23,7 @@ Route::get('/films/search/title={title}/desc={description}/provider={provider}',
 Route::post('/film', [FilmController::class, 'store']); //create film
 Route::post('/film/{id}/edit', [FilmController::class, 'update']);
 Route::post('/film/{id}/delete', [FilmController::class, 'destroy']);
+Route::get('/country/{country}', [FilmController::class, 'getCountryFilms']);
 
 // Public routes categories
 Route::get('/categories', [CategorieController::class, 'index']);

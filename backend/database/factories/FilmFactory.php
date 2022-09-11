@@ -24,7 +24,7 @@ class FilmFactory extends Factory
             "duration" => $this->faker->name(),
             "studio" => $this->faker->streetAddress(),
             "protagonists" => "[\"Roma\",\"Ramiro\",\"Nicolas\"]",
-            "country" => $this->faker->city(),
+            "country" => $this->faker->country(),
             "premiere" => $this->faker->date(),
             "genre" => "[\"Mart\",\"Reresa\",\"Jose\"]",
             "rating" =>100,

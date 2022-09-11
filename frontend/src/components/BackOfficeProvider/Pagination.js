@@ -40,7 +40,7 @@ const Pagination = ({
     setnext_page_url(data.data.next_page_url)
 
     //update data
-    setFilms(data.data.data)
+    setFilms((prevResults) => [...prevResults, ...data.data.data]); 
     setpagination(data.data)
   }
 

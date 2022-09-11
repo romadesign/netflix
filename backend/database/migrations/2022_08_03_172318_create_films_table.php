@@ -19,8 +19,8 @@ class CreateFilmsTable extends Migration
             $table->longText('description');
             $table->unsignedBigInteger('provider_id');
             $table->unsignedBigInteger('categorie_id');
-            $table->text('backdrop_path');
-            $table->text('poster_path');
+            $table->longText('backdrop_path');
+            $table->longText('poster_path');
             $table->boolean('movieStatus');
             $table->string('duration');
             $table->string('studio');
