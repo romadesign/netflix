@@ -13,6 +13,9 @@ import { countries } from '@/components/countrieList'
 const Admin = () => {
   const router = useRouter()
 
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
+  console.log(isCheck)
   //redirect page si no es provedor
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
@@ -35,6 +38,10 @@ const Admin = () => {
   const [prev_page_url, setprev_page_url] = useState('')
   const [totalPage, settotalPage] = useState('')
 
+  //delete data ids
+  const [selectedIds, setSelectedIds] = useState([]);
+  console.log(selectedIds)
+  
   useEffect(() => {
     getFilms()
     userTypeCookie == 'client'
@@ -80,6 +87,42 @@ const Admin = () => {
       })
   }
 
+  // const handleSelectChecbox = (id) => {
+  //   setSelectedIds(
+  //     selectedIds.indexOf(id.toString()) === -1 ? 
+  //       [...selectedIds, id.toString()] : selectedIds.filter((x) => x !== id.toString()))
+  // }
+
+  const handleSelectAll = (e) => {
+    setIsCheckAll(!isCheckAll);
+    setIsCheck(films.map((li) => li.id.toString()));
+    if (isCheckAll) {
+      setIsCheck([]);
+    }
+  };
+
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter((item) => item !== id));
+    }
+  };
+
+  async function handleDeletes() {
+    const ids = selectedIds;
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${ids}/deleteall`)
+      .then(function (response) {
+        console.log(response.data.message)
+        getFilms()
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+  }
+
   //filter
   async function captureFilterValue(value) {
     const response = await axios.get(
@@ -90,7 +133,7 @@ const Admin = () => {
   }
 
   async function handleChangeCountry(e) {
-    console.log(e);
+    setFormatText(e)
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/country/${e}`,
     )
@@ -100,6 +143,7 @@ const Admin = () => {
   }
 
   function restart() {
+    document.getElementById("countries").selectedIndex = 0;
     getFilms()
     setHideOption(!true)
   }
@@ -118,7 +162,7 @@ const Admin = () => {
             </div>
           </div>
           {/* filter */}
-          <div>{
+          {/* <div>{
             countries.map(country => (
               <button
                 key={country?.id}
@@ -128,7 +172,7 @@ const Admin = () => {
                 {country.name}
               </button>
             ))}
-          </div>
+          </div> */}
           <div className="pt-3 flex justify-between">
             <NavLink href="/provider/create">
               <button className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
@@ -151,6 +195,11 @@ const Admin = () => {
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={() => restart()}>
                 Restart list
+              </button>
+              <button
+                class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                onClick={() => handleDeletes()}>
+                DeleteAll
               </button>
             </div>
             {/* Escondiendo cuando hacemos filtro */}
@@ -179,8 +228,6 @@ const Admin = () => {
               </div>
 
             }
-
-
           </div>
           {/* show films */}
           <div className="pt-3">
@@ -190,13 +237,13 @@ const Admin = () => {
                   <th scope="col" className="p-4">
                     <div className="flex items-center">
                       <input
-                        id="checkbox-all-search"
+                       checked={isCheckAll}
+                       onChange={handleSelectAll}
+                       name="selectAll"
+                       id="selectAll"
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label for="checkbox-all-search" className="sr-only">
-                        checkbox
-                      </label>
                     </div>
                   </th>
                   <th scope="col" className="py-3 px-6">
@@ -227,20 +274,20 @@ const Admin = () => {
                   {films.map(film => (
                     <tr
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      key={film?.id}>
+                     >
                       <>
                         <td className="p-4 w-4">
                           <div className="flex items-center">
                             <input
-                              id="checkbox-table-search-1"
+                              key={film?.id}
+                              checked={isCheck.includes(film?.id.toString())}
+                              onChange={handleClick}
+                              name={film?.id}
+                              id={film?.id}
                               type="checkbox"
                               className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
-                            <label
-                              for="checkbox-table-search-1"
-                              className="sr-only">
-                              checkbox
-                            </label>
+
                           </div>
                         </td>
                         <td className="py-4 px-6"> {film?.id}</td>

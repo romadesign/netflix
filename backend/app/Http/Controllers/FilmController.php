@@ -168,6 +168,15 @@ class FilmController extends Controller
     }
 
 
+    //Delete multiple
+    public function deleteAll($ids)
+    {
+        $ids = explode(",", $ids);
+        $films =  DB::table("films")->whereIn('id', $ids)->delete();
+        return response()->json(['success'=>"films Deleted successfully."]);
+    }
+
+
     /**
      * search for a title
      *
