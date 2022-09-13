@@ -41,7 +41,7 @@ const Admin = () => {
   //delete data ids
   const [selectedIds, setSelectedIds] = useState([]);
   console.log(selectedIds)
-  
+
   useEffect(() => {
     getFilms()
     userTypeCookie == 'client'
@@ -110,7 +110,8 @@ const Admin = () => {
   };
 
   async function handleDeletes() {
-    const ids = selectedIds;
+    const ids = isCheck;
+    console.log(ids)
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${ids}/deleteall`)
       .then(function (response) {
@@ -144,6 +145,8 @@ const Admin = () => {
 
   function restart() {
     document.getElementById("countries").selectedIndex = 0;
+    setIsCheck([]);
+    setIsCheckAll(!true)
     getFilms()
     setHideOption(!true)
   }
@@ -183,7 +186,7 @@ const Admin = () => {
             <div>
               <select
                 onChange={(e) => handleChangeCountry(e.target.value)}
-                id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Selecciona una país</option>
                 {countries.map(country => (
                   <option value={country?.name}>{country?.name}</option>
@@ -192,12 +195,12 @@ const Admin = () => {
             </div>
             <div>
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={() => restart()}>
                 Restart list
               </button>
               <button
-                class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={() => handleDeletes()}>
                 DeleteAll
               </button>
@@ -272,14 +275,14 @@ const Admin = () => {
               <tbody>
                 <>
                   {films.map(film => (
-                    <tr
+                    <tr key={film?.id}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                      >
                       <>
                         <td className="p-4 w-4">
                           <div className="flex items-center">
                             <input
-                              key={film?.id}
+                              
                               checked={isCheck.includes(film?.id.toString())}
                               onChange={handleClick}
                               name={film?.id}

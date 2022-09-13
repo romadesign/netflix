@@ -167,7 +167,6 @@ class FilmController extends Controller
         return response()->json(['message' => 'Film delete succesfully']);
     }
 
-
     //Delete multiple
     public function deleteAll($ids)
     {
