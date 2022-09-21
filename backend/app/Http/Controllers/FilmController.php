@@ -41,7 +41,7 @@ class FilmController extends Controller
 
 		 //GET FILMS CATEGORY
 		 public function getFilmsCategory(Request $request, $categorie_id){   
-			$pageSize = $request->page_size ?? 6;
+			$pageSize = $request->page_size ?? 5;
 			$films = Film::query()
 							->orderBy('id', 'DESC')
 							->where('categorie_id', $categorie_id)

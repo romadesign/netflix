@@ -16,15 +16,8 @@ const Films = () => {
 				<title>Netflix - Peliculas</title>
 			</Head>
 			<div className="py-12">
-				<Row
-					title="Action"
-					categoryId={1}
-				/>
-				<Row
-					title="Adventure"
-					categoryId={2}
-				/>
-
+				<Row title="Action" categoryId={1} />
+				<Row title="Adventure" categoryId={2} />
 			</div>
 		</AppLayout>
 	)
