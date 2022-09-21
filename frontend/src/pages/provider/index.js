@@ -21,13 +21,13 @@ const Admin = () => {
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var userTypeCookie = getCookie('type')
+    var userTypeId = getCookie('id')
   }
   const [hideOption, setHideOption] = useState(false) //Escondiendo object cuando hacemos algun filtro
-  const [formatText, setFormatText] = useState()
+  const [countrySelected, setCountrySelected] = useState()
 
   const [getcategories, setGetCategories] = useState([]) //GetCategories
   const [films, setFilms] = useState([])
-  console.log(films)
   const [selectAbc, setSelectAbc] = useState()
   //pagination config
   const [pagination, setpagination] = useState('')
@@ -36,10 +36,6 @@ const Admin = () => {
   const [first_page_url, setfirst_page_url] = useState('')
   const [prev_page_url, setprev_page_url] = useState('')
   const [totalPage, settotalPage] = useState('')
-
-  const [rating, setRating] = useState(null)
-  const [hover, setHover] = useState(null)
-  console.log('aca', rating)
 
   useEffect(() => {
     getFilms()
@@ -50,7 +46,7 @@ const Admin = () => {
 
   async function getFilms() {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/films`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsprovider/${userTypeId}`,
     )
     const data = response.data.data
     setpagination(response.data.data)
@@ -59,9 +55,12 @@ const Admin = () => {
     setfirst_page_url(response.data.data.first_page_url)
     setprev_page_url(response.data.data.prev_page_url)
     settotalPage(response.data.data.total)
-    setFilms(data.data)
+    if (data.data.length > 0) {
+      if (films !== undefined) {
+        setFilms(data.data)
+      }
+    }
   }
-
 
   useEffect(() => {
     getCategories()
@@ -118,7 +117,7 @@ const Admin = () => {
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film/${ids}/deleteall`)
       .then(function (response) {
         console.log(response.data.message)
-        getFilms()
+        restart()
       })
       .catch(function (error) {
         console.log(error)
@@ -136,12 +135,13 @@ const Admin = () => {
   }
 
   async function handleChangeCountry(e) {
-    setFormatText(e)
+    setCountrySelected(e)
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/country/${e}`,
     )
     const data = response.data
     setHideOption(!false)
+    console.log(data)
     setFilms(data)
   }
 
@@ -151,11 +151,6 @@ const Admin = () => {
     setIsCheckAll(!true)
     getFilms()
     setHideOption(!true)
-  }
-
-  {
-
-
   }
 
   return (
@@ -243,131 +238,127 @@ const Admin = () => {
           </div>
           {/* show films */}
           {
-            films.length >= 1 ?
-              (<div>
-                <div className="pt-3">
-                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                      <tr>
-                        <th scope="col" className="p-4">
-                          <div className="flex items-center">
-                            <input
-                              checked={isCheckAll}
-                              onChange={handleSelectAll}
-                              name="selectAll"
-                              id="selectAll"
-                              type="checkbox"
-                              className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                          </div>
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          id
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          img
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          Titulo
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          Categoria
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          Countries
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          Rating
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                          Options
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <>
-                        {films.map(film => (
-                          <tr key={film?.id}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <>
-                              <td className="p-4 w-4">
-                                <div className="flex items-center">
-                                  <input
-
-                                    checked={isCheck.includes(film?.id.toString())}
-                                    onChange={handleClick}
-                                    name={film?.id}
-                                    id={film?.id}
-                                    type="checkbox"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                  />
-
-                                </div>
-                              </td>
-                              <td className="py-4 px-6"> {film?.id}</td>
-                              <td className="py-4 px-6">
-                                <img
-                                  className="bg-cover w-20 scale-75 m-auto "
-                                  src={film?.poster_path}
-                                  alt="Picture of the author"
-                                  width={500}
-                                  height={500}
+            films.length > 0 ?
+            ( <div>
+              <div className="pt-3">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="p-4">
+                        <div className="flex items-center">
+                          <input
+                            checked={isCheckAll}
+                            onChange={handleSelectAll}
+                            name="selectAll"
+                            id="selectAll"
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                        </div>
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        id
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        img
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Titulo
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Categoria
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Countries
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Rating
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Options
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <>
+                      {films.map(film => (
+                        <tr key={film?.id}
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
+                          <>
+                            <td className="p-4 w-4">
+                              <div className="flex items-center">
+                                <input
+  
+                                  checked={isCheck.includes(film?.id.toString())}
+                                  onChange={handleClick}
+                                  name={film?.id}
+                                  id={film?.id}
+                                  type="checkbox"
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
-                              </td>
-                              <td className="py-4 px-6">{film?.title}</td>
-
-                              <td className="py-4 px-6">
-                                {getcategories.map(cat =>
-                                  cat.id == film.categorie_id ? cat.title : '',
-                                )}
-                              </td>
-
-                              <td className="py-4 px-6">{film?.country}</td>
-                              <td className="py-4 px-6">
-                                {/* {film?.rating} */}
-                                <div className="flex items-center mb-5">
+  
+                              </div>
+                            </td>
+                            <td className="py-4 px-6"> {film?.id}</td>
+                            <td className="py-4 px-6">
+                              <img
+                                className="bg-cover w-20 scale-75 m-auto "
+                                src={"http://localhost:8000/images/" + film?.backdrop_path}
+                                alt="Picture of the author"
+                                width={500}
+                                height={500}
+                              />
+                            </td>
+                            <td className="py-4 px-6">{film?.title}</td>
+  
+                            <td className="py-4 px-6">
+                              {getcategories.map(cat =>
+                                cat.id == film.categorie_id ? cat.title : '',
+                              )}
+                            </td>
+  
+                            <td className="py-4 px-6">{film?.country}</td>
+                            <td className="py-4 px-6">
+                              {/* {film?.rating} */}
+                              <div className="flex items-center mb-5">
                                 {[...Array(film?.rating || 5)].map((star) => {
                                   return <FaStar color="#ffc107" />
                                 })}
-                                </div>
-                              </td>
-                              <td className="py-4 px-6">
-                                {/* <Link href={`/provider/film/${film?.id}`}> iR </Link> */}
-                                <button
-                                  onClick={e =>
-                                    router.push(
-                                      '/provider/film/[id]',
-                                      `/provider/film/${film?.id}`,
-                                    )
-                                  }
-                                  className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() => handleDelete(film?.id)}
-                                  className="transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 text-white font-bold py-2 px-4">
-                                  Delete
-                                </button>
-                              </td>
-                            </>
-                          </tr>
-                        ))}
-                      </>
-                    </tbody>
-                  </table>
-                </div>
-              </div>) :
-              (<div className='p-4'>
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                  <strong className="font-bold">No encontramos peliculas! </strong>
-                  <span className="block sm:inline">Relacionadas al país {formatText} seleccionado</span>
-                  <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                    <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
-                  </span>
-                </div>
-              </div>)
+                              </div>
+                            </td>
+                            <td className="py-4 px-6">
+                              {/* <Link href={`/provider/film/${film?.id}`}> iR </Link> */}
+                              <button
+                                onClick={e =>
+                                  router.push(
+                                    '/provider/film/[id]',
+                                    `/provider/film/${film?.id}`,
+                                  )
+                                }
+                                className="transition ease-in-out delay-150 bg-indigo-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4">
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleDelete(film?.id)}
+                                className="transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 text-white font-bold py-2 px-4">
+                                Delete
+                              </button>
+                            </td>
+                          </>
+                        </tr>
+                      ))}
+                    </>
+                  </tbody>
+                </table>
+              </div>
+            </div>)  :
+            (
+              <div>hello</div>
+            )
           }
+         
+
         </div>
       </div>
     </AppLayout>

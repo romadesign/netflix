@@ -1,413 +1,307 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import {
-  Button,
-  ModalBody,
-  ModalHeader,
-  Input,
-  Modal,
-  ModalFooter,
-  Form,
-  FormFeedback,
-  Row,
-  Col,
-  Select,
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
-import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-//translation
-import { useTranslation } from 'react-i18next';
-//icons
-import { FaCheckCircle } from 'react-icons/fa';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { CgAsterisk } from 'react-icons/cg';
-//context
-import { ClientContext } from '@/context/ClientContext';
-//api
-import { searchProducts, getProducts } from 'api/products';
-import { getFilteredCollectionsListBack } from 'api/collections';
-//own components
-import ThemeWrapper from './ThemeWrapper';
-import SelectCustom from '@/components/inputs/SelectCustom';
-import { useRef } from 'react';
-import { displayCategories } from 'helpers';
+import AppLayout from '@/components/BackOfficeProvider/Layouts/AppLayout'
+import axios from 'axios'
+import Head from 'next/head'
+import DynamicData from '@/components/BackOfficeProvider/DynamicData'
+import { useEffect, useState } from 'react'
+import Input from '@/components/Input'
+import Label from '@/components/Label'
+import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
+import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks/auth'
+import Image from '@/components/Image'
 
-export const SliderModal = ({ open, setModal, element, saveSlider }) => {
-  const { t } = useTranslation('backoffice');
-  const { client } = useContext(ClientContext);
+const Create = () => {
+  const { getCookie } = useAuth()
+  if (typeof window !== 'undefined') {
+    var userIdCookie = getCookie('id')
+    var userTypeCookie = getCookie('type')
+  }
+  const router = useRouter()
+  const [getcategories, setGetCategories] = useState([]) //GetCategories
+  const [userId, setUserId] = useState(userIdCookie) //userId Login save, cookie get data
+  const [userType, setUserType] = useState(userTypeCookie) //userId Login save, cookie get data
+  console.log(userType, 'userIdCookiesssss log')
 
-  const [selectedCover, setSelectedCover] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const arr = [
+    { value: 0, text: 'Public' },
+    { value: 1, text: 'Private' },
+  ]
 
-  const { register, handleSubmit, errors, control, getValues, setValue, formState, watch } = useForm({
-    defaultValues: {
-      typeSlider: element?.type_slider || null,
-      category: element?.category || null,
-      active: element?.active,
-      selectedProduct: element?.results || null,
-      products: [],
-    },
-  });
+  //data register new films
+  const [backdrop_path, setbackdrop_path] = useState('')
+  console.log(backdrop_path)
+  const [poster_path, setposter_path] = useState('')
+  const [message, setMessage] = useState()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [categorie, setCategorie] = useState('')
+  const [status, setStatus] = useState(0)
+  const [duration, setDuration] = useState('')
+  const [studio, setStudio] = useState('')
+  const [country, setCountry] = useState('')
+  const [director, setDirector] = useState('')
+  const [producer, setProducer] = useState('')
+  const [premiere, setPremiere] = useState('')
+  const [rating, setRating] = useState('')
+  const [award, setAward] = useState('')
+  const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
 
-  const watchTypeSlider = watch('typeSlider');
-  const watchSelectedProduct = watch('selectedProduct');
-  const watchProducts = watch('products');
-
-  const [categories, setCategories] = useState([]);
-  const [typeSliders, setTypeSliders] = useState([]);
-
-  const displayTypeSlider = () => {
-    if (client) {
-      setTypeSliders([
-        { id: 1, name: `${t('modalList.typeListProduct')}` },
-        { id: 5, name: `${t('modalList.typeListSerie')}` },
-      ]);
-    }
-  };
-
-  const toastOnError = (message) =>
-    toast.error(message, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-  const toggle = () => closeModal();
-
-  const filterBy = () => true;
-
-  const closeModal = () => setModal(!open);
-
-  const imageClick = (id, position) => {
-    if (id === selectedCover) {
-      setSelectedCover(null);
-    } else {
-      setSelectedCover(id);
-    }
-  };
-  const imgFileChange = (event) => {
-    console.log('Soy imgFileChange',event.target.files[0])
-    if (event.target.files[0]) {
-      setSelectedImage(event.target.files[0]);
-    }
-  };
-
-  const deleteImage = (event) => {
-    // if (covers) {
-    //   covers.value = null;
-    // }
-    setSelectedImage(null);
-  };
-
-  const onSubmit = (data) => {
-    const { active, category, selectedProduct, typeSlider } = data;
-    let form = new FormData();
-    let coverFile;
-    // if (covers) {
-    //   coverFile = covers.files[0]
-    // }
-    if (selectedProduct) {
-      let product = selectedProduct;
-      form.set('product_id', product.id);
-      form.set('active', active);
-      // form.set('order', order);
-      if (category) {
-        form.set('category', category);
-      } else toastOnError('El campo categoría está vacio, por favor seleccione una.');
-
-      if (typeSlider) {
-        form.set('type_slider', typeSlider);
-      } else toastOnError('El campo tipo de slider está vacio, por favor seleccione uno.');
-
-      coverFile = selectedImage;
-
-      if (coverFile) {
-        form.set('cover_file', coverFile);
-      }
-      if (selectedCover) {
-        form.set('cover_select', selectedCover);
-      }
-      if (coverFile && selectedCover) {
-        toastOnError('Debe selecionar solo un cover, o subir una imagen');
-      }
-      // Si no hay seleccionadas un cover ni una imagen
-      if (!coverFile && !selectedCover) {
-        toastOnError('Debe selecionar un cover, o subir una imagen');
-      } else if (!product.has_cover_slider && coverFile === undefined && !selectedCover) {
-        toastOnError('El producto no tiene un cover asociado, debe subir una imagen o seleccionar un cover');
-      } else {
-        saveSlider(element?.id, form);
-      }
-    } else {
-      toastOnError('El campo producto está vacio, por favor seleccione uno.');
-    }
-    closeModal();
-  };
-
-  const handleSearch = useCallback(async (query) => {
-    const { typeSlider } = getValues();
-    const querySearch = { name: query };
-    const saveResult = (result) => setValue('products', result);
-
-    if (typeSlider === 1) {
-      const { status, data } = await getProducts(1, querySearch);
-      if (status === 200) saveResult(data.results);
-    } else if (typeSlider === 5) {
-      const { status, data } = await getFilteredCollectionsListBack(1, querySearch);
-      if (status === 200) saveResult(data.results);
-    } else {
-      const { status, data } = await getProducts(1, querySearch);
-      if (status === 200) saveResult(data.results);
-    }
-
-    setSelectedCover(null);
-    setSelectedImage(null);
-  });
+  const [genreList, setGenre] = useState(['']) //Dynamic json data
 
   useEffect(() => {
-    register('products');
-    setSelectedCover(null);
-    setSelectedImage(null);
-    displayCategories({
-      client: client,
-      translater: t,
-      dispatcher: setCategories,
-      showHomeMovies: true,
-    });
-    displayTypeSlider();
+    getCategories()
+  }, [])
 
-    if (element) {
-      if (element.type_slider === 5) {
-        setValue('typeSlider', 5);
-      } else {
-        setValue('typeSlider', 1);
-      }
-      setSelectedCover(element.cover_slider.id);
-    }
-  }, [open]);
+  async function getCategories() {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`,
+    )
+    const data = response.data.data
+    console.log('ac', data)
+    return setGetCategories(data)
+  }
 
-  const checkTypeSlider = (selSlider, onChange) => {
-    const { typeSlider } = getValues();
-    if (selSlider === '1') {
-      // Por Producto
-      if (typeSlider !== 1) {
-        setValue('selectedProduct', null);
-      }
-      onChange(1);
-    } else if (selSlider === '5') {
-      // Por Colección
-      if (typeSlider !== 5) {
-        setValue('selectedProduct', null);
-      }
-      onChange(5);
-    } else {
-      onChange(null);
-    }
-  };
+  //Post Film
+  const postData = async e => {
+    e.preventDefault()
+    let formData = new FormData()
+    formData.append('userId', userId)
+    formData.append('userType', userType)
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('backdrop_path', backdrop_path)
+    formData.append('poster_path', poster_path)
+    formData.append('categorie_id', categorie)
+    formData.append('movieStatus', status)
+    formData.append('duration', duration)
+    formData.append('studio', studio)
+    formData.append('country', country)
+    formData.append('director', director)
+    formData.append('producer', producer)
+    formData.append('premiere', premiere)
+    formData.append('rating', rating)
+    formData.append('award', award)
+    formData.append('protagonists', JSON.stringify(protagonistsList))
+    formData.append('genre', JSON.stringify(genreList))
+
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
+      .then(function (response) {
+        console.log(response)
+        // router.push("/")
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
 
   return (
-    <Modal className="sliders-management__modal-create-silder" isOpen={open} toggle={toggle}>
-      <ThemeWrapper>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={toggle}>
-            {!element ? t('modalSlider.newSlider') : t('modalSlider.editSlider')}
-          </ModalHeader>
-          <ModalBody>
-            <small className="txt-choose">
-              {t('modalList.mandatoryFields1')}
-              <CgAsterisk color="red" size="16" />
-              {t('modalList.mandatoryFields2')}
-              {t('modalList.euMandatoryFields')}
-            </small>
-            <br />
-            <br />
-            <span className="txt-choose">{t('modalSlider.chooseCategory')}</span>
-            <CgAsterisk style={{ color: 'red', size: '16' }} />
-            <Row form>
-              <Col md={12}>
-                <Controller
-                  name="category"
-                  control={control}
-                  defaultValue={element?.category}
-                  rules={{ required: true }}
-                  render={({ onChange }) => (
-                    <Input
+    <AppLayout>
+      <Head>
+        <title>Create Film</title>
+      </Head>
+      <div className="py-12">
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 bg-white border-b border-gray-200">
+              Crea una nueva pelicula con todos los datos, se recomienda llenar
+              todos los datos
+            </div>
+          </div>
+          <div className="w-full py-8">
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+              <div className="mb-4">
+                <Label htmlFor="title">title</Label>
+                <Input
+                  id="title"
+                  type="text"
+                  placeholder="title"
+                  value={title}
+                  onChange={event => setTitle(event.target.value)}
+                />
+              </div>
+              <div className="mb-4">
+                <Label htmlFor="description">Description</Label>
+                <textarea
+                  id="description"
+                  type="description"
+                  value={description}
+                  onChange={event => setDescription(event.target.value)}
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  Ingresa una descripción de la pelicula
+                </textarea>
+              </div>
+              {/* tree content */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="categorie">Categorie</Label>
+                  <div className="relative">
+                    <select
                       type="select"
-                      defaultValue={element?.category}
-                      placeholder={t('modalSlider.chooseCategory')}
-                      displayempty="true"
-                      variant="standard"
-                      invalid={Boolean(errors.category)}
-                      onChange={onChange}
-                    >
-                      <option value="0" disabled selected>
-                        {t('modalSlider.chooseCategory')}
-                      </option>
-                      {categories.map((category, index) => (
-                        <option key={index} value={category.id}>
-                          {category.name}
+                      value={categorie}
+                      onChange={event => setCategorie(event.target.value)}
+                      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="categorie_id">
+                      {getcategories.map(categorie => (
+                        <option key={categorie.id} value={categorie.id}>
+                          {categorie?.title}
                         </option>
                       ))}
-                    </Input>
-                  )}
-                />
-                {errors.category && <p className="text-danger"> {t('modalList.categoryRequired')}</p>}
-              </Col>
-            </Row>
-            <br />
-            <small className="slct-category">{t('modalList.chooseTypeSlider')}</small>
-            <CgAsterisk style={{ color: 'red', size: '16' }} />
-            <Row form>
-              <Col md={12}>
-                <Controller
-                  name="typeSlider"
-                  defaultValue={null}
-                  rules={{ required: true }}
-                  control={control}
-                  className="slct-list-category"
-                  render={({ onChange, value }) => {
-                    return (
-                      <SelectCustom
-                        isDisabled={Boolean(element)}
-                        onChange={(event) => checkTypeSlider(event.target.value, onChange)}
-                        placeholder={t('modalSlider.chooseTypeSlider')}
-                        selected={value}
-                        options={typeSliders}
-                      />
-                    );
-                  }}
-                />
-                {errors.typeList && <small className="text-danger">t('modalList.typeRequired')</small>}
-              </Col>
-            </Row>
-            <br />
-            <span className="txt-choose">{t('modalSlider.chooseProducts')}</span>
-            <CgAsterisk style={{ color: 'red', size: '16' }} />
-            <Row form>
-              <Col md={12}>
-                <Controller
-                  name="selectedProduct"
-                  rules={{ required: true }}
-                  defaultValue={watchSelectedProduct}
-                  control={control}
-                  render={({ value, onChange }) => {
-                    return (
-                      <AsyncTypeahead
-                        filterBy={filterBy}
-                        id="id_search_products"
-                        // isLoading={isLoading}
-                        labelKey={(option) => `${option.name}`}
-                        minLength={3}
-                        onSearch={handleSearch}
-                        disabled={Boolean(element) || !watchTypeSlider}
-                        onChange={(newValue) => onChange(newValue[0])}
-                        selected={value ? [value] : []}
-                        options={watchProducts}
-                        placeholder={t('modalSlider.search')}
-                      />
-                    );
-                  }}
-                />
-                {/* <small className="text-danger">{errors.selectedProduct && t('modalList.productRequired')}</small> */}
-              </Col>
-            </Row>
-            <br />
-            <small>{t('modalSlider.chooseCover')}</small>
-            <CgAsterisk style={{ color: 'red', size: '16' }} />
-            {Boolean(watchSelectedProduct) ? (
-              <Row className={'row_gallery' + (Boolean(selectedImage) ? ' disable_div' : '')} form>
-                <Col md={12}>
-                  <Row form>
-                    {watchSelectedProduct &&
-                      watchSelectedProduct.covers.map((item, index) => (
-                        <Col key={item.id} md={4} className="gallery-col">
-                          <div className="gallery-contenedor">
-                            {/* {console.log('ZER DAKAR?', selectedCover)} */}
-                            <div
-                              onClick={() => imageClick(item.id, index)}
-                              className={'gallery-item' + (item.id === selectedCover ? ' selected' : '')}
-                            >
-                              <img className="gallery-image" src={item.cover} alt="avatar" />
-                              <i className={item.id === selectedCover ? ' icon_check' : ''}>
-                                {' '}
-                                <FaCheckCircle />{' '}
-                              </i>
-                            </div>
-                          </div>
-                        </Col>
-                      ))}
-                  </Row>
-                </Col>
-              </Row>
-            ) : null}
-            <br />
-            <small>{t('modalSlider.imageUpload')}</small>
-            <Row form>
-              <Col md={12}>
-                <input
-                  disabled={selectedCover}
-                  name="cover_file"
-                  type="file"
-                  onChange={(event) => imgFileChange(event)}
-                />
-                {Boolean(selectedImage) ? (
-                  <div className="cont_img_file">
-                    <img className="img_file" src={URL.createObjectURL(selectedImage)} />
-                    <RiDeleteBin5Fill onClick={deleteImage} className="icon_delete" />
+                    </select>
                   </div>
-                ) : null}
-              </Col>
-            </Row>
-            <br />
-            <Row form>
-              <Col md={12}>
-                <span>{t('visible')}</span>
-                <br />
-                <Controller
-                  name="active"
-                  control={control}
-                  // rules={{required:true}}
-                  defaultValue={true}
-                  render={({ onChange, value, onBlur, ref }) => (
-                    <Input
-                      defaultChecked={true}
-                      onBlur={onBlur}
-                      type="checkbox"
-                      checked={value}
-                      innerRef={ref}
-                      onChange={(e) => onChange(e.target.checked)}
-                    />
-                  )}
-                />
-              </Col>
-            </Row>
-          </ModalBody>
-          <ModalFooter className="buttons-sliders">
-            <Button
-              type="submit"
-              disabled={Boolean(!watchTypeSlider || !watchSelectedProduct)}
-              className="BackofficeModalAcceptBtn"
-            >
-              {t('save')}
-            </Button>
-            <Button onClick={closeModal} outline color="secondary">
-              {t('cancel')}
-            </Button>
-          </ModalFooter>
-        </Form>
-      </ThemeWrapper>
-      <ToastContainer />
-    </Modal>
-  );
-};
+                </div>
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="status">Status</Label>
+                  <div className="relative">
+                    <select
+                      value={status}
+                      onChange={event => setStatus(event.target.value)}
+                      className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                      {arr.map((option, index) => (
+                        <option key={index} value={option.value}>
+                          {option.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
-SliderModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setModal: PropTypes.func.isRequired,
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="duration">Duration</Label>
+                  <Input
+                    id="duration"
+                    type="text"
+                    placeholder="duration"
+                    value={duration}
+                    onChange={event => setDuration(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* two content */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="studio">Studio</Label>
+                  <Input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="text"
+                    placeholder="studio"
+                    id="studio"
+                    value={studio}
+                    onChange={event => setStudio(event.target.value)}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="country">Country</Label>
+                  <Input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="country"
+                    type="text"
+                    placeholder="country"
+                    value={country}
+                    onChange={event => setCountry(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* two content */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="director">Director</Label>
+                  <Input
+                    id="director"
+                    type="text"
+                    placeholder="director"
+                    value={director}
+                    onChange={event => setDirector(event.target.value)}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="producer">Producer</Label>
+                  <Input
+                    id="producer"
+                    type="text"
+                    placeholder="producer"
+                    value={producer}
+                    onChange={event => setProducer(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Three content */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="premiere">Premiere</Label>
+                  <Input
+                    id="premiere"
+                    type="text"
+                    placeholder="premiere"
+                    value={premiere}
+                    onChange={event => setPremiere(event.target.value)}
+                  />
+                </div>
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="rating">Rating</Label>
+                  <Input
+                    id="rating"
+                    type="number"
+                    placeholder="rating"
+                    value={rating}
+                    onChange={event => setRating(event.target.value)}
+                  />
+                </div>
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <Label htmlFor="award">Award</Label>
+                  <Input
+                    id="award"
+                    type="text"
+                    placeholder="award"
+                    value={award}
+                    onChange={event => setAward(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* format json */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicData
+                    title={'Protagonist List'}
+                    dataDinamic={protagonistsList}
+                    setDataDinamic={setProtagonists}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <DynamicData
+                    title={'Genre List'}
+                    dataDinamic={genreList}
+                    setDataDinamic={setGenre}
+                  />
+                </div>
+              </div>
+              {/* image */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <Image
+                    datafiles={backdrop_path}
+                    setFile={setbackdrop_path}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicImage
+                    datafiles={poster_path}
+                    setFile={setposter_path}
+                  />
+                </div>
+              </div>
+
+              <button onClick={postData}>post</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </AppLayout>
+  )
+}
+
+export default Create

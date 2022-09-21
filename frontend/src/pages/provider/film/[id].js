@@ -8,6 +8,7 @@ import Input from '@/components/Input'
 import DynamicDataUpdate from '@/components/BackOfficeProvider/DynamicDataUpdate'
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useAuth } from '@/hooks/auth'
+import Image from '@/components/Image'
 
 const FilmDetail = ({ films }) => {
   const { getCookie } = useAuth()
@@ -275,7 +276,7 @@ const FilmDetail = ({ films }) => {
           </div>
           <div className="flex flex-wrap -mx-3 mb-2">
             <div className="w-full md:w-1/2 px-3 md:mb-0">
-              <DynamicImage
+              <Image
                 datafiles={dataBackdrop_path}
                 setFile={setDataBackdrop_path}
               />

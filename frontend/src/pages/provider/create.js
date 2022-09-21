@@ -8,6 +8,10 @@ import Label from '@/components/Label'
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
+import Image from '@/components/Image'
+
+//react hocks form 
+import { useForm, Controller } from "react-hook-form";
 
 const Create = () => {
   const { getCookie } = useAuth()
@@ -26,8 +30,12 @@ const Create = () => {
     { value: 1, text: 'Private' },
   ]
 
+  
+
+
   //data register new films
   const [backdrop_path, setbackdrop_path] = useState('')
+  console.log(backdrop_path)
   const [poster_path, setposter_path] = useState('')
   const [message, setMessage] = useState()
   const [title, setTitle] = useState('')
@@ -55,29 +63,65 @@ const Create = () => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`,
     )
     const data = response.data.data
+    console.log('ac', data)
     return setGetCategories(data)
   }
 
   //Post Film
-  const postData = async e => {
-    e.preventDefault()
-    let formData = new FormData()
+  // const postData = async e => {
+  //   e.preventDefault()
+  //   let formData = new FormData()
+  //   formData.append('userId', userId)
+  //   formData.append('userType', userType)
+  //   formData.append('title', title)
+  //   formData.append('description', description)
+  //   formData.append('backdrop_path', backdrop_path)
+  //   formData.append('poster_path', poster_path)
+  //   formData.append('categorie_id', categorie)
+  //   formData.append('movieStatus', status)
+  //   formData.append('duration', duration)
+  //   formData.append('studio', studio)
+  //   formData.append('country', country)
+  //   formData.append('director', director)
+  //   formData.append('producer', producer)
+  //   formData.append('premiere', premiere)
+  //   formData.append('rating', rating)
+  //   formData.append('award', award)
+  //   formData.append('protagonists', JSON.stringify(protagonistsList))
+  //   formData.append('genre', JSON.stringify(genreList))
+
+  //   await axios
+  //     .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
+  //     .then(function (response) {
+  //       console.log(response)
+  //       // router.push("/")
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     })
+  // }
+
+  //form controller
+  const { register, errors, handleSubmit } = useForm();
+  const onSubmit = async data => {
+    console.log(data)
+    const formData = new FormData();
     formData.append('userId', userId)
     formData.append('userType', userType)
-    formData.append('title', title)
-    formData.append('description', description)
+    formData.append("title", data.title);
+    formData.append("description", data.description);
     formData.append('backdrop_path', backdrop_path)
     formData.append('poster_path', poster_path)
-    formData.append('categorie_id', categorie)
-    formData.append('movieStatus', status)
-    formData.append('duration', duration)
-    formData.append('studio', studio)
-    formData.append('country', country)
-    formData.append('director', director)
-    formData.append('producer', producer)
-    formData.append('premiere', premiere)
-    formData.append('rating', rating)
-    formData.append('award', award)
+    formData.append("categorie_id", data.categorie);
+    formData.append("movieStatus", data.status);
+    formData.append("duration", data.duration);
+    formData.append("studio", data.studio);
+    formData.append("country", data.country);
+    formData.append("director", data.director);
+    formData.append("producer", data.producer);
+    formData.append("premiere", data.premiere);
+    formData.append("rating", parseInt(data.rating));
+    formData.append("award", data.award);
     formData.append('protagonists', JSON.stringify(protagonistsList))
     formData.append('genre', JSON.stringify(genreList))
 
@@ -90,7 +134,8 @@ const Create = () => {
       .catch(function (error) {
         console.log(error)
       })
-  }
+  };
+
 
   return (
     <AppLayout>
@@ -105,7 +150,7 @@ const Create = () => {
               todos los datos
             </div>
           </div>
-          <div className="w-full py-8">
+          {/* <div className="w-full py-8">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">
                 <Label htmlFor="title">title</Label>
@@ -128,7 +173,6 @@ const Create = () => {
                   Ingresa una descripción de la pelicula
                 </textarea>
               </div>
-              {/* tree content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <Label htmlFor="categorie">Categorie</Label>
@@ -175,7 +219,6 @@ const Create = () => {
                 </div>
               </div>
 
-              {/* two content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <Label htmlFor="studio">Studio</Label>
@@ -201,7 +244,6 @@ const Create = () => {
                 </div>
               </div>
 
-              {/* two content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <Label htmlFor="director">Director</Label>
@@ -225,7 +267,6 @@ const Create = () => {
                 </div>
               </div>
 
-              {/* Three content */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <Label htmlFor="premiere">Premiere</Label>
@@ -259,7 +300,6 @@ const Create = () => {
                 </div>
               </div>
 
-              {/* format json */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
                   <DynamicData
@@ -276,10 +316,9 @@ const Create = () => {
                   />
                 </div>
               </div>
-              {/* image */}
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <DynamicImage
+                  <Image
                     datafiles={backdrop_path}
                     setFile={setbackdrop_path}
                   />
@@ -293,6 +332,69 @@ const Create = () => {
               </div>
 
               <button onClick={postData}>post</button>
+            </form>
+          </div> */}
+          <div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input name="title" ref={register({ required: true })} />
+              <textarea name="description" ref={register({ required: true })} />
+              <select type="select" name="categorie" ref={register({ required: true })}>
+                {getcategories.map(categorie => (
+                  <option key={categorie.id} value={categorie.id}>
+                    {categorie?.title}
+                  </option>
+                ))}
+              </select>
+
+              <select type="select" name="status" ref={register({ required: true })}>
+                {arr.map((option, index) => (
+                  <option key={index} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
+
+              <input type="text" name="duration" ref={register({ required: true })} />
+              <input type="text" name="studio" ref={register({ required: true })} />
+              <input type="text" name="country" ref={register({ required: true })} />
+              <input type="text" name="director" ref={register({ required: true })} />
+              <input type="text" name="producer" ref={register({ required: true })} />
+              <input type="text" name="premiere" ref={register({ required: true })} />
+              <input type="number" name="rating" ref={register({ required: true })} />
+              <input type="text" name="award" ref={register({ required: true })} />
+              {/* format json */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicData 
+                    title={'Protagonist List'}
+                    dataDinamic={protagonistsList}
+                    setDataDinamic={setProtagonists}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <DynamicData
+                    title={'Genre List'}
+                    dataDinamic={genreList}
+                    setDataDinamic={setGenre}
+                  />
+                </div>
+              </div>
+              {/* image */}
+              <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <Image
+                    datafiles={backdrop_path}
+                    setFile={setbackdrop_path}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-3 md:mb-0">
+                  <DynamicImage
+                    datafiles={poster_path}
+                    setFile={setposter_path}
+                  />
+                </div>
+              </div>    
+              <input type="submit" />
             </form>
           </div>
         </div>

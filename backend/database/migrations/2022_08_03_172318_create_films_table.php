@@ -19,7 +19,7 @@ class CreateFilmsTable extends Migration
             $table->longText('description');
             $table->unsignedBigInteger('provider_id');
             $table->unsignedBigInteger('categorie_id');
-            $table->longText('backdrop_path');
+            $table->string('backdrop_path');
             $table->longText('poster_path');
             $table->boolean('movieStatus');
             $table->string('duration');
@@ -39,7 +39,6 @@ class CreateFilmsTable extends Migration
 
         });
     }
-
     /**
      * Reverse the migrations.
      *

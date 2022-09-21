@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FilmProviderController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\CategorieController;
 
@@ -16,22 +17,29 @@ use App\Http\Controllers\CategorieController;
 |
 */
 
-// Public routes films
-Route::get('/films', [FilmController::class, 'index']);
-Route::get('/film/{id}', [FilmController::class, 'show']);
-Route::get('/films/search/title={title}/desc={description}/provider={provider}', [FilmController::class, 'search']);
-Route::post('/film', [FilmController::class, 'store']); //create film
-Route::post('/film/{id}/edit', [FilmController::class, 'update']);
-Route::post('/film/{id}/delete', [FilmController::class, 'destroy']);
-Route::post('/film/{id}/deleteall', [FilmController::class, 'deleteAll']);
-Route::get('/country/{country}', [FilmController::class, 'getCountryFilms']);
+//FILMS PROVIDER
+Route::get('/films', [FilmProviderController::class, 'index']);
+Route::get('/film/{id}', [FilmProviderController::class, 'show']);
+Route::get('/films/search/title={title}/desc={description}/provider={provider}', [FilmProviderController::class, 'search']);
+Route::post('/film', [FilmProviderController::class, 'store']); //create film
+Route::post('/film/{id}/edit', [FilmProviderController::class, 'update']);
+Route::post('/film/{id}/delete', [FilmProviderController::class, 'destroy']);
+Route::post('/film/{id}/deleteall', [FilmProviderController::class, 'deleteAll']);
+Route::get('/country/{country}', [FilmProviderController::class, 'getCountryFilms']);
+Route::get('/filmsprovider/{provider_id}', [FilmProviderController::class, 'getProviderFilms']);
 
-// Public routes categories
+//CATEGORIES
 Route::get('/categories', [CategorieController::class, 'index']);
 Route::get('/categorie/{id}', [CategorieController::class, 'show']);
 Route::post('/categorie', [CategorieController::class, 'store']); //create categorie
 Route::put('/categorie/{id}/edit', [CategorieController::class, 'update']);
 Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
+
+
+//FILMS CATEGORIES
+Route::get('/filmscategory/{categorie_id}', [FilmController::class, 'getFilmsCategory']);
+
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
