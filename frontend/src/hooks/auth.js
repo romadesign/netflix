@@ -13,7 +13,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
     if (getCookie('type') == null) {
      document.cookie = key +'='+ value +'; Path=/;';
+    }else{
+      document.cookie = key +'='+ value +'; Path=/;';
     }
+
   }
 
   //cookie getdata
@@ -138,6 +141,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const logout = async () => {
     deleteCookie('id')
     deleteCookie('type')
+    deleteCookie('accountId')
     if (!error) {
       await axios.post('/logout').then(() => {
         mutate()

@@ -1,10 +1,11 @@
 .content{
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 .content h1{
     color: #fff;
-    font-size: 3.5vw;
+    font-size: 30px;
     font-weight: unset;
 }
 .content h2{
@@ -23,10 +24,10 @@
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;
+    font-size: 1rem;
 }
 .content_card_option{
     display: inline-table;
-    margin: 0 2vw 0 0;
 }
 .content_general{
     height: 100vh;
@@ -35,17 +36,30 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    background: rgb(3, 0, 34);
+    background: #141414;
 }
 .icon{
-    background: red;
+    background: #141414;
     color: white;
-    font-size: 4rem;
+    font-size: 6rem;
     text-align: center;
     display: table-caption;
+    height: 142px;
+    width: 134px;
+    cursor: pointer;
+}
+.icon:hover{
+    background: rgb(255, 255, 255);
+    color: #141414;
+    font-size: 6rem;
+    text-align: center;
+    display: table-caption;
+    height: 142px;
+    width: 134px;
 }
 .content_card_add_user{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     padding: 2em 0;
     align-items: center;
     gap: 1rem;
@@ -60,3 +74,14 @@
 .input{
     width: 100%;
 }
+.card_account{
+    display: flex;
+}
+
+
+@media (max-width: 360px) {
+    .card_account{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+  }

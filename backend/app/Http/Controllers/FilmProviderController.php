@@ -39,14 +39,14 @@ class FilmProviderController extends Controller
         } else {
             if ($user->role ===  "provider") {
 
-                    // 1 $path = $request->backdrop_path->store('public/imagests');
-                    if($request->hasfile('backdrop_path')){
-                        $file = $request->file('backdrop_path');
-                        $extencion = $file->getClientOriginalExtension();
-                        $filename = time().'.'.$extencion;
-                        $file->move('images', $filename);
-                       
-                    }   
+                // 1 $path = $request->backdrop_path->store('public/imagests');
+                if($request->hasfile('backdrop_path')){
+                    $file = $request->file('backdrop_path');
+                    $extencion = $file->getClientOriginalExtension();
+                    $filename = time().'.'.$extencion;
+                    $file->move('images', $filename);
+                   
+                }   
 
                 // $filepath = $request->file('backdrop_path')->store('public/images');
                 $film = Film::create([

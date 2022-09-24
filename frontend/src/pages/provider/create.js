@@ -30,8 +30,6 @@ const Create = () => {
     { value: 1, text: 'Private' },
   ]
 
-  
-
 
   //data register new films
   const [backdrop_path, setbackdrop_path] = useState('')

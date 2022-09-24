@@ -14,7 +14,6 @@ const Row = ({ title, categoryId }) => {
 	const [first_page_url, setfirst_page_url] = useState('')
 	const [prev_page_url, setprev_page_url] = useState('')
 	const [totalPage, settotalPage] = useState('')
-	console.log('movies', pagination)
 
 	useEffect(() => {
 		async function getFilms() {

@@ -1,0 +1,208 @@
+.background {
+    background-color: #141414;
+}
+
+.banner {
+    height: 100vh;
+    position: relative;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.banner_image {
+    width: 100%;
+    position: absolute;
+    height: 90vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+    background-attachment: fixed;
+    background-position: center;
+    top: 0;
+}
+
+.rows {
+    position: relative;
+    /* background-color: #141414; */
+    top: -207px;
+}
+
+.pqdka {
+    position: absolute;
+    top: 61.5%;
+    bottom: 8%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(22, 22, 22, 0) 0%, #161616 83.95%, #161616 100%);
+
+}
+
+.banner_text {
+    position: absolute;
+    top: 6.4vw;
+    left: 4%;
+    z-index: 1;
+    font-size: 2.2222222222222223vw;
+    line-height: 2.7777777777777777vw;
+    font-weight: bold;
+    color: white;
+}
+
+.banner_h3 {
+    position: absolute;
+    top: 9.4vw;
+    left: 4%;
+    z-index: 1;
+    font-size: 3.5vw;
+    font-weight: bold;
+    color: white;
+}
+
+.banner_p {
+    position: absolute;
+    top: 14vw;
+    left: 4%;
+    z-index: 1;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    width: 375px;
+}
+
+.contentButtons {
+    position: absolute;
+    top: 23vw;
+    left: 4%;
+    display: flex;
+    gap: 1rem;
+}
+
+.bannerButtonPlay {
+    font-size: 14px;
+    font-weight: 900;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    gap: 1rem;
+    background: #ffffffef;
+    border-radius: 0.3rem;
+    height: 40px;
+}
+
+.bannerButtonInfo {
+    font-size: 14px;
+    font-weight: 900;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    gap: 1rem;
+    background: #222222c9;
+    border-radius: 0.3rem;
+    height: 40px;
+}
+
+
+/* youtube.com/watch?v=${trailer} */
+
+@media (max-width: 1200px) {
+    .pqdka {
+        top: 61.5%;
+    }
+
+    .banner_text {
+        top: 12.4vw;
+    }
+
+    .banner_h3 {
+        top: 15.4vw;
+    }
+
+    .banner_p {
+        top: 20vw;
+        font-size: 0.8rem;
+    }
+
+    .contentButtons {
+        top: 32vw;
+        align-items: center;
+    }
+
+}
+
+@media (max-width: 680px) {
+    .banner_text {
+        top: 18.4vw;
+        font-size: 1.5rem;
+    }
+
+    .banner_h3 {
+        top: 23.4vw;
+        font-size: 1.3rem;
+    }
+
+    .banner_p {
+        top: 29vw;
+        font-size: 0.8rem;
+    }
+
+    .contentButtons {
+        top: 46vw;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .banner_text {
+        top: 25.4vw;
+        font-size: 1.5rem;
+        line-height: 1.4rem;
+    }
+
+    .banner_h3 {
+        top: 30.4vw;
+        font-size: 1.3rem;
+    }
+
+    .banner_p {
+        top: 38vw;
+        font-size: 0.8rem;
+    }
+
+    .contentButtons {
+        top: 60vw;
+    display: block;
+    }
+
+    .bannerButtonPlay {
+        margin: 1rem 0;
+    }
+
+}
+
+@media (max-width: 412px) {
+    .banner_text {
+        top: 32.4vw;
+    }
+
+    .banner_h3 {
+        top: 48.4vw;
+    }
+
+    .banner_p {
+        top: 57vw;
+        font-size: 0.8rem;
+    }
+
+    .contentButtons {
+        top: 87vw;
+    }
+
+}

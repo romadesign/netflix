@@ -1,6 +1,8 @@
+import Banner from '@/components/Banner'
 import AppLayout from '@/components/Layouts/AppLayout'
 import Row from '@/components/Row'
 import Head from 'next/head'
+import styles from '../../../styles/banner.module.css'
 
 const Films = () => {
 
@@ -15,9 +17,15 @@ const Films = () => {
 			<Head>
 				<title>Netflix - Peliculas</title>
 			</Head>
-			<div className="py-12">
-				<Row title="Action" categoryId={1} />
-				<Row title="Adventure" categoryId={2} />
+			<div className={styles.background}>
+				<Banner />
+				<div className={styles.rows}>
+					<Row title="Action" categoryId={1} />
+					<Row title="Adventure" categoryId={2} />
+					<Row title="Action" categoryId={1} />
+					<Row title="Adventure" categoryId={2} />
+					
+				</div>
 			</div>
 		</AppLayout>
 	)

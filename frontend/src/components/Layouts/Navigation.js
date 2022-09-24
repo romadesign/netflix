@@ -8,21 +8,80 @@ import ResponsiveNavLink, {
 import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styles from '../../../styles/navbar.module.css'
+import axios from 'axios'
 
 
 const Navigation = ({ user }) => {
   const router = useRouter()
-
-  const { logout } = useAuth()
-
   const [open, setOpen] = useState(false)
+  const { logout, getCookie, setCookie } = useAuth()
+  if (typeof window !== 'undefined') {
+    var accountId = getCookie('accountId')
+    var userIdCookie = getCookie('id')
+  }
+
+  const [id, setId] = useState(accountId)
+  const [userId, setUserId] = useState(userIdCookie)
+  const [accounts, setAccounts] = useState()
+  const [account, setAccount] = useState();
+  const [accountGetId, setAccountGetId] = useState();
+  const [ isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    //Get AccountId
+    async function getAccountUser() {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account/${id}`,
+      )
+      const data = response.data
+      setAccount(data)
+      setAccountGetId(data.id)
+      setCookie('name', data.name)
+    }
+    getAccountUser()
+  }, [])
+
+
+  useEffect(() => {
+    async function getAccounts() {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/accounts/user/${userId}`,
+      )
+      const data = response.data
+      if (data.length > 0) {
+        setAccounts(data)
+      }
+    }
+    getAccounts()
+  }, [userId])
+
+
+
+
 
   return (
     <nav className={styles.content_navbar_principal}>
+      <div className={`${isScrolled && 'bg-[#141414]'}`} >
       {/* Primary Navigation Menu */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-black bg-opacity-95"> */}
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="flex justify-between h-16">
           <div className="flex">
             {/* Logo */}
@@ -30,21 +89,37 @@ const Navigation = ({ user }) => {
               <NavLink
                 href="/dashboard"
                 active={router.pathname === '/dashboard'}>
-                Netflix
+                <img
+                width={100}
+                 src='img/logo.png' />
               </NavLink>
             </div>
           </div>
 
           {/* Settings Dropdown */}
-          <div className="hidden sm:flex sm:items-center sm:ml-6">
+          <div className="hidden sm:flex sm:items-center sm:ml-6  ">
             <Dropdown
               align="right"
               width="48"
               trigger={
-                <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
-                  <div>{user?.name}</div>
+                <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out  ">
+                  <div>{router.pathname === '/provider' ?
+                    (<> {user?.name} </>) :
+                    (<>{account !== undefined &&
+                      <div>
+                        <img
+                          src={"http://localhost:8000/profiles/" + account.image}
+                          alt={account.name}
+                          width={30}
+                          height={30}
+                          className="rounded-md"
 
-                  <div className="ml-1">
+                        />
+                      </div>
+
+                    }</>)
+                  }</div>
+                  <div className="ml-1 ">
                     <svg
                       className="fill-current h-4 w-4"
                       xmlns="http://www.w3.org/2000/svg"
@@ -59,12 +134,82 @@ const Navigation = ({ user }) => {
                 </button>
               }>
               {/* Authentication */}
+              {accounts !== undefined &&
+                <>{accounts.map((account) => {
+                  if (account.id !== accountGetId) {
+                    return (
+                      <div key={account.id} className="flex p-2">
+                        <img
+                          src={"http://localhost:8000/profiles/" + account.image}
+                          alt={account.name}
+                          width={30}
+                          height={30}
+                          className="rounded-md"
+                        />
+                        <button className={`w-full text-left  px-4 py-2 text-sm leading-5 text-gray-400`}>
+                          {account.name}
+                        </button>
+                      </div>
+                    )
+                  }
+                })
+                } </>
+              }
               <DropdownButton onClick={logout}>Cerrar sessión</DropdownButton>
             </Dropdown>
           </div>
 
           {/* Hamburger */}
-          <div className="-mr-2 flex items-center sm:hidden">
+
+          <div className="-mr-2 flex items-center sm:hidden ">{router.pathname === '/provider' ?
+            (<>
+              <div className="-mr-2 flex items-center sm:hidden">
+                <button
+                  onClick={() => setOpen(open => !open)}
+                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                  <svg
+                    className="h-6 w-6"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    {open ? (
+                      <path
+                        className="inline-flex"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    ) : (
+                      <path
+                        className="inline-flex"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    )}
+                  </svg>
+                </button>
+              </div>
+            </>) :
+            (<>{account !== undefined &&
+              <div>
+                <img
+                onClick={() => setOpen(open => !open)}
+                  src={"http://localhost:8000/profiles/" + account.image}
+                  alt={account.name}
+                  width={50}
+                  height={50}
+                  className="rounded-lg inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+
+                />
+              </div>
+
+            }</>)
+          }</div>      
+          
+          {/* <div className="-mr-2 flex items-center sm:hidden">
             <button
               onClick={() => setOpen(open => !open)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -92,14 +237,14 @@ const Navigation = ({ user }) => {
                 )}
               </svg>
             </button>
-          </div>
+          </div> */}
 
         </div>
       </div>
 
       {/* Responsive Navigation Menu */}
       {open && (
-        <div className="block sm:hidden">
+        <div className="py-1 bg-black bg-opacity-90">
           <div className="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink
               href="/dashboard"
@@ -144,8 +289,11 @@ const Navigation = ({ user }) => {
           </div>
         </div>
       )}
+    </div>
     </nav>
   )
 }
 
 export default Navigation
+
+

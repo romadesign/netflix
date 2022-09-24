@@ -44,6 +44,8 @@ const FilmDetail = ({ films }) => {
     JSON.parse(film.protagonists),
   ) //Update Protagonists
   const [dataGnre, setDataGnres] = useState(JSON.parse(film.genre)) //Update Protagonists backdrop_path
+  console.log(dataGnre, 'userIdCookiesssss log')
+
   const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path
   const [dataPoster_path, setDataPoster_path] = useState(film.poster_path) //Update poster_path
 
