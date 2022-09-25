@@ -79,6 +79,17 @@
 }
 
 
+/* shadow modal */
+.shadow{
+    position: absolute;
+    top: 36.5%;
+    bottom: 46%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0%) -10%, #141414 100%, #141414 65%);
+}
+    
+
 @media (max-width: 360px) {
     .card_account{
         display: grid;

@@ -18,3 +18,12 @@ a {
 li {
   list-style: none;
 }
+
+.ytp-impression-link {
+  background: rgb(255 255 255 / 80%) !important;
+  border-bottom-right-radius: 2px !important;
+  border-top-right-radius: 2px;
+  bottom: 5px;
+  height: 47px;
+  position: absolute;
+}

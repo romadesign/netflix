@@ -78,7 +78,7 @@ const Row = ({ title, categoryId }) => {
 	};
 
 
-
+	
 
 	return (
 		<>
@@ -92,7 +92,7 @@ const Row = ({ title, categoryId }) => {
 							size={40}
 						/>
 						<div ref={slider} id={'slider'} // + categoryId 
-							className='w-full h-full overflow-x-scroll text-center whitespace-nowrap scroll-smooth scrollbar-hide relative'>
+							className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide relative justify-center'>
 							{movies.map((item, id) => (
 								<Movie key={id} item={item} />
 							))}

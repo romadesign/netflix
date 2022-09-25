@@ -33,6 +33,10 @@ const Banner = () => {
 		}, 400);
 	}
 
+	function truncate(string, n){
+		return string?.length > n ? string.substr(0, n -1) + '...' : string;
+	}
+
 	return (
 		<div  className={styles.banner} >
 			<span className={styles.banner_text} >Recomendaciones diarias para {name}</span>
@@ -48,7 +52,7 @@ const Banner = () => {
 			{movieramdon !== undefined &&
 				<div key={movieramdon.id}>
 					<h3 className={styles.banner_h3}>{movieramdon.title}</h3>
-					<p className={styles.banner_p}>{movieramdon.description}</p>
+					<p className={styles.banner_p}>{truncate(movieramdon.description, 150)}</p>
 					<div className={styles.contentButtons}>
 						<button className={styles.bannerButtonPlay}><FaPlay className={styles.buttonPlay} /> Play</button>
 						<button type="button" data-modal-toggle="defaultModal"
