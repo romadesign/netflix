@@ -17,13 +17,13 @@ class FilmProviderController extends Controller
         // $filmCountry = DB::select('SELECT * FROM films ORDER BY id DESC');
         // $films = Film::query()->orderBy('id', 'DESC')->paginate($pageSize);  //Traer todos los datos con paginacion
         // Trae solo los datos de un proveedor
-        $films = Film::query()
-                ->orderBy('id', 'DESC')
-                ->where('provider_id', 5)
-                ->paginate($pageSize); 
-
+        // $films = Film::query()
+        //         ->orderBy('id', 'DESC')
+        //         ->where('provider_id', 5)
+        //         ->paginate($pageSize); 
+        $movies = Film::with('genres')->orderBy('id', 'DESC')->paginate($pageSize);
         return response()->json(
-            ['status' => 'ok','data' => $films], 200
+            ['status' => 'ok','data' => $movies], 200
         );
     }
 
@@ -45,7 +45,6 @@ class FilmProviderController extends Controller
                     $extencion = $file->getClientOriginalExtension();
                     $filename = time().'.'.$extencion;
                     $file->move('images', $filename);
-                   
                 }   
 
                 // $filepath = $request->file('backdrop_path')->store('public/images');
@@ -68,8 +67,10 @@ class FilmProviderController extends Controller
                     'rating' => $request->rating,
                     'director' => $request->director,
                     'producer' => $request->producer,
-                    'award' => $request->award,
+                    'award' => $request->award
+                
                 ]);
+                $film->genres()->attach($request->genres);
 
                 return response()->json([
                     'Message' => 'ok',
@@ -83,7 +84,7 @@ class FilmProviderController extends Controller
 
     //GET DETAILS FILM
     public function show($id){
-        $film = Film::find($id);
+        $film = Film::with('genres')->find($id);
         if (!$film) {
             // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
             // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
@@ -151,6 +152,9 @@ class FilmProviderController extends Controller
                     $film->director = $request->director;
                     $film->producer = $request->producer;
                     $film->award = $request->award;
+
+                    $film->genres()->sync($request->genres);
+
                     $film->save();
                     return response()->json(['message' => 'Film update succesfully']);
                 } else {

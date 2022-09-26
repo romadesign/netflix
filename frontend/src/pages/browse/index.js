@@ -51,7 +51,7 @@ export default function Browse() {
   }
 
   //Post Account
-  const postAccount = async () => {
+  const postAccount = async (e) => {
     let formData = new FormData()
     formData.append('userId', userId)
     formData.append('userType', userType)
@@ -61,11 +61,12 @@ export default function Browse() {
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account`, formData)
       .then(function (response) {
         console.log(response)
-        router.push("/browse")
+        
       })
       .catch(function (error) {
         console.log(error)
       })
+      router.push("/films")
   }
 
   const handleMovies = (acoundId) => {

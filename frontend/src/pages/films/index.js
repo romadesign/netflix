@@ -22,8 +22,16 @@ const Films = () => {
 				<div className={styles.rows}>
 					<Row title="Action" categoryId={1} />
 					<Row title="Adventure" categoryId={2} />
-					<Row title="Action" categoryId={1} />
-					<Row title="Adventure" categoryId={2} />
+					<Row title="Action" categoryId={3} />
+					<Row title="Adventure" categoryId={4} />
+					<Row title="Adventure" categoryId={5} />
+					<Row title="Adventure" categoryId={6} />
+					<Row title="Adventure" categoryId={7} />
+					<Row title="Adventure" categoryId={8} />
+					<Row title="Adventure" categoryId={9} />
+					<Row title="Adventure" categoryId={10} />
+					<Row title="Adventure" categoryId={11} />
+					<Row title="Adventure" categoryId={12} />
 				</div>
 			</div>
 		</AppLayout>

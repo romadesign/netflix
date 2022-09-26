@@ -9,10 +9,12 @@ class FilmController extends Controller
 {
 	public function index(Request $request){
 		$pageSize = $request->page_size ?? 6;
-			$films = Film::query()
-			->orderBy('id', 'DESC')
-			->where('provider_id', 5)
-			->paginate($pageSize); 
+			// $films = Film::query()
+			// ->orderBy('id', 'DESC')
+			// ->where('provider_id', 5)
+			// ->paginate($pageSize); 
+
+			$films = Film::all();
 
 			return response()->json(
 				['status' => 'ok','data' => $films], 200

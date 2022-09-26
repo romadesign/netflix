@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Categorie;
+use App\Models\Genre;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -46,4 +47,8 @@ class Film extends Model
         return $this->belongsTo(Categorie::class);
     }
 
+    public function genres() {
+        return $this->belongsToMany(Genre::class, 'genre_film');
+    }
 }
+
