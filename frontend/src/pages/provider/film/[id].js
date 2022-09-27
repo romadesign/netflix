@@ -39,11 +39,8 @@ const FilmDetail = ({ films }) => {
   const [updatePremiere, setUpdatePremiere] = useState(film.premiere) //Update Data premiere
   const [updateRating, setUpdateRating] = useState(film.rating) //Update Data rating
   const [updateAward, setUpdateAward] = useState(film.award) //Update Data award
-
-  const [dataProtagonists, setDataProtagonists] = useState(
-    JSON.parse(film.protagonists),
-  ) //Update Protagonists
-  const [dataGnre, setDataGnres] = useState(JSON.parse(film.genre)) //Update Protagonists backdrop_path
+  const [dataProtagonists, setDataProtagonists] = useState(film.protagonists,) //Update Protagonists
+  const [dataGnre, setDataGnres] = useState(film.genre) //Update Protagonists backdrop_path
   console.log(dataGnre, 'userIdCookiesssss log')
 
   const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path

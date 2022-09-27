@@ -12,6 +12,7 @@ import Image from '@/components/Image'
 
 //react hocks form 
 import { useForm, Controller } from "react-hook-form";
+import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
 
 const Create = () => {
   const { getCookie } = useAuth()
@@ -20,10 +21,10 @@ const Create = () => {
     var userTypeCookie = getCookie('type')
   }
   const router = useRouter()
+  const [ListGenres, setListGenres] = useState()
   const [getcategories, setGetCategories] = useState([]) //GetCategories
   const [userId, setUserId] = useState(userIdCookie) //userId Login save, cookie get data
   const [userType, setUserType] = useState(userTypeCookie) //userId Login save, cookie get data
-  console.log(userType, 'userIdCookiesssss log')
 
   const arr = [
     { value: 0, text: 'Public' },
@@ -33,7 +34,6 @@ const Create = () => {
 
   //data register new films
   const [backdrop_path, setbackdrop_path] = useState('')
-  console.log(backdrop_path)
   const [poster_path, setposter_path] = useState('')
   const [message, setMessage] = useState()
   const [title, setTitle] = useState('')
@@ -49,11 +49,14 @@ const Create = () => {
   const [rating, setRating] = useState('')
   const [award, setAward] = useState('')
   const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
-
   const [genreList, setGenre] = useState(['']) //Dynamic json data
+  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
+
+ console.log(isCheckSelectedGenre)
 
   useEffect(() => {
     getCategories()
+    getGenres()
   }, [])
 
   async function getCategories() {
@@ -61,30 +64,75 @@ const Create = () => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`,
     )
     const data = response.data.data
-    console.log('ac', data)
     return setGetCategories(data)
   }
 
+  async function getGenres() {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
+    )
+    const data = response.data.data
+    console.log('ac', data)
+    return setListGenres(data)
+  }
+
+
   //Post Film
-  // const postData = async e => {
-  //   e.preventDefault()
-  //   let formData = new FormData()
+  const postData = async e => {
+    e.preventDefault()
+    let formData = new FormData()
+    formData.append('userId', userId)
+    formData.append('userType', userType)
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('backdrop_path', backdrop_path)
+    formData.append('poster_path', poster_path)
+    formData.append('categorie_id', categorie)
+    formData.append('movieStatus', status)
+    formData.append('duration', duration)
+    formData.append('studio', studio)
+    formData.append('country', country)
+    formData.append('director', director)
+    formData.append('producer', producer)
+    formData.append('premiere', premiere)
+    formData.append('rating', rating)
+    formData.append('award', award)
+    formData.append('protagonists', JSON.stringify(protagonistsList))
+    formData.append('genre', JSON.stringify(genreList))
+    // formData.append('genre_id', isCheckSelectedGenre)
+    formData.append("genre_id", JSON.stringify(isCheckSelectedGenre));
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
+      .then(function (response) {
+        console.log(response)
+        // router.push("/")
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  //form controller
+  // const { register, errors, handleSubmit } = useForm();
+  // const onSubmit = async data => {
+  //   console.log(data)
+  //   const formData = new FormData();
   //   formData.append('userId', userId)
   //   formData.append('userType', userType)
-  //   formData.append('title', title)
-  //   formData.append('description', description)
+  //   formData.append("title", data.title);
+  //   formData.append("description", data.description);
   //   formData.append('backdrop_path', backdrop_path)
   //   formData.append('poster_path', poster_path)
-  //   formData.append('categorie_id', categorie)
-  //   formData.append('movieStatus', status)
-  //   formData.append('duration', duration)
-  //   formData.append('studio', studio)
-  //   formData.append('country', country)
-  //   formData.append('director', director)
-  //   formData.append('producer', producer)
-  //   formData.append('premiere', premiere)
-  //   formData.append('rating', rating)
-  //   formData.append('award', award)
+  //   formData.append("categorie_id", data.categorie);
+  //   formData.append("movieStatus", data.status);
+  //   formData.append("duration", data.duration);
+  //   formData.append("studio", data.studio);
+  //   formData.append("country", data.country);
+  //   formData.append("director", data.director);
+  //   formData.append("producer", data.producer);
+  //   formData.append("premiere", data.premiere);
+  //   formData.append("rating", parseInt(data.rating));
+  //   formData.append("award", data.award);
   //   formData.append('protagonists', JSON.stringify(protagonistsList))
   //   formData.append('genre', JSON.stringify(genreList))
 
@@ -97,42 +145,7 @@ const Create = () => {
   //     .catch(function (error) {
   //       console.log(error)
   //     })
-  // }
-
-  //form controller
-  const { register, errors, handleSubmit } = useForm();
-  const onSubmit = async data => {
-    console.log(data)
-    const formData = new FormData();
-    formData.append('userId', userId)
-    formData.append('userType', userType)
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append('backdrop_path', backdrop_path)
-    formData.append('poster_path', poster_path)
-    formData.append("categorie_id", data.categorie);
-    formData.append("movieStatus", data.status);
-    formData.append("duration", data.duration);
-    formData.append("studio", data.studio);
-    formData.append("country", data.country);
-    formData.append("director", data.director);
-    formData.append("producer", data.producer);
-    formData.append("premiere", data.premiere);
-    formData.append("rating", parseInt(data.rating));
-    formData.append("award", data.award);
-    formData.append('protagonists', JSON.stringify(protagonistsList))
-    formData.append('genre', JSON.stringify(genreList))
-
-    await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
-      .then(function (response) {
-        console.log(response)
-        // router.push("/")
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-  };
+  // };
 
 
   return (
@@ -148,7 +161,7 @@ const Create = () => {
               todos los datos
             </div>
           </div>
-          {/* <div className="w-full py-8">
+          <div className="w-full py-8">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">
                 <Label htmlFor="title">title</Label>
@@ -329,10 +342,18 @@ const Create = () => {
                 </div>
               </div>
 
+              <DynamicGenres
+                title={'Genres Object List'}
+                isCheck={isCheckSelectedGenre}
+                setIsCheck={setIsCheckSelectedGenre}
+                ListGenres={ListGenres}
+                setListGenres={setListGenres}
+              />
+
               <button onClick={postData}>post</button>
             </form>
-          </div> */}
-          <div>
+          </div>
+          {/* <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <input name="title" ref={register({ required: true })} />
               <textarea name="description" ref={register({ required: true })} />
@@ -360,7 +381,7 @@ const Create = () => {
               <input type="text" name="premiere" ref={register({ required: true })} />
               <input type="number" name="rating" ref={register({ required: true })} />
               <input type="text" name="award" ref={register({ required: true })} />
-              {/* format json */}
+
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
                   <DynamicData 
@@ -377,7 +398,7 @@ const Create = () => {
                   />
                 </div>
               </div>
-              {/* image */}
+
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
                   <Image
@@ -394,7 +415,7 @@ const Create = () => {
               </div>    
               <input type="submit" />
             </form>
-          </div>
+          </div> */}
         </div>
       </div>
     </AppLayout>

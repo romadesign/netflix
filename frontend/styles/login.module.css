@@ -113,4 +113,37 @@
     left: -20px;
     width: 16px;
 }
+.content_general_input{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.genresContent{
+    background-color: #575ad5;
+    color: white;
+    position: relative;
+    height: 30px;
+    display: flex;
+    margin: 0.2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+.genresinput{
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    cursor: pointer;
 
+}
+
+.genresContent input[type=checkbox] {
+    width: 95px;
+    height: 30px ;
+    opacity: 0;
+    
+}

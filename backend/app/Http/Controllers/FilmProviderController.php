@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Film;
 use App\Models\User;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,6 @@ class FilmProviderController extends Controller
             return response()->json(['data' => 'Este usuario no existe'], 400);
         } else {
             if ($user->role ===  "provider") {
-
                 // 1 $path = $request->backdrop_path->store('public/imagests');
                 if($request->hasfile('backdrop_path')){
                     $file = $request->file('backdrop_path');
@@ -46,7 +46,6 @@ class FilmProviderController extends Controller
                     $filename = time().'.'.$extencion;
                     $file->move('images', $filename);
                 }   
-
                 // $filepath = $request->file('backdrop_path')->store('public/images');
                 $film = Film::create([
                     'title' => $request->title,
@@ -54,23 +53,27 @@ class FilmProviderController extends Controller
                     'provider_id' => $user->id,
                     'categorie_id' => $request->categorie_id,
                     // 1 'backdrop_path' => $path,
+                    // 'backdrop_path' => 'asdasd.jpg',
                     'backdrop_path' => $filename,
                     // 'backdrop_path' => $filepath,
                     'poster_path' => $request->poster_path,
                     'movieStatus' => $request->movieStatus,
                     'duration' => $request->duration,
                     'studio' => $request->studio,
-                    'protagonists' => $request->protagonists,
+                    'protagonists' => json_decode($request->protagonists),
                     'country' => $request->country,
                     'premiere' => $request->premiere,
-                    'genre' => $request->genre,
+                    'genre' => json_decode($request->genre),
                     'rating' => $request->rating,
                     'director' => $request->director,
                     'producer' => $request->producer,
                     'award' => $request->award
                 
                 ]);
-                $film->genres()->attach($request->genres);
+                
+                //Desde el front se envia como JSON.stringify(isCheckSelectedGenre) 
+                //Acá se parsea nuevamente para capturar todos los datos
+                $film->genres()->attach(json_decode($request->genre_id));
 
                 return response()->json([
                     'Message' => 'ok',
@@ -144,16 +147,19 @@ class FilmProviderController extends Controller
                     $film->movieStatus = $request->movieStatus;
                     $film->duration = $request->duration;
                     $film->studio = $request->studio;
-                    $film->protagonists = $request->protagonists;
+                    $film->protagonists = json_decode($request->protagonists);
                     $film->country = $request->country;
                     $film->premiere = $request->premiere;
-                    $film->genre = $request->genre;
+                    $film->genre = json_decode($request->genre);
                     $film->rating = $request->rating;
                     $film->director = $request->director;
                     $film->producer = $request->producer;
                     $film->award = $request->award;
 
-                    $film->genres()->sync($request->genres);
+                    //sync elimina todos los roles y vuelve agregar los seleccionados para no tener duplicados
+                    $film->genres()->sync(json_decode($request->genre_id));
+                    // $film->genres()->sync($request->genre_id);
+
 
                     $film->save();
                     return response()->json(['message' => 'Film update succesfully']);
@@ -214,5 +220,12 @@ class FilmProviderController extends Controller
             ['status' => 'ok','data' => $films], 200
         );
     }
+
+		public function getGenres(){
+			$genres = Genre::all();
+			return response()->json(
+				['status' => 'ok','data' => $genres], 200
+			);
+		}
    
 }

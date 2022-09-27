@@ -20,6 +20,7 @@ use App\Http\Controllers\CategorieController;
 
 //FILMS PROVIDER
 Route::get('/films', [FilmProviderController::class, 'index']);
+Route::get('/genres', [FilmProviderController::class, 'getGenres']);
 Route::get('/film/{id}', [FilmProviderController::class, 'show']);
 Route::get('/films/search/title={title}/desc={description}/provider={provider}', [FilmProviderController::class, 'search']);
 Route::post('/film', [FilmProviderController::class, 'store']); //create film
