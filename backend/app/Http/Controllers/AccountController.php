@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Film;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,7 +51,6 @@ class AccountController extends Controller
     {
         $account = Account::find($id);
         // $account = DB::select("SELECT * FROM accounts WHERE id = '$id'");
-        // $accounts = Film::where('country' ,'=', $country)->get();
         return response()->json($account);
     }
 
@@ -68,8 +68,8 @@ class AccountController extends Controller
 
     //GET ACCOUNT ID
     public function getMovieRamdon(){   
-        $movie = DB::select("SELECT * from films F 
-                                ORDER BY RAND() LIMIT 1;");
+				$movie = Film::with('genres')->get()->random(1);
+        // $movie = DB::select("SELECT * from films F ORDER BY RAND() LIMIT 1"); SQL
         return response()->json($movie[0]);
     }
 

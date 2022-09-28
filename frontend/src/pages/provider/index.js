@@ -21,6 +21,7 @@ const Admin = () => {
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var userTypeCookie = getCookie('type')
+    console.log(userTypeCookie)
     var userTypeId = getCookie('id')
   }
   const [hideOption, setHideOption] = useState(false) //Escondiendo object cuando hacemos algun filtro

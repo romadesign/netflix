@@ -4,9 +4,10 @@ import { FaPlay, FaPlus, FaRegArrowAltCircleDown, FaRegSmileBeam, FaRegThumbsDow
 const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
 
 
-	console.log(movie)
-	const [movieGenre, setMovieGenre] = useState(JSON.parse(movie.genre).toString().split('"'))
-	const [movieGenreList, setmovieGenreList] = useState(movieGenre.splice(1, movieGenre.length - 2))
+	console.log(movie.protagonists)
+	// const [movieGenre, setMovieGenre] = useState(JSON.parse(movie.genre).toString().split('"'))
+	// const [movieGenre, setMovieGenre] = useState(movie.genre)
+	// const [movieGenreList, setmovieGenreList] = useState(movieGenre.splice(1, movieGenre.length - 2))
 
 	const [icons, setIcons] = useState(false)
 	const onMouseLeave = () => setIcons(false);
@@ -78,7 +79,7 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
 							<div className="md:flex md:flex-row pl-10 pr-10 pt-7">
 								<div className="basis-2/3 text-left">
 									<h3 className="text-xl text-left font-extrabold text-gray-500 dark:text-gray-200">
-										{movieGenreList}
+										{/* {movieGenreList} */}
 										{movie.title}
 									</h3>
 									<span className="text-sm font-extralight text-gray-500 dark:text-gray-200">
@@ -87,10 +88,19 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
 								</div>
 								<div className="basis-1/3 text-left">
 									<span className="text-xs  text-gray-400 dark:text-gray-450">
-										Reparto: <p className="text-base  text-gray-500 dark:text-gray-200">{JSON.parse(movie.protagonists).toString().split('"')}</p>
+										{/* Reparto: <p className="text-base  text-gray-500 dark:text-gray-200">{JSON.parse(movie.protagonists).toString().split('"')}</p> */}
+										Reparto: <p className="text-base  text-gray-500 dark:text-gray-200">
+											{
+												<>
+													{movie.protagonists.map((protagonist) => (
+														<span>* {protagonist}</span>
+													))} </>
+											}
+										</p>
 									</span>
 									<span className="text-xs  text-gray-400 dark:text-gray-450">
-										Géneros: <p className="text-base  text-gray-500 dark:text-gray-200">{JSON.parse(movie.genre).toString().split('"')}</p>
+										Géneros: <p className="text-base  text-gray-500 dark:text-gray-200">{movie.genre}</p>
+										{/* Géneros: <p className="text-base  text-gray-500 dark:text-gray-200">{JSON.parse(movie.genre).toString().split('"')}</p> */}
 									</span>
 									<span className="text-xs  text-gray-400 dark:text-gray-450">
 										Pertenece a: <p className="text-base text-gray-500 dark:text-gray-200">{movie.director}</p>

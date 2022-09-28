@@ -26,7 +26,7 @@ class FilmFactory extends Factory
             "protagonists" => ["Roma","Ramiro","Nicolas"],
             "country" => $this->faker->country(),
             "premiere" => $this->faker->date(),
-            "genre" => ["Mart","Reresa","Jose"]",
+            "genre" => ["Mart","Reresa","Jose"],
             "rating" =>random_int(1, 5),
             "director" =>$this->faker->name(),
             "producer" =>$this->faker->company(),

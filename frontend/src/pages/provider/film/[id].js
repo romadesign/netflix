@@ -9,6 +9,7 @@ import DynamicDataUpdate from '@/components/BackOfficeProvider/DynamicDataUpdate
 import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useAuth } from '@/hooks/auth'
 import Image from '@/components/Image'
+import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
 
 const FilmDetail = ({ films }) => {
   const { getCookie } = useAuth()
@@ -45,6 +46,10 @@ const FilmDetail = ({ films }) => {
 
   const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path
   const [dataPoster_path, setDataPoster_path] = useState(film.poster_path) //Update poster_path
+
+  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
+  console.log(isCheckSelectedGenre)
+  const [ListGenres, setListGenres] = useState(film.genres)
 
   const arr = [
     { value: 0, text: 'Public' },
@@ -86,6 +91,7 @@ const FilmDetail = ({ films }) => {
     formData.append('award', updateAward)
     formData.append('protagonists', JSON.stringify(dataProtagonists))
     formData.append('genre', JSON.stringify(dataGnre))
+    formData.append("genre_id", JSON.stringify(isCheckSelectedGenre));
 
     await axios
       .post(
@@ -286,6 +292,14 @@ const FilmDetail = ({ films }) => {
                 setFile={setDataPoster_path}
               />
             </div>
+
+            <DynamicGenres
+                title={'Genres Object List'}
+                isCheck={isCheckSelectedGenre}
+                setIsCheck={setIsCheckSelectedGenre}
+                ListGenres={ListGenres}
+                setListGenres={setListGenres}
+              />
           </div>
           <button onClick={updateFilm}>post</button>
         </form>

@@ -12,6 +12,8 @@ const Banner = () => {
 		var name = getCookie('name')
 	}
 	const [movieramdon, setMovieRamdon] = useState();
+
+	console.log(movieramdon)
 	const [showModal, setShowModal] = useState(false)
 	const onMouseEnter = () => setShowModal(true);
 	const onMouseLeave = () => { setTimeout(function () { setShowModal(false) }, 400) }

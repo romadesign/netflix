@@ -9,7 +9,7 @@ import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 import Image from '@/components/Image'
-
+import { countries } from '@/components/countrieList'
 //react hocks form 
 import { useForm, Controller } from "react-hook-form";
 import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
@@ -52,7 +52,7 @@ const Create = () => {
   const [genreList, setGenre] = useState(['']) //Dynamic json data
   const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
 
- console.log(isCheckSelectedGenre)
+  console.log(isCheckSelectedGenre)
 
   useEffect(() => {
     getCategories()
@@ -75,7 +75,6 @@ const Create = () => {
     console.log('ac', data)
     return setListGenres(data)
   }
-
 
   //Post Film
   const postData = async e => {
@@ -242,7 +241,19 @@ const Create = () => {
                     onChange={event => setStudio(event.target.value)}
                   />
                 </div>
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div>
+                  <select
+                    onChange={(e) => setCountry(e.target.value)}
+                    id="countries" 
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected>Selecciona una país</option>
+                    {countries.map(country => (
+                      <option value={country?.name}>{country?.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div></div>
+                {/* <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <Label htmlFor="country">Country</Label>
                   <Input
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -252,7 +263,7 @@ const Create = () => {
                     value={country}
                     onChange={event => setCountry(event.target.value)}
                   />
-                </div>
+                </div> */}
               </div>
 
               <div className="flex flex-wrap -mx-3 mb-2">
