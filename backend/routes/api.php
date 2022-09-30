@@ -39,7 +39,8 @@ Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
 
 
 //FILMS CATEGORIES
-Route::get('/filmscategory/{categorie_id}', [FilmController::class, 'getFilmsCategory']);
+Route::get('/filmscategory/{categorie_id}/filmsgenre/{genre_id}', [FilmController::class, 'getFilmsCategory']);
+Route::get('/filmsgenre/{genre_id}', [FilmController::class, 'getFilmsGenre']);
 
 
 //ACCOUNTS 

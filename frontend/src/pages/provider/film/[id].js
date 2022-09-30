@@ -42,14 +42,14 @@ const FilmDetail = ({ films }) => {
   const [updateAward, setUpdateAward] = useState(film.award) //Update Data award
   const [dataProtagonists, setDataProtagonists] = useState(film.protagonists,) //Update Protagonists
   const [dataGnre, setDataGnres] = useState(film.genre) //Update Protagonists backdrop_path
-  console.log(dataGnre, 'userIdCookiesssss log')
 
   const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path
   const [dataPoster_path, setDataPoster_path] = useState(film.poster_path) //Update poster_path
 
   const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
-  console.log(isCheckSelectedGenre)
-  const [ListGenres, setListGenres] = useState(film.genres)
+  const [ListGenres, setListGenres] = useState()
+  const [newgenreList, setNewGenre] = useState(film.genres) //List new genre
+	const [ statusInfo, setStatusInfo ] = useState(true)
 
   const arr = [
     { value: 0, text: 'Public' },
@@ -299,6 +299,10 @@ const FilmDetail = ({ films }) => {
                 setIsCheck={setIsCheckSelectedGenre}
                 ListGenres={ListGenres}
                 setListGenres={setListGenres}
+                listDetailFilmGenreShow={newgenreList}
+                setNewGenre={setNewGenre}
+                statusInfo={statusInfo}
+                setStatusInfo={setStatusInfo}
               />
           </div>
           <button onClick={updateFilm}>post</button>

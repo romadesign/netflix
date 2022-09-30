@@ -100,13 +100,13 @@ const Navigation = ({ user }) => {
                     Inicio
                   </NavLink>
                   <NavLink
-                    href="/provider"
-                    active={router.pathname === '/provider'}>
+                    href="/series"
+                    active={router.pathname === '/series'}>
                     Series Tv
                   </NavLink>
                   <NavLink
-                    href="/provider"
-                    active={router.pathname === '/provider'}>
+                    href="/peliculas"
+                    active={router.pathname === '/peliculas'}>
                     Películas
                   </NavLink>
                   <NavLink

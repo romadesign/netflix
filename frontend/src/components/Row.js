@@ -2,10 +2,14 @@ import axios from 'axios'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { useEffect, useRef, useState } from "react"
 import Movie from './Movie';
+import { useRouter } from 'next/router'
 
-const Row = ({ title, categoryId }) => {
+const Row = ({ title, category_id, genre_id }) => {
+	const router = useRouter()
 	const slider = useRef();
 	const [movies, setMovies] = useState()
+	console.log('estamos ', movies)
+
 
 	//pagination config
 	const [pagination, setpagination] = useState('')
@@ -16,9 +20,27 @@ const Row = ({ title, categoryId }) => {
 	const [totalPage, settotalPage] = useState('')
 
 	useEffect(() => {
-		async function getFilms() {
+		getFilms()
+	}, [])
+
+	async function getFilms() {
+		if (router.pathname === '/films') {
+			console.log('estamos en films')
 			const response = await axios.get(
-				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${categoryId}`,
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
+			)
+			const data = response.data.data
+			setpagination(response.data.data)
+			setcurrent_page(response.data.data.current_page)
+			setnext_page_url(response.data.data.next_page_url)
+			setfirst_page_url(response.data.data.first_page_url)
+			setprev_page_url(response.data.data.prev_page_url)
+			settotalPage(response.data.data.total)
+			setMovies(data.data)
+		} else if(router.pathname === '/series' || router.pathname === '/peliculas'){
+			console.log('estamos en series')
+			const response = await axios.get(
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
 			)
 			const data = response.data.data
 			setpagination(response.data.data)
@@ -29,10 +51,7 @@ const Row = ({ title, categoryId }) => {
 			settotalPage(response.data.data.total)
 			setMovies(data.data)
 		}
-		getFilms()
-	}, [])
-
-
+	}
 	//Funtion pagination
 
 	async function changeNextPage() {
@@ -78,11 +97,9 @@ const Row = ({ title, categoryId }) => {
 	};
 
 
-	
-
 	return (
 		<>
-			<h2 className='text-white font-bold md:text-xl p-4'>{title}</h2>
+			<h2 className='text-white font-bold md:text-xl pt-3 pl-6'>{title}</h2>
 			<div className='relative flex items-center group'>
 				{movies !== undefined ?
 					(<>

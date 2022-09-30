@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Categorie;
+use App\Models\Genre;
 use App\Models\Film;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -28,11 +29,12 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->truncate();
         DB::table('films')->truncate();
         DB::table('categories')->truncate();
+        DB::table('genres')->truncate();
         //Create data
         User::factory(4)->create();
         Film::factory(80)->create();
         Categorie::factory(12)->create();
-
+        Genre::factory(4)->create();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

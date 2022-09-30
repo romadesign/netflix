@@ -20,8 +20,11 @@ const Create = () => {
     var userIdCookie = getCookie('id')
     var userTypeCookie = getCookie('type')
   }
-  const router = useRouter()
   const [ListGenres, setListGenres] = useState()
+  const [newgenreList, setNewGenre] = useState() //List new genre
+	const [ statusInfo, setStatusInfo ] = useState(false)
+
+
   const [getcategories, setGetCategories] = useState([]) //GetCategories
   const [userId, setUserId] = useState(userIdCookie) //userId Login save, cookie get data
   const [userType, setUserType] = useState(userTypeCookie) //userId Login save, cookie get data
@@ -52,11 +55,9 @@ const Create = () => {
   const [genreList, setGenre] = useState(['']) //Dynamic json data
   const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
 
-  console.log(isCheckSelectedGenre)
-
   useEffect(() => {
     getCategories()
-    getGenres()
+    // getGenres()
   }, [])
 
   async function getCategories() {
@@ -67,14 +68,14 @@ const Create = () => {
     return setGetCategories(data)
   }
 
-  async function getGenres() {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
-    )
-    const data = response.data.data
-    console.log('ac', data)
-    return setListGenres(data)
-  }
+  // async function getGenres() {
+  //   const response = await axios.get(
+  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
+  //   )
+  //   const data = response.data.data
+  //   setListGenres(data)
+  //   setNewGenre(data)
+  // }
 
   //Post Film
   const postData = async e => {
@@ -359,6 +360,10 @@ const Create = () => {
                 setIsCheck={setIsCheckSelectedGenre}
                 ListGenres={ListGenres}
                 setListGenres={setListGenres}
+                listDetailFilmGenreShow={newgenreList}
+                setNewGenre={setNewGenre}
+                statusInfo={statusInfo}
+                setStatusInfo={setStatusInfo}
               />
 
               <button onClick={postData}>post</button>
