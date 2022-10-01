@@ -15,7 +15,7 @@ class GenreFilmFactory extends Factory
     {
             return [
                 "genre_id" =>random_int(1, 10),
-                "film_id" =>random_int(1, 80),
+                "film_id" =>random_int(1, 100),
             ];
     }
 }

@@ -44,10 +44,7 @@ const Banner = () => {
 			<span className={styles.banner_text} >Recomendaciones diarias para {name}</span>
 			<div className={styles.content}>
 				{movieramdon !== undefined &&
-					<img
-						className={styles.banner_image}
-						src={movieramdon.backdrop_path}
-					/>
+					<img className={styles.banner_image} src={"http://localhost:8000/images/" + movieramdon.backdrop_path} alt={movieramdon.title} />	
 				}
 				<div className={styles.pqdka}></div>
 			</div>

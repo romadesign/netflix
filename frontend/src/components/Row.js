@@ -3,12 +3,15 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { useEffect, useRef, useState } from "react"
 import Movie from './Movie';
 import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks/auth'
 
 const Row = ({ title, category_id, genre_id }) => {
+    const { getCookie } = useAuth()
+    const token = getCookie('token')
 	const router = useRouter()
+
 	const slider = useRef();
 	const [movies, setMovies] = useState()
-	console.log('estamos ', movies)
 
 
 	//pagination config
@@ -28,6 +31,7 @@ const Row = ({ title, category_id, genre_id }) => {
 			console.log('estamos en films')
 			const response = await axios.get(
 				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
+                {headers: { "Authorization": `Bearer ${token}` }}
 			)
 			const data = response.data.data
 			setpagination(response.data.data)
@@ -41,6 +45,7 @@ const Row = ({ title, category_id, genre_id }) => {
 			console.log('estamos en series')
 			const response = await axios.get(
 				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
+                {headers: { "Authorization": `Bearer ${token}` }}
 			)
 			const data = response.data.data
 			setpagination(response.data.data)
@@ -69,7 +74,7 @@ const Row = ({ title, category_id, genre_id }) => {
 	// }
 
 	async function sliderLeft() {
-		const response = await axios.get(`${prev_page_url}`)
+		const response = await axios.get(`${prev_page_url}`,)
 		const data = response.data
 		setprev_page_url(data.data.prev_page_url)
 		//nextPage
@@ -108,7 +113,7 @@ const Row = ({ title, category_id, genre_id }) => {
 							className='bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
 							size={40}
 						/>
-						<div ref={slider} id={'slider'} // + categoryId 
+						<div ref={slider} id={'slider'} // + categoryId
 							className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide relative justify-center'>
 							{movies.map((item, id) => (
 								<Movie key={id} item={item} />

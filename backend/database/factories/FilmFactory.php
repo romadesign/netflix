@@ -15,9 +15,9 @@ class FilmFactory extends Factory
     {
         return [
             "title" => $this->faker->title(),
-            "description" => $this->faker->text(40),
+            "description" => $this->faker->text(400),
             "provider_id" => random_int(1, 4),
-            "categorie_id" => random_int(1, 12),
+            "categorie_id" => random_int(1, 2),
             // "backdrop_path" => 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTcyMjA0MzczNV5BMl5BanBnXkFtZTgwNTIyODA5NTE@._V1_SY1000_SX1500_AL_.jpg',
             // "poster_path" => 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTc2ODg0MzMzM15BMl5BanBnXkFtZTgwODYxODA5NTE@._V1_SY1000_SX1500_AL_.jpg', 
             "backdrop_path" =>  $this->faker->imageUrl($width = 700, $height = 400),

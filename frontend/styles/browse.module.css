@@ -13,6 +13,10 @@
     color: #666;
     font-size: 1.3vw;
 }
+.content_card{
+    display: flex;
+    align-items: center;
+}
 .content_card span{
     align-items: center;
     color: grey;
@@ -58,7 +62,7 @@
     width: 134px;
 }
 .content_card_add_user{
-    display: grid;
+    display: f;
     grid-template-columns: 1fr 1fr;
     padding: 2em 0;
     align-items: center;
@@ -88,7 +92,7 @@
     right: 0;
     background: linear-gradient(180deg, rgb(0 0 0 / 0%) -10%, #141414 100%, #141414 65%);
 }
-    
+
 
 @media (max-width: 360px) {
     .card_account{

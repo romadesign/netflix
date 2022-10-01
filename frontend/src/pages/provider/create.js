@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 import Image from '@/components/Image'
 import { countries } from '@/components/countrieList'
-//react hocks form 
+//react hocks form
 import { useForm, Controller } from "react-hook-form";
 import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
 
@@ -19,6 +19,7 @@ const Create = () => {
   if (typeof window !== 'undefined') {
     var userIdCookie = getCookie('id')
     var userTypeCookie = getCookie('type')
+    var token = getCookie('token')
   }
   const [ListGenres, setListGenres] = useState()
   const [newgenreList, setNewGenre] = useState() //List new genre
@@ -102,7 +103,12 @@ const Create = () => {
     // formData.append('genre_id', isCheckSelectedGenre)
     formData.append("genre_id", JSON.stringify(isCheckSelectedGenre));
     await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData)
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData,
+      {
+        //Enviando la cookie del usuario logeado para traer los articulos
+        headers: { "Authorization": `Bearer ${token}` }
+      }
+      )
       .then(function (response) {
         console.log(response)
         // router.push("/")
@@ -245,7 +251,7 @@ const Create = () => {
                 <div>
                   <select
                     onChange={(e) => setCountry(e.target.value)}
-                    id="countries" 
+                    id="countries"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected>Selecciona una país</option>
                     {countries.map(country => (
@@ -400,7 +406,7 @@ const Create = () => {
 
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <DynamicData 
+                  <DynamicData
                     title={'Protagonist List'}
                     dataDinamic={protagonistsList}
                     setDataDinamic={setProtagonists}
@@ -428,7 +434,7 @@ const Create = () => {
                     setFile={setposter_path}
                   />
                 </div>
-              </div>    
+              </div>
               <input type="submit" />
             </form>
           </div> */}
