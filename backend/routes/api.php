@@ -6,6 +6,7 @@ use App\Http\Controllers\FilmProviderController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\MovieListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +44,16 @@ Route::get('/filmscategory/{categorie_id}/filmsgenre/{genre_id}', [FilmControlle
 Route::get('/filmsgenre/{genre_id}', [FilmController::class, 'getFilmsGenre']);
 
 
-//ACCOUNTS 
+//ACCOUNTS
 Route::get('/accounts', [AccountController::class, 'index']);
 Route::post('/account', [AccountController::class, 'store']); //create account
 Route::get('/accounts/user/{user_id}', [AccountController::class, 'getAccountsUser']);
 Route::get('/account/{id}', [AccountController::class, 'show']);
 Route::get('/movieramdon', [AccountController::class, 'getMovieRamdon']);
 
+//MOVIE LIST ACCOUNT
+Route::get('/list', [MovieListController::class, 'index']);
+Route::get('/account/{id}/list', [MovieListController::class, 'getCountryFilms']);
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
