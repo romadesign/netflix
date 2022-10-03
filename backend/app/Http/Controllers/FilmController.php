@@ -46,7 +46,7 @@ class FilmController extends Controller
 	public function getFilmsCategory(Request $request, $categorie_id, $genre_id){
 		$pageSize = $request->page_size ?? 5;
 		$status = 0;
-		$films = Film::query()
+		$films =  Film::with('genres')
 		// ->orderBy('id', 'DESC')
 		->join('genre_film', 'genre_film.film_id', '=','films.id')
 		->where('genre_film.genre_id', $genre_id)
