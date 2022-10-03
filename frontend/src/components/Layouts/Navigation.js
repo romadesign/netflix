@@ -115,8 +115,8 @@ const Navigation = ({ user }) => {
                     Novedades más vistas
                   </NavLink>
                   <NavLink
-                    href="/provider"
-                    active={router.pathname === '/provider'}>
+                    href="/list"
+                    active={router.pathname === '/list'}>
                     Mi lista
                   </NavLink>
                   <NavLink

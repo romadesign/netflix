@@ -53,7 +53,7 @@ Route::get('/movieramdon', [AccountController::class, 'getMovieRamdon']);
 
 //MOVIE LIST ACCOUNT
 Route::get('/list', [MovieListController::class, 'index']);
-Route::get('/account/{id}/list', [MovieListController::class, 'getCountryFilms']);
+Route::get('/account/{id}/list', [MovieListController::class, 'getAccountFilms']);
 Route::post('/list', [MovieListController::class, 'store']); //create
 
 

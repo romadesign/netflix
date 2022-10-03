@@ -13,7 +13,7 @@ class FilmController extends Controller
 			// $films = Film::query()
 			// ->orderBy('id', 'DESC')
 			// ->where('provider_id', 5)
-			// ->paginate($pageSize); 
+			// ->paginate($pageSize);
 
 			$films = Film::all();
 
@@ -42,7 +42,7 @@ class FilmController extends Controller
         //
     }
 	//GET FILMS CATEGORY
-	public function getFilmsCategory(Request $request, $categorie_id, $genre_id){   
+	public function getFilmsCategory(Request $request, $categorie_id, $genre_id){
 		$pageSize = $request->page_size ?? 5;
 		$status = 0;
 		$films = Film::query()
@@ -51,14 +51,14 @@ class FilmController extends Controller
 		->where('genre_film.genre_id', $genre_id)
 		->where('categorie_id', $categorie_id)
 		->where('movieStatus', $status)
-		->paginate($pageSize); 
+		->paginate($pageSize);
 		return response()->json(
 			['status' => 'ok','data' => $films], 200
 		);
 	}
 
 	//GET FILMS GENRE
-	public function getFilmsGenre(Request $request, $genre_id){   
+	public function getFilmsGenre(Request $request, $genre_id){
 		$pageSize = $request->page_size ?? 6;
 		$status = 0;
 		$films = Film::query()

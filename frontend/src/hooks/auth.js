@@ -21,9 +21,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   //cookie getdata
   function getCookie(name) {
-    var value = '; ' + document.cookie
-    var parts = value.split('; ' + name + '=')
-    if (parts.length >= 2) return parts.pop().split(';').shift()
+    if (typeof window !== 'undefined'){
+        var value = '; ' + document.cookie
+        var parts = value.split('; ' + name + '=')
+        if (parts.length >= 2) return parts.pop().split(';').shift()
+    }
   }
 
   //cookie delete
