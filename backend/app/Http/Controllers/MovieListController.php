@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class MovieListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $list = MovieList::all();
@@ -22,46 +17,37 @@ class MovieListController extends Controller
 		);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        if (MovieList::where('account_id', $request->account_id)->exists() && MovieList::where('film_id', $request->film_id)->exists()) {
+            return response()->json([
+                'Message' => 'Esta pelicula ya la tienes agregada',
+            ]);
+        }else{
+            $movieList = MovieList::create([
+                'account_id' => $request->account_id,
+                'film_id' => $request->film_id,
+            ]);
+            return response()->json([
+                'Message' => 'Add film',
+                'movieList' => $movieList
+            ]);
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\MovieList  $movieList
-     * @return \Illuminate\Http\Response
-     */
     public function show(MovieList $movieList)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MovieList  $movieList
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, MovieList $movieList)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\MovieList  $movieList
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(MovieList $movieList)
     {
         //

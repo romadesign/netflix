@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { FaPlay, FaPlus, FaRegArrowAltCircleDown, FaRegSmileBeam, FaRegThumbsDown, FaRegThumbsUp, FaStar } from "react-icons/fa"
+import axios from 'axios'
+import { useAuth } from '@/hooks/auth'
 
 const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
-
+    const { getCookie } = useAuth()
+    if (typeof window !== 'undefined') {
+      var accountId = getCookie('accountId')
+      var token = getCookie('token')
+    }
 
 	console.log(movie.protagonists)
 	// const [movieGenre, setMovieGenre] = useState(JSON.parse(movie.genre).toString().split('"'))
@@ -20,9 +26,22 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
 		setIcons(!false)
 	}
 
-    const addListMovie = (id) => {
-        console.log(id)
-    }
+	const addListMovie = async (film_id) => {
+        let formData = new FormData()
+        formData.append('film_id', film_id)
+        formData.append('account_id', accountId)
+        await axios
+        .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/list`, formData,
+            {headers: { "Authorization": `Bearer ${token}` }}
+        )
+        .then(function (response) {
+            console.log(response)
+            // router.push("/")
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+	}
 
 	return (
 		<div className="bg-[#000000e0]  fixed overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0  md:h-full  sm:w-full md:w-full grid items-center rounded-lg m-auto  ">
@@ -51,8 +70,8 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse }) => {
 									<div className="flex justify-between">
 										<FaPlay className=" ml-2 mr-2 text-2xl cursor-pointer text-slate-300  " />
 										<FaPlus
-                                            onClick={() => addListMovie(movie.id)}
-                                        className=" ml-2 mr-2 text-2xl cursor-pointer text-slate-300" />
+											onClick={() => addListMovie(movie.id)}
+											className=" ml-2 mr-2 text-2xl cursor-pointer text-slate-300" />
 									</div>
 									<div className="flex justify-between"
 										onMouseEnter={showIcons}
