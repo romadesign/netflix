@@ -17,10 +17,10 @@ class CreateMovieListsTable extends Migration
 			$table->id();
 			$table->unsignedBigInteger('film_id');
 			$table->unsignedBigInteger('account_id');
-			$table->timestamps();
 
 			$table->foreign('film_id')->references('id')->on('films')->onDelete('cascade');
 			$table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+			$table->timestamps();
 		});
 	}
 

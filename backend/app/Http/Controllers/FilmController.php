@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Film;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FilmController extends Controller
 {
@@ -61,7 +62,7 @@ class FilmController extends Controller
 	public function getFilmsGenre(Request $request, $genre_id){
 		$pageSize = $request->page_size ?? 6;
 		$status = 0;
-		$films = Film::query()
+        $films = Film::with('genres')
 		->join('genre_film', 'genre_film.film_id', '=','films.id')
 		->where('genre_film.genre_id', $genre_id)
 		->where('movieStatus', $status)
@@ -70,4 +71,6 @@ class FilmController extends Controller
 			['status' => 'ok','data' => $films], 200
 		);
 	}
+
+
 }

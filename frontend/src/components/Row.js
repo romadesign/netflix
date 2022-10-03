@@ -12,7 +12,7 @@ const Row = ({ title, category_id, genre_id }) => {
 
 	const slider = useRef();
 	const [movies, setMovies] = useState()
-
+    console.log(movies)
 
 	//pagination config
 	const [pagination, setpagination] = useState('')

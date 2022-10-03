@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Film;
 use App\Models\MovieList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -56,12 +57,18 @@ class MovieListController extends Controller
     //GET FILMS LIST ACCOUNTS
 	public function getAccountFilms($account_id)
 	{
-		$filmsAcount = DB::select("SELECT * FROM films F
-                                  JOIN movie_lists ML
-                                  ON F.id = ML.film_id
-                                  WHERE  ML.account_id = $account_id");
+		// $filmsAcount = DB::select("SELECT * FROM films F
+        //                           JOIN movie_lists ML
+        //                           ON F.id = ML.film_id
+        //                           WHERE  ML.account_id = $account_id");
 
+        // $filmsAcount =  DB::table("films")
+		// ->join('movie_lists', 'movie_lists.film_id', '=','films.id')
+        // ->where('movie_lists.account_id', $account_id)->get();
 
+        $filmsAcount = Film::with('genres')
+        ->join('movie_lists', 'movie_lists.film_id', '=','films.id')
+        ->where('movie_lists.account_id', $account_id)->get();
 
         return response()->json(
         ['status' => 'ok', 'data' => $filmsAcount],
