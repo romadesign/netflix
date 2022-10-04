@@ -103,18 +103,18 @@ const Row = ({ title, category_id, genre_id }) => {
 
 
 	return (
-		<>
-			<h2 className='text-white font-bold md:text-xl pt-3 pl-6'>{title}</h2>
+		<div className='relative'>
+			<h2 className='absolute text-white font-bold md:text-xl pt-3 pl-6'>{title}</h2>
 			<div className='relative flex items-center group'>
 				{movies !== undefined ?
 					(<>
 						<MdChevronLeft
 							onClick={sliderLeft}
-							className='bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+							className='bg-white rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
 							size={40}
 						/>
 						<div ref={slider} id={'slider'} // + categoryId
-							className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide relative justify-center'>
+							className='w-full relative h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide relative justify-center'>
 							{movies.map((item, id) => (
 								<Movie key={id} item={item} />
 							))}
@@ -131,7 +131,7 @@ const Row = ({ title, category_id, genre_id }) => {
 					)
 				}
 			</div>
-		</>
+		</div>
 	)
 }
 
