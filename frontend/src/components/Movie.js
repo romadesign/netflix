@@ -97,6 +97,7 @@ const Movie = ({ item }) => {
                     position: relative;
                     top: -45px;
                     width: 300px;
+                    height: 261px;
                   }
                   .container .card {
                     cursor: pointer;

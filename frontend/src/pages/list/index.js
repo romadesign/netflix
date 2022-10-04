@@ -38,8 +38,8 @@ const Lists = () => {
                 <title>Netflix - Lista</title>
             </Head>
             {lists !== undefined ?
-                <>
-                    <div className='pt-20 h-[100vh]  bg-[#141414]'>
+                <div className='h-[100vh] relative pt-20 bg-[#141414] '>
+                    <div className=' bg-[#141414]'>
                         <div className='pl-10 text-white text-xl'>
                             Mi lista
                         </div>
@@ -50,7 +50,7 @@ const Lists = () => {
                             ))}
                         </div>
                     </div>
-                </> :
+                </div> :
                 <>
                 </>
             }

@@ -120,8 +120,8 @@ const Navigation = ({ user }) => {
                     Mi lista
                   </NavLink>
                   <NavLink
-                    href="/provider"
-                    active={router.pathname === '/provider'}>
+                    href="/explore"
+                    active={router.pathname === '/explore'}>
                     Explorar por idiomas
                   </NavLink>
                 </div>

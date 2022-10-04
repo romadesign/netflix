@@ -65,7 +65,7 @@ const Banner = () => {
                             <div className={styles.content_navbar}>
                                 <div className="">
                                     <div className="">
-                                        <select className="text-sm text-white bg-[#ffffff45] pl-2 pr-2">
+                                        <select className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[100px] border-inherit">
                                             <option className='text-white  text-sm bg-[black]' selected>Géneros</option>
                                             {genres !== undefined &&
                                                 genres.map((genre) => (
@@ -84,7 +84,7 @@ const Banner = () => {
                             <div className={styles.content_navbar}>
                                 <div className="">
                                     <div className="">
-                                        <select className="text-sm text-white bg-[#ffffff45] pl-2 pr-2">
+                                        <select className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[100px] border-inherit">
                                             <option className='text-white  text-sm bg-[black]' selected>Géneros</option>
                                             {genres !== undefined &&
                                                 genres.map((genre) => (

@@ -76,4 +76,14 @@ class MovieListController extends Controller
         );
 
 	}
+
+    public function listExplore(Request $request)
+    {
+        $pageSize = $request->page_size ?? 18;
+        $films = Film::with('genres')->orderBy('id', 'DESC')->paginate($pageSize);
+		return response()->json(
+			['status' => 'ok', 'data' => $films],
+			200
+		);
+    }
 }
