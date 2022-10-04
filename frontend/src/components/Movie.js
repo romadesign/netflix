@@ -128,17 +128,13 @@ const Movie = ({ item }) => {
                   }
 
                   .container .card .face.faceTwo{
-                    position: relative;
                     background: #141414;
                     transform: translateY(-71px);
                   }
 
                   .container .card:hover .face.faceTwo {
                     transform: translateY(34px);
-
                   }
-
-
             `}</style>
         </div>
     )

@@ -145,10 +145,8 @@ const Navigation = ({ user }) => {
                             width={30}
                             height={30}
                             className="rounded-md"
-
                           />
                         </div>
-
                       }</>)
                     }</div>
                     <div className="ml-1 ">

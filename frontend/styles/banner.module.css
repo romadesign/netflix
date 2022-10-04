@@ -50,6 +50,9 @@
     line-height: 2.7777777777777777vw;
     font-weight: bold;
     color: white;
+    display: flex;
+    z-index: 2;
+    gap: 1rem;
 }
 
 .banner_h3 {
@@ -108,6 +111,7 @@
     border-radius: 0.3rem;
     height: 40px;
 }
+
 
 
 /* youtube.com/watch?v=${trailer} */
