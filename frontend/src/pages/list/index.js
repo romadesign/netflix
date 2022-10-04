@@ -39,11 +39,12 @@ const Lists = () => {
             </Head>
             {lists !== undefined ?
                 <>
-                    <div className='pt-20'>
-                        <div>
+                    <div className='pt-20 h-[100vh]  bg-[#141414]'>
+                        <div className='pl-10 text-white text-xl'>
                             Mi lista
                         </div>
-                        <div className='flex flex-wrap justify-center  '>
+                        <div
+                        className=' flex flex-wrap justify-center'>
                             {lists.map((item, id) => (
                                 <Movie key={id} item={item} />
                             ))}

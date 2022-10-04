@@ -96,13 +96,13 @@ const Movie = ({ item }) => {
                   .container {
                     position: relative;
                     top: -45px;
+                    width: 300px;
                   }
                   .container .card {
                     cursor: pointer;
                   }
 
                   .container .card:hover {
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                     z-index: 3;
                     transition: 0.5s;
                     width: 300px;
