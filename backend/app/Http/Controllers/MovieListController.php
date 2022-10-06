@@ -86,4 +86,15 @@ class MovieListController extends Controller
 			200
 		);
     }
+
+    public function getCountryExplore(Request $request, $country)
+	{
+        $pageSize = $request->page_size ?? 1;
+		// $filmCountry = DB::select("SELECT * FROM films WHERE country = '$country' ORDER BY id DESC");
+        $filmCountry = Film::with('genres')
+        ->orderBy('id', 'DESC')
+        ->where('country', $country)
+        ->paginate($pageSize);
+		return response()->json($filmCountry);
+	}
 }

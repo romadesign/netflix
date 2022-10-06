@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/auth'
 import styles from '../../../styles/banner.module.css'
 import { useEffect, useMemo, useState } from 'react'
 import { MdChevronRight } from 'react-icons/md';
+import { countries } from '@/components/countrieList'
+import { FaAngleDown } from 'react-icons/fa';
 
 const Explore = () => {
     const { getCookie } = useAuth()
@@ -23,13 +25,19 @@ const Explore = () => {
     const [prev_page_url, setprev_page_url] = useState('')
     const [totalPage, settotalPage] = useState('')
 
+    const [countrySelected, setCountrySelected] = useState()
+    const [statusSeeMore, setStatusSeeMore] = useState(false)
+    const [statusSeeMoreCountry, setStatusSeeMoreCountry] = useState(false)
+    const [hideResetLists, setHideResetLists] = useState(false) //Escondiendo object cuando hacemos algun filtro
 
     async function getFilmsAccount() {
+        setStatusSeeMore(!true)
+        setStatusSeeMoreCountry(!false)
+        setHideResetLists(!false)
         const response = await axios.get(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/lists/explore`,
             { headers: { "Authorization": `Bearer ${token}` } }
         )
-
         const data = response.data.data
         setpagination(response.data.data)
         setcurrent_page(response.data.data.current_page)
@@ -38,6 +46,7 @@ const Explore = () => {
         setprev_page_url(response.data.data.prev_page_url)
         settotalPage(response.data.data.total)
         setLists(data.data)
+        document.getElementById("countries").selectedIndex = 0;
     }
 
 
@@ -45,19 +54,59 @@ const Explore = () => {
         getFilmsAccount()
     }, [])
 
-	async function sliderRigth() {
-		if (next_page_url !== null ) {
-			const response = await axios.get(`${next_page_url}` )
-			const data = response.data
-			setprev_page_url(data.data.prev_page_url)
-			//nextPage
-			setcurrent_page(data.data.current_page)
-			setnext_page_url(data.data.next_page_url)
-			//update data
-			setLists((prevResults) => [...prevResults, ...data.data.data]);
-			setpagination(data.data)
+    async function handleSeeMore() {
+        if (next_page_url !== null) {
+            setStatusSeeMore(!true)
+            setStatusSeeMoreCountry(!false)
+            setHideResetLists(!true)
+            const response = await axios.get(`${next_page_url}`)
+            const data = response.data
+            setprev_page_url(data.data.prev_page_url)
+            //nextPage
+            setcurrent_page(data.data.current_page)
+            setnext_page_url(data.data.next_page_url)
+            console.log(next_page_url)
+            //update data
+            setLists((prevResults) => [...prevResults, ...data.data.data]);
+            setpagination(data.data)
         }
-	};
+    };
+
+    async function handleChangeCountry(e) {
+        setCountrySelected(e)
+        setStatusSeeMore(!false)
+        setStatusSeeMoreCountry(!true)
+        setHideResetLists(!true)
+
+        const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/lists/explore/country/${e}`,
+        )
+        const data = response.data
+        console.log('¡data', data.next_page_url)
+        setprev_page_url(data.prev_page_url)
+        //nextPage
+        setcurrent_page(data.current_page)
+        setnext_page_url(data.next_page_url)
+        //update data
+        setLists(response.data.data)
+        console.log('entro', next_page_url)
+
+    }
+
+    async function handleSeeMoreCountry() {
+        console.log(next_page_url)
+        if (next_page_url !== null) {
+            const response = await axios.get(`${next_page_url}`)
+            const data = response.data
+            console.log('daa', data)
+            setprev_page_url(data.prev_page_url)
+            //nextPage
+            setcurrent_page(data.current_page)
+            setnext_page_url(data.next_page_url)
+            //update data
+            setLists((prevResults) => [...prevResults, ...data.data]);
+        }
+    };
 
 
     return (
@@ -74,29 +123,30 @@ const Explore = () => {
                 <div className='h-[100vh] relative pt-20 bg-[#141414] '>
                     <div className='bg-[#141414]'>
                         <div className='absolute t-0 z-10 w-full '>
-                            <div className='pl-10 text-white text-xl'>
-                                Explorar por idiomas
-                            </div>
                             <div className='flex flex-wrap pt-4 pb-10 gap-4 items-center '>
-                                <div className='pl-10 text-white text-sm'>
+                                <div className='pl-10 text-white text-xl'>Explorar por idiomas</div>
+                                <div className='text-white text-sm'>
                                     Selecciona tus preferencias
                                 </div>
                                 <div className="">
-                                    <select className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[100px] border-inherit">
-                                        <option className='text-white  text-sm bg-[black]' selected>País</option>
-                                        <option className='text-white  text-sm bg-[black]' value="1">país</option>
+                                    <select
+                                        onChange={(e) => handleChangeCountry(e.target.value)} id="countries"
+                                        className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[130px] border-inherit">
+                                        <option className='text-white text-sm bg-[black]' disabled selected>Todos</option>
+                                        {countries.map(country => (
+                                            <option value={country?.name}>{country?.name}</option>
+                                        ))}
                                     </select>
                                 </div>
-                                <div className='text-white text-sm'>
-                                    Ordenar por
-                                </div>
-                                <div className="">
-                                    <select className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] border-inherit">
-                                        <option className='text-white  text-sm bg-[black]' selected>Suregrencias para ti</option>
-                                        <option className='text-white  text-sm bg-[black]' value="1">país</option>
-                                    </select>
-                                </div>
+                                {
+                                    !hideResetLists &&
+                                    <button onClick={() => getFilmsAccount()}
+                                    class="bg-transparent hover:bg-white-500 text-white font-semibold hover:text-white px-4 border border-white-500 ">
+                                        Reset
+                                    </button>
+                                }
                             </div>
+
                         </div>
                         <div
                             className=' flex flex-wrap justify-center pt-10'>
@@ -105,13 +155,26 @@ const Explore = () => {
                             ))}
 
                         </div>
-
-                        <MdChevronRight
-							disabled={next_page_url == null}
-							onClick={sliderRigth}
-							className='bg-white'
-							size={40}
-						/>
+                        {next_page_url !== null ?
+                            <div className='flex justify-center pb-3'>
+                                {statusSeeMore !== true &&
+                                    <FaAngleDown
+                                        disabled={next_page_url == null}
+                                        onClick={handleSeeMore}
+                                        className='bg-[#141414] text-white cursor-pointer'
+                                        size={40}
+                                    />
+                                }
+                                {statusSeeMoreCountry !== true &&
+                                    <FaAngleDown
+                                        disabled={next_page_url == null}
+                                        onClick={handleSeeMoreCountry}
+                                        className='bg-[#141414] text-white cursor-pointer'
+                                        size={40}
+                                    />
+                                }
+                            </div> : ""
+                        }
                     </div>
                 </div> :
                 <>
