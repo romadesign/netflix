@@ -1,21 +1,21 @@
+import Head from 'next/head'
+import axios from 'axios'
 import AppLayout from '@/components/Layouts/AppLayout'
 import Movie from '../../components/Movie';
-import Head from 'next/head'
 import { useAuth } from '@/hooks/auth'
 import styles from '../../../styles/banner.module.css'
 import { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
+import { MdChevronRight } from 'react-icons/md';
 
 const Explore = () => {
     const { getCookie } = useAuth()
     if (typeof window !== 'undefined') {
         var account_id = getCookie('accountId')
+        var token = getCookie('token')
     }
 
-    const [lists, setLists] = useState()
-    console.log(lists)
+    const [lists, setLists] = useState([])
 
-    //pagination config
     const [pagination, setpagination] = useState('')
     const [current_page, setcurrent_page] = useState('')
     const [next_page_url, setnext_page_url] = useState('')
@@ -24,14 +24,12 @@ const Explore = () => {
     const [totalPage, settotalPage] = useState('')
 
 
-    useState(() => {
-        getFilmsAccount()
-    }, [account_id])
-
     async function getFilmsAccount() {
         const response = await axios.get(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/lists/explore`,
+            { headers: { "Authorization": `Bearer ${token}` } }
         )
+
         const data = response.data.data
         setpagination(response.data.data)
         setcurrent_page(response.data.data.current_page)
@@ -41,6 +39,26 @@ const Explore = () => {
         settotalPage(response.data.data.total)
         setLists(data.data)
     }
+
+
+    useEffect(() => {
+        getFilmsAccount()
+    }, [])
+
+	async function sliderRigth() {
+		if (next_page_url !== null ) {
+			const response = await axios.get(`${next_page_url}` )
+			const data = response.data
+			setprev_page_url(data.data.prev_page_url)
+			//nextPage
+			setcurrent_page(data.data.current_page)
+			setnext_page_url(data.data.next_page_url)
+			//update data
+			setLists((prevResults) => [...prevResults, ...data.data.data]);
+			setpagination(data.data)
+        }
+	};
+
 
     return (
         <AppLayout
@@ -85,7 +103,15 @@ const Explore = () => {
                             {lists.map((item, id) => (
                                 <Movie key={id} item={item} />
                             ))}
+
                         </div>
+
+                        <MdChevronRight
+							disabled={next_page_url == null}
+							onClick={sliderRigth}
+							className='bg-white'
+							size={40}
+						/>
                     </div>
                 </div> :
                 <>
@@ -94,4 +120,7 @@ const Explore = () => {
         </AppLayout>
     )
 }
+
+
+
 export default Explore
