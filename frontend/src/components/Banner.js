@@ -15,10 +15,27 @@ const Banner = () => {
     }
     const [movieramdon, setMovieRamdon] = useState();
     const [genres, setGenres] = useState();
-    console.log(genres)
 
-    console.log(movieramdon)
     const [showModal, setShowModal] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 50) {
+            setIsScrolled(true)
+          } else {
+            setIsScrolled(false)
+          }
+        }
+      if (typeof window !== 'undefined') {
+          window.addEventListener('scroll', handleScroll)
+      }
+
+        return () => {
+          window.removeEventListener('scroll', handleScroll)
+        }
+      }, [])
+
     const onMouseEnter = () => setShowModal(true);
     const onMouseLeave = () => { setTimeout(function () { setShowModal(false) }, 400) }
 
@@ -59,8 +76,8 @@ const Banner = () => {
             {router.pathname === '/films' ?
                 <span className={styles.banner_text} >Recomendaciones diarias para {name}</span> :
                 <div>{router.pathname === '/series' ?
-                    <div  >
-                        <div className={styles.banner_text}>
+                    <div >
+                        <div className={`${!isScrolled ? styles.banner_text : styles.subnavbarContentGenre}`} >
                             Series TV
                             <div className={styles.content_navbar}>
                                 <div className="">
@@ -79,7 +96,7 @@ const Banner = () => {
                         </div>
                     </div> :
                     <div>
-                        <div className={styles.banner_text}>
+                        <div className={`${!isScrolled ? styles.banner_text : styles.subnavbarContentGenre}`} >
                             Películas
                             <div className={styles.content_navbar}>
                                 <div className="">

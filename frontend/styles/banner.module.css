@@ -219,3 +219,20 @@
     height: 66px;
     width: 100%;
 }
+
+
+.subnavbarContentGenre{
+    background-color: #141414;
+    position: fixed;
+    top: 0;
+    z-index: 4;
+    height: 66px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    gap: 1rem;
+}
