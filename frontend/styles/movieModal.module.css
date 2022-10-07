@@ -39,5 +39,11 @@
 
   .container .card:hover .face.faceTwo {
     transform: translateY(0);
+    width: 330px;
+    height: 350px;
+    position: absolute;
+    top: -170;
+    transition:  all 300ms ease-in;
+
 
   }

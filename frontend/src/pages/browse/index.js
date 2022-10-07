@@ -61,7 +61,7 @@ export default function Browse() {
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account`, formData)
       .then(function (response) {
         console.log(response)
-        
+
       })
       .catch(function (error) {
         console.log(error)

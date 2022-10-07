@@ -12,7 +12,6 @@ import { useEffect, useMemo, useState } from 'react'
 import styles from '../../../styles/navbar.module.css'
 import axios from 'axios'
 
-
 const Navigation = ({ user }) => {
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -37,14 +36,17 @@ const Navigation = ({ user }) => {
         setIsScrolled(false)
       }
     }
-    window.addEventListener('scroll', handleScroll)
+  if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll)
+  }
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
-  useEffect(() => {
+
+  useMemo(() => {
     //Get AccountId
     async function getAccountUser() {
       const response = await axios.get(
@@ -59,7 +61,7 @@ const Navigation = ({ user }) => {
   }, [])
 
 
-  useEffect(() => {
+  useMemo(() => {
     async function getAccounts() {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/accounts/user/${userId}`,
@@ -73,6 +75,11 @@ const Navigation = ({ user }) => {
   }, [userId])
 
 
+  const handleSend = (e) => {
+    console.log(e)
+    setCookie('accountId', e)
+    router.reload()
+  }
 
 
 
@@ -168,7 +175,7 @@ const Navigation = ({ user }) => {
                   <>{accounts.map((account) => {
                     if (account.id !== accountGetId) {
                       return (
-                        <div key={account.id} className="flex p-2">
+                        <div key={account.id} className="flex p-2" onClick={() => handleSend(account.id)}>
                           <img
                             src={"http://localhost:8000/profiles/" + account.image}
                             alt={account.name}

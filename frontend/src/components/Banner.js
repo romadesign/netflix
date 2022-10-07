@@ -88,7 +88,7 @@ const Banner = () => {
                                             <option className='text-white  text-sm bg-[black]' selected>Géneros</option>
                                             {genres !== undefined &&
                                                 genres.map((genre) => (
-                                                    <option className='text-white  text-sm bg-[black]' value={genre.id}>{genre.title}</option>
+                                                    <option key={genre.id} className='text-white  text-sm bg-[black]' value={genre.id}>{genre.title}</option>
                                                 ))
                                             }
                                         </select>

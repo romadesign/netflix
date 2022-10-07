@@ -103,9 +103,9 @@ const Row = ({ title, category_id, genre_id }) => {
 
 
 	return (
-		<div className='relative'>
-			<h2 className='absolute text-white font-bold md:text-xl pt-3 pl-6'>{title}</h2>
-			<div className='relative flex items-center group'>
+		<div className=''>
+			<h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>{title}</h2>
+			<div className='relative flex items-center group w-[98%] pl-9'>
 				{movies !== undefined ?
 					(<>
 						<MdChevronLeft
@@ -114,7 +114,7 @@ const Row = ({ title, category_id, genre_id }) => {
 							size={40}
 						/>
 						<div ref={slider} id={'slider'} // + categoryId
-							className='w-full relative h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide relative justify-center'>
+							className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide justify-center'>
 							{movies.map((item, id) => (
 								<Movie key={id} item={item} />
 							))}

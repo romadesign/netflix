@@ -11,18 +11,21 @@ function Loading() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const handleStart = (url) => (url !== router.asPath) && setLoading(true);
-        const handleComplete = (url) => (url === router.asPath) && setTimeout(() =>{setLoading(false)},4000);
+        if(router.pathname !== '/browse' || router.pathname !== '/login'  ){
+            const handleStart = (url) => (url !== router.asPath) && setLoading(true);
+            const handleComplete = (url) => (url === router.asPath) && setTimeout(() =>{setLoading(false)},4000);
 
-        router.events.on('routeChangeStart', handleStart)
-        router.events.on('routeChangeComplete', handleComplete)
-        router.events.on('routeChangeError',  handleComplete)
+            router.events.on('routeChangeStart', handleStart)
+            router.events.on('routeChangeComplete', handleComplete)
+            router.events.on('routeChangeError',  handleComplete)
 
-        return () => {
-            router.events.off('routeChangeStart', handleStart)
-            router.events.off('routeChangeComplete', handleComplete)
-            router.events.off('routeChangeError', handleComplete)
+            return () => {
+                router.events.off('routeChangeStart', handleStart)
+                router.events.off('routeChangeComplete', handleComplete)
+                router.events.off('routeChangeError', handleComplete)
+            }
         }
+
     })
 
     return loading && (<div className='spinner-wrapper'>
@@ -33,7 +36,7 @@ function Loading() {
 // const App = ({ Component, pageProps }) => <Component {...pageProps} />
 function App ({ Component, pageProps }){
     return (
-        <> <Loading />
+        <>
         <Component {...pageProps} />
         </>
     )
