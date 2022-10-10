@@ -97,4 +97,19 @@ class MovieListController extends Controller
         ->paginate($pageSize);
 		return response()->json($filmCountry);
 	}
+
+    public function checkAddedMovie(Request $request){
+
+        if (MovieList::where('film_id', $request->film_id)->where('account_id', $request->account_id)->exists()) {
+            return response()->json([
+                'message' => 'Quitar de mi lista',
+                'status' => false
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Añadir a mi lista',
+                'status' => true
+            ]);
+        }
+    }
 }
