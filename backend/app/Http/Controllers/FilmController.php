@@ -44,7 +44,7 @@ class FilmController extends Controller
     }
 	//GET FILMS CATEGORY
 	public function getFilmsCategory(Request $request, $categorie_id, $genre_id){
-		$pageSize = $request->page_size ?? 5;
+		$pageSize = $request->page_size ?? 6;
 		$status = 0;
 		$films =  Film::with('genres')
 		// ->orderBy('id', 'DESC')
@@ -53,7 +53,6 @@ class FilmController extends Controller
 		->where('categorie_id', $categorie_id)
 		->where('movieStatus', $status)
 		->paginate($pageSize);
-        dd($films );
 		return response()->json(
 			['status' => 'ok','data' => $films], 200
 		);

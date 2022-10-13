@@ -11,7 +11,7 @@ import { useAuth } from '@/hooks/auth'
 import Image from '@/components/Image'
 import { countries } from '@/components/countrieList'
 //react hocks form
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form'
 import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
 
 const Create = () => {
@@ -23,8 +23,7 @@ const Create = () => {
   }
   const [ListGenres, setListGenres] = useState()
   const [newgenreList, setNewGenre] = useState() //List new genre
-	const [ statusInfo, setStatusInfo ] = useState(false)
-
+  const [statusInfo, setStatusInfo] = useState(false)
 
   const [getcategories, setGetCategories] = useState([]) //GetCategories
   const [userId, setUserId] = useState(userIdCookie) //userId Login save, cookie get data
@@ -34,7 +33,6 @@ const Create = () => {
     { value: 0, text: 'Public' },
     { value: 1, text: 'Private' },
   ]
-
 
   //data register new films
   const [backdrop_path, setbackdrop_path] = useState('')
@@ -54,7 +52,7 @@ const Create = () => {
   const [award, setAward] = useState('')
   const [protagonistsList, setProtagonists] = useState(['']) //Dynamic json data
   const [genreList, setGenre] = useState(['']) //Dynamic json data
-  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
+  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([])
 
   useEffect(() => {
     getCategories()
@@ -101,14 +99,12 @@ const Create = () => {
     formData.append('protagonists', JSON.stringify(protagonistsList))
     formData.append('genre', JSON.stringify(genreList))
     // formData.append('genre_id', isCheckSelectedGenre)
-    formData.append("genre_id", JSON.stringify(isCheckSelectedGenre));
+    formData.append('genre_id', JSON.stringify(isCheckSelectedGenre))
     await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData,
-      {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/film`, formData, {
         //Enviando la cookie del usuario logeado para traer los articulos
-        headers: { "Authorization": `Bearer ${token}` }
-      }
-      )
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(function (response) {
         console.log(response)
         // router.push("/")
@@ -152,7 +148,6 @@ const Create = () => {
   //       console.log(error)
   //     })
   // };
-
 
   return (
     <AppLayout>
@@ -236,7 +231,7 @@ const Create = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="flex flex-wrap -mx-3 mb-2 items-center">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <Label htmlFor="studio">Studio</Label>
                   <Input
@@ -248,9 +243,10 @@ const Create = () => {
                     onChange={event => setStudio(event.target.value)}
                   />
                 </div>
-                <div>
+                <div className='w-full md:w-1/2 px-3  md:mb-0"'>
+                  <Label htmlFor="studio">Country</Label>
                   <select
-                    onChange={(e) => setCountry(e.target.value)}
+                    onChange={e => setCountry(e.target.value)}
                     id="countries"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected>Selecciona una país</option>
@@ -259,18 +255,6 @@ const Create = () => {
                     ))}
                   </select>
                 </div>
-                <div></div>
-                {/* <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <Label htmlFor="country">Country</Label>
-                  <Input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="country"
-                    type="text"
-                    placeholder="country"
-                    value={country}
-                    onChange={event => setCountry(event.target.value)}
-                  />
-                </div> */}
               </div>
 
               <div className="flex flex-wrap -mx-3 mb-2">
@@ -314,6 +298,8 @@ const Create = () => {
                     type="number"
                     placeholder="rating"
                     value={rating}
+                    min="1"
+                    max="5"
                     onChange={event => setRating(event.target.value)}
                   />
                 </div>
@@ -347,10 +333,7 @@ const Create = () => {
               </div>
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
-                  <Image
-                    datafiles={backdrop_path}
-                    setFile={setbackdrop_path}
-                  />
+                  <Image datafiles={backdrop_path} setFile={setbackdrop_path} />
                 </div>
                 <div className="w-full md:w-1/2 px-3 md:mb-0">
                   <DynamicImage

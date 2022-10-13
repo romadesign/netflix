@@ -1,9 +1,12 @@
-function DynamicImage({ datafiles, setFile }) {
+import { useState } from 'react'
 
+function DynamicImage({ datafiles, setFile }) {
+  const [hideInputSelectImage, sethideInputSelectImage] = useState(true)
   const handleFile = e => {
     const files = e.target.files
     const file = files[0]
     getBase64(file)
+    sethideInputSelectImage(!true)
   }
 
   const onLoad = fileString => {
@@ -22,28 +25,63 @@ function DynamicImage({ datafiles, setFile }) {
     setFile(datafiles.filter(x => x.name !== i))
   }
 
+  const handleClose = e => {
+    e.preventDefault()
+    console.log('hjola')
+    sethideInputSelectImage(!false)
+  }
+
   return (
-    <div className="py-3 flex justify-center items-center bg-gray-300 px-2">
-      <div className="p-3 md:w-1/2 w-[360px] bg-white rounded-md">
-        <div className="h-32 w-full relative border-2 items-center rounded-md cursor-pointer bg-gray-300 border-gray-400 border-dotted">
-          <input
-            type="file"
-            onChange={handleFile}
-            className="h-full w-full bg-green-200 opacity-0 z-10 absolute"
-            multiple
-            name="files[]"
-          />
-          <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
-            <div className="flex flex-col">
-              <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
-              <span className="text-[12px]">{`Drag and Drop a file`}</span>
+    <div className="py-3 justify-center items-center px-2">
+      <div className="p-2">
+        {hideInputSelectImage !== false && (
+          <div className="h-32 w-full relative border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted">
+            <input
+              type="file"
+              onChange={handleFile}
+              className="h-full w-full bg-green-200 opacity-0 z-10 absolute"
+              multiple
+              name="files[]"
+            />
+            <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
+              <div className="flex flex-col">
+                <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
+                <span className="text-[12px]">{`Drag and Drop a file`}</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
         <div className="flex flex-wrap gap-2 mt-2">
-          <div className="overflow-hidden relative">
-            <img className="h-20 w-20 rounded-md" src={datafiles} />
-          </div>
+          {datafiles !== '' && (
+            <div className="overflow-hidden relative p-4 bg-[#cacaca45]">
+              <img
+                className="h-150 w-220 rounded-md"
+                src={
+                  datafiles !== null
+                    ? datafiles
+                    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/` +
+                      datafiles
+                }
+              />
+              <button
+                onClick={handleClose}
+                className="absolute top-0 right-0 text-center bg-[#ffffffa3] hover focus:outline-none">
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="times"
+                  className="w-3 m-3"
+                  role="img"
+                  viewBox="0 0 352 512">
+                  <path
+                    fill="currentColor"
+                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

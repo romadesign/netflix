@@ -218,7 +218,7 @@ class FilmProviderController extends Controller
 	//GET PROVIDER FILMS
 	public function getProviderFilms(Request $request, $provider_id)
 	{
-		$pageSize = $request->page_size ?? 6;
+		$pageSize = $request->page_size ?? 70;
 		$films = Film::query()
 			->orderBy('id', 'DESC')
 			->where('provider_id', $provider_id)

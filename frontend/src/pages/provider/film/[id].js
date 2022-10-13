@@ -114,16 +114,25 @@ const FilmDetail = ({ films }) => {
       </Head>
       <div className="py-12">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-4">
-            <Label htmlFor="title">title</Label>
-            <Input
-              id="title"
-              type="text"
-              placeholder="title"
-              value={updateTitle}
-              onChange={event => setUpdateTitle(event.target.value)}
-            />
+          <div className="flex gap-4 justify-items-center items-center">
+            <div className="mb-4 w-full">
+              <Label htmlFor="title">title</Label>
+              <Input
+                id="title"
+                type="text"
+                placeholder="title"
+                value={updateTitle}
+                onChange={event => setUpdateTitle(event.target.value)}
+              />
+            </div>
+            <button
+              onClick={updateFilm}
+              type="button"
+              class="inline-block h-[46px] px-9 py-1.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
+              Update
+            </button>
           </div>
+
           <div className="mb-4">
             <Label htmlFor="description">Description</Label>
             <textarea
@@ -207,7 +216,9 @@ const FilmDetail = ({ films }) => {
                 onChange={e => setUpdateCountry(e.target.value)}
                 id="countries"
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                <option selected disabled>{updateCountry}</option>
+                <option selected disabled>
+                  {updateCountry}
+                </option>
                 {countries.map(country => (
                   <option value={country?.name}>{country?.name}</option>
                 ))}
@@ -258,6 +269,7 @@ const FilmDetail = ({ films }) => {
                 type="number"
                 placeholder="rating"
                 value={updateRating}
+                min="1" max="5"
                 onChange={event => setUpdateRating(event.target.value)}
               />
             </div>
@@ -315,7 +327,6 @@ const FilmDetail = ({ films }) => {
               setStatusInfo={setStatusInfo}
             />
           </div>
-          <button onClick={updateFilm}>post</button>
         </form>
       </div>
     </AppLayout>
