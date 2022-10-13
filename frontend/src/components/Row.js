@@ -12,7 +12,6 @@ const Row = ({ title, category_id, genre_id }) => {
 
 	const slider = useRef();
 	const [movies, setMovies] = useState()
-    console.log(movies)
 
 	//pagination config
 	const [pagination, setpagination] = useState('')
@@ -28,7 +27,6 @@ const Row = ({ title, category_id, genre_id }) => {
 
 	async function getFilms() {
 		if (router.pathname === '/films') {
-			console.log('estamos en films')
 			const response = await axios.get(
 				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
                 {headers: { "Authorization": `Bearer ${token}` }}
@@ -41,8 +39,9 @@ const Row = ({ title, category_id, genre_id }) => {
 			setprev_page_url(response.data.data.prev_page_url)
 			settotalPage(response.data.data.total)
 			setMovies(data.data)
+            console.log(data.data , 'estiy en films')
+
 		} else if(router.pathname === '/series' || router.pathname === '/peliculas'){
-			console.log('estamos en series')
 			const response = await axios.get(
 				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
                 {headers: { "Authorization": `Bearer ${token}` }}
@@ -55,6 +54,8 @@ const Row = ({ title, category_id, genre_id }) => {
 			setprev_page_url(response.data.data.prev_page_url)
 			settotalPage(response.data.data.total)
 			setMovies(data.data)
+            console.log(data.data , 'estiy en peliculas')
+
 		}
 	}
 	//Funtion pagination

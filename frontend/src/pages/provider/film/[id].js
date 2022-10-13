@@ -10,6 +10,7 @@ import DynamicImage from '@/components/BackOfficeProvider/DynamicImage'
 import { useAuth } from '@/hooks/auth'
 import Image from '@/components/Image'
 import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
+import { countries } from '@/components/countrieList'
 
 const FilmDetail = ({ films }) => {
   const { getCookie } = useAuth()
@@ -40,16 +41,16 @@ const FilmDetail = ({ films }) => {
   const [updatePremiere, setUpdatePremiere] = useState(film.premiere) //Update Data premiere
   const [updateRating, setUpdateRating] = useState(film.rating) //Update Data rating
   const [updateAward, setUpdateAward] = useState(film.award) //Update Data award
-  const [dataProtagonists, setDataProtagonists] = useState(film.protagonists,) //Update Protagonists
+  const [dataProtagonists, setDataProtagonists] = useState(film.protagonists) //Update Protagonists
   const [dataGnre, setDataGnres] = useState(film.genre) //Update Protagonists backdrop_path
 
   const [dataBackdrop_path, setDataBackdrop_path] = useState(film.backdrop_path) //Update poster_path
   const [dataPoster_path, setDataPoster_path] = useState(film.poster_path) //Update poster_path
 
-  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([]);
+  const [isCheckSelectedGenre, setIsCheckSelectedGenre] = useState([])
   const [ListGenres, setListGenres] = useState()
   const [newgenreList, setNewGenre] = useState(film.genres) //List new genre
-	const [ statusInfo, setStatusInfo ] = useState(true)
+  const [statusInfo, setStatusInfo] = useState(true)
 
   const arr = [
     { value: 0, text: 'Public' },
@@ -91,7 +92,7 @@ const FilmDetail = ({ films }) => {
     formData.append('award', updateAward)
     formData.append('protagonists', JSON.stringify(dataProtagonists))
     formData.append('genre', JSON.stringify(dataGnre))
-    formData.append("genre_id", JSON.stringify(isCheckSelectedGenre));
+    formData.append('genre_id', JSON.stringify(isCheckSelectedGenre))
 
     await axios
       .post(
@@ -194,14 +195,23 @@ const FilmDetail = ({ films }) => {
             </div>
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <Label htmlFor="country">Country</Label>
-              <Input
+              {/* <Input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="country"
                 type="text"
                 placeholder="country"
                 value={updateCountry}
                 onChange={event => setUpdateCountry(event.target.value)}
-              />
+              /> */}
+              <select
+                onChange={e => setUpdateCountry(e.target.value)}
+                id="countries"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option selected disabled>{updateCountry}</option>
+                {countries.map(country => (
+                  <option value={country?.name}>{country?.name}</option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -294,16 +304,16 @@ const FilmDetail = ({ films }) => {
             </div>
 
             <DynamicGenres
-                title={'Genres Object List'}
-                isCheck={isCheckSelectedGenre}
-                setIsCheck={setIsCheckSelectedGenre}
-                ListGenres={ListGenres}
-                setListGenres={setListGenres}
-                listDetailFilmGenreShow={newgenreList}
-                setNewGenre={setNewGenre}
-                statusInfo={statusInfo}
-                setStatusInfo={setStatusInfo}
-              />
+              title={'Genres Object List'}
+              isCheck={isCheckSelectedGenre}
+              setIsCheck={setIsCheckSelectedGenre}
+              ListGenres={ListGenres}
+              setListGenres={setListGenres}
+              listDetailFilmGenreShow={newgenreList}
+              setNewGenre={setNewGenre}
+              statusInfo={statusInfo}
+              setStatusInfo={setStatusInfo}
+            />
           </div>
           <button onClick={updateFilm}>post</button>
         </form>

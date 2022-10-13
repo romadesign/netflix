@@ -51,7 +51,8 @@ export default function Browse() {
   }
 
   //Post Account
-  const postAccount = async (e) => {
+  const postAccount = async (event) => {
+    event.preventDefault()
     let formData = new FormData()
     formData.append('userId', userId)
     formData.append('userType', userType)
@@ -61,12 +62,13 @@ export default function Browse() {
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account`, formData)
       .then(function (response) {
         console.log(response)
+        router.reload()
 
       })
       .catch(function (error) {
         console.log(error)
       })
-      router.push("/films")
+
   }
 
   const handleMovies = (acoundId) => {
@@ -86,7 +88,7 @@ export default function Browse() {
               <h1>Añadir perfil</h1>
               <h2>Crea un perfil para otra persona que usa Netflix.</h2>
             </div>
-            <form>
+            <form onSubmit={postAccount}>
               <div className={styles.content_card_add_user}>
                 <Image
                   src="/img/perfil.png"
@@ -104,7 +106,7 @@ export default function Browse() {
                 />
               </div>
               <div className={styles.content_button}>
-                <Button onClick={postAccount}>Continuar</Button>
+                <Button >Continuar</Button>
                 <Button onClick={() => handleClick(hiddenAddProfile)}>
                   Cancelar
                 </Button>

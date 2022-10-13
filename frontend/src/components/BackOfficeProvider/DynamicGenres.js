@@ -13,6 +13,8 @@ function DynamicGenres({ ListGenres, setListGenres, listDetailFilmGenreShow, set
 	//   }
 	// };
 
+    console.log(ListGenres)
+
 	const handleSelectChecbox = (id, title) => {
 		setListSelectedTitle(
 			listSelectedTitle.indexOf(title) === -1 ?
@@ -57,6 +59,10 @@ function DynamicGenres({ ListGenres, setListGenres, listDetailFilmGenreShow, set
 				<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{title}</label>
 				<div>
 					<span>Generos elejidos</span>
+                    {
+                        !statusInfo !== true &&
+                    <span onClick={() => genresEdit()}>Editar</span>
+                    }
 					<div className={styles.content_general_input}>
 						{listSelectedTitle.map((selectedGenre, id) => (
 							<div key={id} className={styles.content_general_input_selected}>
@@ -67,7 +73,7 @@ function DynamicGenres({ ListGenres, setListGenres, listDetailFilmGenreShow, set
 							<div className="flex flex-wrap">
 								{listDetailFilmGenreShow !== undefined && (
 									listDetailFilmGenreShow.length > 0 &&
-									<><span onClick={() => genresEdit()}>Editar</span>
+									<>
 										{listDetailFilmGenreShow.map((genre) => (
 											<div key={genre.id} className={styles.genresContentListGet}>
 												<div >

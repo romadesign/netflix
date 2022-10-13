@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         DB::table('genres')->truncate();
         //Create data
         User::factory(4)->create();
-        Film::factory(100)->create();
+        Film::factory(200)->create();
         Categorie::factory(2)->create();
         Genre::factory(10)->create();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

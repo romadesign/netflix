@@ -91,7 +91,7 @@ const Admin = () => {
 
   // const handleSelectChecbox = (id) => {
   //   setSelectedIds(
-  //     selectedIds.indexOf(id.toString()) === -1 ? 
+  //     selectedIds.indexOf(id.toString()) === -1 ?
   //       [...selectedIds, id.toString()] : selectedIds.filter((x) => x !== id.toString()))
   // }
 
@@ -210,32 +210,6 @@ const Admin = () => {
                 </button>
               )}
             </div>
-            {/* Escondiendo cuando hacemos filtro */}
-            {/* Pagination */}
-            {!hideOption &&
-              <div className="flex justify-between content-center items-center">
-                <Pagination
-                  pagination={pagination}
-                  current_page={current_page}
-                  next_page_url={next_page_url}
-                  first_page_url={first_page_url}
-                  prev_page_url={prev_page_url}
-                  setpagination={setpagination}
-                  setcurrent_page={setcurrent_page}
-                  setnext_page_url={setnext_page_url}
-                  setfirst_page_url={setfirst_page_url}
-                  setprev_page_url={setprev_page_url}
-                  setFilms={setFilms}
-                />
-                <div className="pt-2 grid justify-items-center">
-                  <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold  px-2.5 py-3  dark:bg-indigo-200 dark:text-indigo-900">
-                    {' '}
-                    Films: {totalPage}
-                  </span>
-                </div>
-              </div>
-
-            }
           </div>
           {/* show films */}
           {
@@ -290,7 +264,7 @@ const Admin = () => {
                             <td className="p-4 w-4">
                               <div className="flex items-center">
                                 <input
-  
+
                                   checked={isCheck.includes(film?.id.toString())}
                                   onChange={handleClick}
                                   name={film?.id}
@@ -298,7 +272,7 @@ const Admin = () => {
                                   type="checkbox"
                                   className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
-  
+
                               </div>
                             </td>
                             <td className="py-4 px-6"> {film?.id}</td>
@@ -312,13 +286,13 @@ const Admin = () => {
                               />
                             </td>
                             <td className="py-4 px-6">{film?.title}</td>
-  
+
                             <td className="py-4 px-6">
                               {getcategories.map(cat =>
                                 cat.id == film.categorie_id ? cat.title : '',
                               )}
                             </td>
-  
+
                             <td className="py-4 px-6">{film?.country}</td>
                             <td className="py-4 px-6">
                               {/* {film?.rating} */}
@@ -353,12 +327,37 @@ const Admin = () => {
                   </tbody>
                 </table>
               </div>
+                          {/* Escondiendo cuando hacemos filtro */}
+            {/* Pagination */}
+            {!hideOption &&
+              <div className="flex justify-between content-center items-center">
+                <Pagination
+                  pagination={pagination}
+                  current_page={current_page}
+                  next_page_url={next_page_url}
+                  first_page_url={first_page_url}
+                  prev_page_url={prev_page_url}
+                  setpagination={setpagination}
+                  setcurrent_page={setcurrent_page}
+                  setnext_page_url={setnext_page_url}
+                  setfirst_page_url={setfirst_page_url}
+                  setprev_page_url={setprev_page_url}
+                  setFilms={setFilms}
+                />
+                <div className="pt-2 grid justify-items-center">
+                  <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold  px-2.5 py-3  dark:bg-indigo-200 dark:text-indigo-900">
+                    {' '}
+                    Films: {totalPage}
+                  </span>
+                </div>
+              </div>
+            }
             </div>)  :
             (
               <div>hello</div>
             )
           }
-         
+
 
         </div>
       </div>

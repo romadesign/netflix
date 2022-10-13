@@ -53,6 +53,7 @@ class FilmController extends Controller
 		->where('categorie_id', $categorie_id)
 		->where('movieStatus', $status)
 		->paginate($pageSize);
+        dd($films );
 		return response()->json(
 			['status' => 'ok','data' => $films], 200
 		);
