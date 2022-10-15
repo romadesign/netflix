@@ -55,7 +55,7 @@ class MovieListController extends Controller
     }
 
     //GET FILMS LIST ACCOUNTS
-	public function getAccountFilms($account_id)
+	public function getAccountFilms(Request $request, $account_id)
 	{
 		// $filmsAcount = DB::select("SELECT * FROM films F
         //                           JOIN movie_lists ML
@@ -66,9 +66,10 @@ class MovieListController extends Controller
 		// ->join('movie_lists', 'movie_lists.film_id', '=','films.id')
         // ->where('movie_lists.account_id', $account_id)->get();
 
+        $pageSize = $request->page_size ?? 2;
         $filmsAcount = Film::with('genres')
         ->join('movie_lists', 'movie_lists.film_id', '=','films.id')
-        ->where('movie_lists.account_id', $account_id)->get();
+        ->where('movie_lists.account_id', $account_id)->paginate($pageSize)  ;
 
         return response()->json(
         ['status' => 'ok', 'data' => $filmsAcount],
