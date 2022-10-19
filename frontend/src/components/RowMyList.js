@@ -1,14 +1,10 @@
 import axios from 'axios'
+import React, { useEffect, useRef, useState } from 'react'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import { useEffect, useRef, useState } from 'react'
 import Movie from './Movie'
-import { useRouter } from 'next/router'
-import { useAuth } from '@/hooks/auth'
 
-const Row = ({ title, category_id, genre_id }) => {
-  const { getCookie } = useAuth()
-  const token = getCookie('token')
-  const router = useRouter()
+const RowMyList = ({ title, accountId }) => {
+  console.log(accountId)
 
   const slider = useRef()
   const [movies, setMovies] = useState()
@@ -22,54 +18,22 @@ const Row = ({ title, category_id, genre_id }) => {
   const [totalPage, settotalPage] = useState('')
 
   useEffect(() => {
-    getFilms()
+    getFilmsAccount()
   }, [])
 
-  async function getFilms () {
-    if (router.pathname === '/films') {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const data = response.data.data
-      setpagination(response.data.data)
-      setcurrent_page(response.data.data.current_page)
-      setnext_page_url(response.data.data.next_page_url)
-      setfirst_page_url(response.data.data.first_page_url)
-      setprev_page_url(response.data.data.prev_page_url)
-      settotalPage(response.data.data.total)
-      setMovies(data.data)
-    } else if (
-      router.pathname === '/series' ||
-      router.pathname === '/peliculas'
-    ) {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const data = response.data.data
-      setpagination(response.data.data)
-      setcurrent_page(response.data.data.current_page)
-      setnext_page_url(response.data.data.next_page_url)
-      setfirst_page_url(response.data.data.first_page_url)
-      setprev_page_url(response.data.data.prev_page_url)
-      settotalPage(response.data.data.total)
-      setMovies(data.data)
-    }
+  async function getFilmsAccount () {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account/${accountId}/list`,
+    )
+    const data = response.data.data
+    setpagination(response.data.data)
+    setcurrent_page(response.data.data.current_page)
+    setnext_page_url(response.data.data.next_page_url)
+    setfirst_page_url(response.data.data.first_page_url)
+    setprev_page_url(response.data.data.prev_page_url)
+    settotalPage(response.data.data.total)
+    setMovies(data.data)
   }
-  //Funtion pagination
-
-  async function changeNextPage () {}
-
-  // const sliderLeft = () => {
-  // 	var slider = document.getElementById('slider' + categoryId)
-  // 	slider.scrollLeft = slider.scrollLeft - 500;
-  // }
-
-  // const sliderRigth = () => {
-  // 	var slider = document.getElementById('slider' + categoryId)
-  // 	slider.scrollLeft = slider.scrollLeft + 500;
-  // }
 
   async function sliderLeft () {
     const response = await axios.get(`${prev_page_url}`)
@@ -100,12 +64,12 @@ const Row = ({ title, category_id, genre_id }) => {
   }
 
   return (
-    <div className=''>
+    <div>
       <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>
         {title}
       </h2>
       <div className='relative flex items-center group w-[98%] pl-9'>
-        {movies !== undefined ? (
+      {movies !== undefined ? (
           <>
             <MdChevronLeft
               onClick={sliderLeft}
@@ -114,7 +78,7 @@ const Row = ({ title, category_id, genre_id }) => {
             />
             <div
               ref={slider}
-              id={'slider'} // + categoryId
+              id={'slider'}
               className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide justify-center'>
               {movies.map((item, id) => (
                 <Movie key={id} item={item} />
@@ -135,4 +99,4 @@ const Row = ({ title, category_id, genre_id }) => {
   )
 }
 
-export default Row
+export default RowMyList

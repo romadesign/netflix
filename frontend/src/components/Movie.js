@@ -15,7 +15,6 @@ const Movie = ({ item}) => {
     const [showModal, setShowModal] = useState(false)
     const [movieOptions, setMovieOptions] = useState()
     const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
-    console.log(item)
 
     const [icons, setIcons] = useState(false)
     const onMouseLeave = () => setIcons(false);
@@ -83,15 +82,15 @@ const Movie = ({ item}) => {
                                 <div className="flex justify-between">
                                     <FaPlay className="text-3xl cursor-pointer text-slate-300  " />
                                     <div>
-                                        <div class="flex justify-center flex-wrap">
+                                        <div className="flex justify-center flex-wrap">
                                             {
                                                 !movieOptionsStatus !== true ?
-                                                <FaPlus class="ml-3 text-3xl cursor-pointer text-slate-300"
+                                                <FaPlus className="ml-3 text-3xl cursor-pointer text-slate-300"
                                                 title={movieOptions}
                                                 onClick={() => addListMovie(item.film_id)}
                                             >
                                             </FaPlus> :
-                                            <FaCheckCircle class="ml-2 mr-2 text-2xl cursor-pointer text-slate-300"  title={movieOptions}/>
+                                            <FaCheckCircle className="ml-2 mr-2 text-2xl cursor-pointer text-slate-300"  title={movieOptions}/>
                                             }
                                         </div>
                                     </div>

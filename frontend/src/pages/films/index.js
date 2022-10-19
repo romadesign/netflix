@@ -4,11 +4,13 @@ import Row from '@/components/Row'
 import Head from 'next/head'
 import styles from '../../../styles/banner.module.css'
 import { useAuth } from '@/hooks/auth'
+import RowMyList from '@/components/RowMyList'
 
 const Films = () => {
   const { getCookie } = useAuth()
-  const account_id = getCookie('accountId')
-  console.log(account_id)
+  if (typeof window !== 'undefined'){
+      var account_id = getCookie('accountId')
+  }
   return (
     <AppLayout
       header={
@@ -32,6 +34,7 @@ const Films = () => {
           <Row title="Horror" genre_id={8} />
           <Row title="Musical" genre_id={9} />
           <Row title="Romance" genre_id={10} />
+          <RowMyList title="Mi lista" accountId={account_id} />
         </div>
       </div>
     </AppLayout>

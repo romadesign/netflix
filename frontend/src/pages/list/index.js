@@ -47,11 +47,11 @@ const Lists = () => {
     }
   }, [])
 
-  useState(() => {
+  useEffect(() => {
     getFilmsAccount()
   }, [account_id])
 
-  async function getFilmsAccount() {
+  async function getFilmsAccount () {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account/${account_id}/list`,
     )
@@ -65,7 +65,7 @@ const Lists = () => {
     setLists(data.data)
   }
 
-  async function handleSeeMore() {
+  async function handleSeeMore () {
     if (next_page_url !== null) {
       setStatusSeeMore(!true)
       setStatusSeeMoreCountry(!false)
@@ -85,7 +85,7 @@ const Lists = () => {
   return (
     <AppLayout
       header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 className='font-semibold text-xl text-gray-800 leading-tight'>
           Mi Lista
         </h2>
       }>
@@ -93,22 +93,22 @@ const Lists = () => {
         <title>Netflix - Lista</title>
       </Head>
       {lists !== undefined ? (
-        <div className="h-[100vh] relative pt-20 bg-[#141414] ">
-          <div className=" bg-[#141414]">
-            <div className="pl-10 text-white text-xl">Mi lista</div>
-            <div className=" flex flex-wrap justify-center">
-                {lists.map((item, id) => (
-                  <Movie key={id} item={item} />
-                ))}
+        <div className='h-[100vh] relative pt-20 bg-[#141414] '>
+          <div className=' bg-[#141414]'>
+            <div className='pl-10 text-white text-xl'>Mi lista</div>
+            <div className=' flex flex-wrap justify-center'>
+              {lists.map((item, id) => (
+                <Movie key={id} item={item} />
+              ))}
             </div>
-            <div className=" flex flex-wrap justify-center">
-                <FaAngleDown
+            <div className=' flex flex-wrap justify-center'>
+              <FaAngleDown
                 onClick={handleSeeMore}
-                  disabled={next_page_url == null}
-                  className="bg-[#141414] text-white cursor-pointer"
-                  size={40}
-                />
-              </div>
+                disabled={next_page_url == null}
+                className='bg-[#141414] text-white cursor-pointer'
+                size={40}
+              />
+            </div>
           </div>
         </div>
       ) : (
