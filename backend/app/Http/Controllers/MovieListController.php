@@ -76,6 +76,15 @@ class MovieListController extends Controller
         );
     }
 
+    //DELETE MOVIE ACCOUNT LIST
+    public function deleteMovieIdList(Request $request)
+    {
+        $data = MovieList::where('film_id', $request->film_id)->where('account_id', $request->account_id)->get();
+        $film = MovieList::find($data[0]->id);
+        $film->delete();
+        return response()->json(['message' => 'Movie delete list succesfully']);
+    }
+
     public function listExplore(Request $request)
     {
         $pageSize = $request->page_size ?? 18;
@@ -99,7 +108,6 @@ class MovieListController extends Controller
 
     public function checkAddedMovie(Request $request)
     {
-
         if (MovieList::where('film_id', $request->film_id)->where('account_id', $request->account_id)->exists()) {
             return response()->json([
                 'message' => 'Quitar de mi lista',
@@ -108,7 +116,7 @@ class MovieListController extends Controller
         } else {
             return response()->json([
                 'message' => 'Añadir a mi lista',
-                'status' => true
+                'status' => true,
             ]);
         }
     }
