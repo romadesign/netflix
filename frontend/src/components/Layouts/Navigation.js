@@ -149,9 +149,7 @@ const Navigation = ({ user }) => {
                           <img
                             src={"http://localhost:8000/profiles/" + account.image}
                             alt={account.name}
-                            width={30}
-                            height={30}
-                            className="rounded-md"
+                            className="rounded-md object-cover h-10 w-10"
                           />
                         </div>
                       }</>)
@@ -179,9 +177,7 @@ const Navigation = ({ user }) => {
                           <img
                             src={"http://localhost:8000/profiles/" + account.image}
                             alt={account.name}
-                            width={30}
-                            height={30}
-                            className="rounded-md"
+                            className="rounded-md object-cover h-10 w-10"
                           />
                           <button className={`w-full text-left  px-4 py-2 text-sm leading-5 text-gray-400`}>
                             {account.name}

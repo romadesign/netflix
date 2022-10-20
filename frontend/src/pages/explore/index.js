@@ -50,7 +50,7 @@ const Explore = () => {
     }
   }, [])
 
-  async function getFilmsAccount() {
+  async function getFilmsAccount () {
     setStatusSeeMore(!true)
     setStatusSeeMoreCountry(!false)
     setHideResetLists(!false)
@@ -73,7 +73,7 @@ const Explore = () => {
     getFilmsAccount()
   }, [])
 
-  async function handleSeeMore() {
+  async function handleSeeMore () {
     if (next_page_url !== null) {
       setStatusSeeMore(!true)
       setStatusSeeMoreCountry(!false)
@@ -90,7 +90,7 @@ const Explore = () => {
     }
   }
 
-  async function handleChangeCountry(e) {
+  async function handleChangeCountry (e) {
     setCountrySelected(e)
     setStatusSeeMore(!false)
     setStatusSeeMoreCountry(!true)
@@ -108,7 +108,7 @@ const Explore = () => {
     setLists(response.data.data)
   }
 
-  async function handleSeeMoreCountry() {
+  async function handleSeeMoreCountry () {
     console.log(next_page_url)
     if (next_page_url !== null) {
       const response = await axios.get(`${next_page_url}`)
@@ -128,7 +128,7 @@ const Explore = () => {
         <>
           <AppLayout
             header={
-              <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+              <h2 className='font-semibold text-xl text-gray-800 leading-tight'>
                 Explorar por idiomas
               </h2>
             }>
@@ -136,28 +136,28 @@ const Explore = () => {
               <title>Netflix</title>
             </Head>
             {lists !== undefined && (
-              <div className="h-[100vh] relative pt-20 bg-[#141414] ">
-                <div className="bg-[#141414]">
+              <div className='h-[100vh] relative pt-20 bg-[#141414] '>
+                <div className='bg-[#141414]'>
                   <div
                     className={`${
                       !isScrolled
                         ? 'content_sub_navbar absolute t-0 z-10 w-full '
                         : styles.subnavbar
                     }`}>
-                    <div className="flex flex-wrap pt-4 pb-10 gap-4 items-center ">
-                      <div className="pl-10 text-white text-xl">
+                    <div className='flex flex-wrap pt-4 pb-10 gap-4 items-center '>
+                      <div className='pl-10 text-white text-xl'>
                         Explorar por idiomas
                       </div>
-                      <div className="text-white text-sm">
+                      <div className='text-white text-sm'>
                         Selecciona tus preferencias
                       </div>
-                      <div className="">
+                      <div className=''>
                         <select
                           onChange={e => handleChangeCountry(e.target.value)}
-                          id="countries"
-                          className="text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[130px] border-inherit">
+                          id='countries'
+                          className='text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[130px] border-inherit'>
                           <option
-                            className="text-white text-sm bg-[black]"
+                            className='text-white text-sm bg-[black]'
                             disabled
                             selected>
                             Todos
@@ -172,24 +172,24 @@ const Explore = () => {
                       {!hideResetLists && (
                         <button
                           onClick={() => getFilmsAccount()}
-                          className="bg-transparent hover:bg-white-500 text-white font-semibold hover:text-white px-4 border border-white-500 ">
+                          className='bg-transparent hover:bg-white-500 text-white font-semibold hover:text-white px-4 border border-white-500 '>
                           Reset
                         </button>
                       )}
                     </div>
                   </div>
-                  <div className=" flex flex-wrap justify-center pt-10">
+                  <div className=' flex flex-wrap justify-center pt-10'>
                     {lists.map((item, id) => (
                       <Movie key={id} item={item} />
                     ))}
                   </div>
                   {next_page_url !== null ? (
-                    <div className="flex justify-center pb-3">
+                    <div className='flex justify-center pb-3'>
                       {statusSeeMore !== true && (
                         <FaAngleDown
                           disabled={next_page_url == null}
                           onClick={handleSeeMore}
-                          className="bg-[#141414] text-white cursor-pointer"
+                          className='bg-[#141414] text-white cursor-pointer'
                           size={40}
                         />
                       )}
@@ -197,7 +197,7 @@ const Explore = () => {
                         <FaAngleDown
                           disabled={next_page_url == null}
                           onClick={handleSeeMoreCountry}
-                          className="bg-[#141414] text-white cursor-pointer"
+                          className='bg-[#141414] text-white cursor-pointer'
                           size={40}
                         />
                       )}

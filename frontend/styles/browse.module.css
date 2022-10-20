@@ -13,10 +13,7 @@
     color: #666;
     font-size: 1.3vw;
 }
-.content_card{
-    display: flex;
-    align-items: center;
-}
+
 .content_card span{
     align-items: center;
     color: grey;

@@ -65,11 +65,14 @@ const RowMyList = ({ title, accountId }) => {
 
   return (
     <div>
-      <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>
-        {title}
-      </h2>
+      {movies !== undefined && movies.length >= 6 && (
+        <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>
+          {title}
+        </h2>
+      )}
+
       <div className='relative flex items-center group w-[98%] pl-9'>
-      {movies !== undefined ? (
+        {movies !== undefined && movies.length >= 6 ? (
           <>
             <MdChevronLeft
               onClick={sliderLeft}

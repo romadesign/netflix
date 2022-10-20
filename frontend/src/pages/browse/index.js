@@ -129,9 +129,7 @@ export default function Browse() {
                         <img
                           src={"http://localhost:8000/profiles/" + account?.image}
                           alt={account.name}
-                          width={150}
-                          height={150}
-                          className="rounded-md"
+                          className="rounded-md object-cover h-40 w-40"
                         />
                         <span>{account.name}</span>
                       </div>
