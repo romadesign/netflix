@@ -115,7 +115,7 @@ const router = useRouter()
             <div className='flex justify-between pl-5 pr-5 pt-7 pb-3 items-center '>
               <div className='flex justify-between items-center'>
                 <div className='flex justify-between'>
-                  <FaPlay className='text-3xl cursor-pointer text-slate-300  ' />
+                  <FaPlay className='text-3xl cursor-pointer text-slate-300' />
                   <div>
                     <div className='flex justify-center flex-wrap'>
                       {!movieOptionsStatus !== true ? (
@@ -169,6 +169,8 @@ const router = useRouter()
           showModal={showModal}
           setShowModal={setShowModal}
           movie={item}
+          //fucntion click add movie
+          addListMovie={addListMovie}
         />
       )}
 
