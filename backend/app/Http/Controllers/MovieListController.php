@@ -76,7 +76,7 @@ class MovieListController extends Controller
         );
     }
 
-    //DELETE MOVIE ACCOUNT LIST
+    //DELETE MOVIE LIST ACCOUNT
     public function deleteMovieIdList(Request $request)
     {
         $data = MovieList::where('film_id', $request->film_id)->where('account_id', $request->account_id)->get();

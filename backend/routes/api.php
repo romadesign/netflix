@@ -58,7 +58,7 @@ Route::get('/account/{id}/list', [MovieListController::class, 'getAccountFilms']
 Route::post('/list', [MovieListController::class, 'store']); //create
 Route::get('/lists/explore/country/{country}', [MovieListController::class, 'getCountryExplore']);
 Route::get('/filmId/{film_id}/accountId/{account_id}', [MovieListController::class, 'checkAddedMovie']);
-Route::get('/filmId/{film_id}/accountId/{account_id}/delete', [MovieListController::class, 'deleteMovieIdList']);
+Route::post('/filmId/{film_id}/accountId/{account_id}/delete', [MovieListController::class, 'deleteMovieIdList']);
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

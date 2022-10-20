@@ -50,6 +50,7 @@ const Movie = ({ item }) => {
       })
       .then(function (response) {
         console.log(response)
+        setMovieOptionsStatus(!true)
 
         // router.push("/")
       })
@@ -58,7 +59,7 @@ const Movie = ({ item }) => {
       })
   }
 
-  const checkAddedMovie = async (film_id) => {
+  const checkAddedMovie = async film_id => {
     const account_id = accountId
     await axios
       .get(
@@ -75,9 +76,18 @@ const Movie = ({ item }) => {
       })
   }
 
-  const deleteListMovieId = (film_id) => {
+  const deleteListMovieId = async film_id => {
     console.log(film_id)
     const account_id = accountId
+    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}/delete`,
+    { headers: { Authorization: `Bearer ${token}` } },)
+      .then(function (response) {
+        console.log(response.data.message)
+        setMovieOptionsStatus(!false)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
   return (
