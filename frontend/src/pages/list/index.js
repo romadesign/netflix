@@ -6,6 +6,7 @@ import styles from '../../../styles/banner.module.css'
 import { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { FaAngleDown } from 'react-icons/fa'
+import Loading from '@/components/Loading'
 
 const Lists = () => {
   const { getCookie } = useAuth()
@@ -102,17 +103,19 @@ const Lists = () => {
               ))}
             </div>
             <div className=' flex flex-wrap justify-center'>
-              <FaAngleDown
-                onClick={handleSeeMore}
-                disabled={next_page_url == null}
-                className='bg-[#141414] text-white cursor-pointer'
-                size={40}
-              />
+              {lists.length >= 6 && (
+                <FaAngleDown
+                  onClick={handleSeeMore}
+                  disabled={next_page_url == null}
+                  className='bg-[#141414] text-white cursor-pointer'
+                  size={40}
+                />
+              )}
             </div>
           </div>
         </div>
       ) : (
-        <></>
+        <Loading />
       )}
     </AppLayout>
   )

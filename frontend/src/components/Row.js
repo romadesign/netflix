@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import Movie from './Movie'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
+import Loading from '@/components/Loading'
 
-const Row = ({ title, category_id, genre_id }) => {
+const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
   const { getCookie } = useAuth()
   const token = getCookie('token')
   const router = useRouter()
@@ -128,7 +129,7 @@ const Row = ({ title, category_id, genre_id }) => {
             />
           </>
         ) : (
-          <div>Cargando datos</div>
+            <Loading />
         )}
       </div>
     </div>

@@ -13,8 +13,11 @@ import {
 import axios from 'axios'
 import { useAuth } from '@/hooks/auth'
 import ModalDetails from './ModalDetails'
+import { useRouter } from 'next/router'
+
 
 const Movie = ({ item }) => {
+const router = useRouter()
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var accountId = getCookie('accountId')
@@ -84,6 +87,7 @@ const Movie = ({ item }) => {
       .then(function (response) {
         console.log(response.data.message)
         setMovieOptionsStatus(!false)
+        router.reload()
       })
       .catch(function (error) {
         console.log(error)
@@ -92,6 +96,7 @@ const Movie = ({ item }) => {
 
   return (
     <div className='container'>
+
       <div className='card'>
         <div
           className='face faceOne'
