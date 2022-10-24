@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import {
+  FaCheckCircle,
   FaPlay,
   FaPlus,
-  FaRegArrowAltCircleDown,
   FaRegSmileBeam,
   FaRegThumbsDown,
   FaRegThumbsUp,
@@ -11,17 +11,15 @@ import {
 import axios from 'axios'
 import { useAuth } from '@/hooks/auth'
 
-const ModalDetails = ({ movie, showModal, setShowModal, onMouse, addListMovie }) => {
-  const { getCookie } = useAuth()
-  if (typeof window !== 'undefined') {
-    var accountId = getCookie('accountId')
-    var token = getCookie('token')
-  }
-
-  console.log(movie)
-  // const [movieGenre, setMovieGenre] = useState(JSON.parse(movie.genre).toString().split('"'))
-  // const [movieGenre, setMovieGenre] = useState(movie.genre)
-  // const [movieGenreList, setmovieGenreList] = useState(movieGenre.splice(1, movieGenre.length - 2))
+const ModalDetails = ({
+  movie,
+  setShowModal,
+  onMouse,
+  addListMovie,
+  deleteListMovieId,
+  movieOptionsStatus,
+  movieOptions,
+}) => {
 
   const [icons, setIcons] = useState(false)
   const onMouseLeave = () => setIcons(false)
@@ -34,22 +32,6 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse, addListMovie })
     setIcons(!false)
   }
 
-//   const addListMovie = async film_id => {
-//     let formData = new FormData()
-//     formData.append('film_id', film_id)
-//     formData.append('account_id', accountId)
-//     await axios
-//       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/list`, formData, {
-//         headers: { Authorization: `Bearer ${token}` },
-//       })
-//       .then(function (response) {
-//         console.log(response)
-//         // router.push("/")
-//       })
-//       .catch(function (error) {
-//         console.log(error)
-//       })
-//   }
 
   return (
     <div className='bg-[#000000e0]  fixed overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0  md:h-full  sm:w-full md:w-full grid items-center rounded-lg m-auto  '>
@@ -87,10 +69,24 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse, addListMovie })
                 <div className='flex justify-between items-center'>
                   <div className='flex justify-between'>
                     <FaPlay className='text-3xl cursor-pointer text-slate-300' />
-                    <FaPlus
-                      onClick={() => addListMovie(movie.film_id)}
-                      className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
-                    />
+                    <div>
+                      <div className='flex justify-center flex-wrap'>
+                        {!movieOptionsStatus !== true ? (
+                          <FaPlus
+                            className='ml-3 text-3xl cursor-pointer text-slate-300'
+                            title={movieOptions}
+                            onClick={() => {
+                              addListMovie(movie.film_id)
+                            }}></FaPlus>
+                        ) : (
+                          <FaCheckCircle
+                            className='ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
+                            title={movieOptions}
+                            onClick={() => deleteListMovieId(movie.film_id)}
+                          />
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <div
                     className='flex justify-between'
@@ -108,9 +104,6 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse, addListMovie })
                       </div>
                     )}
                   </div>
-                </div>
-                <div>
-                  <FaRegArrowAltCircleDown className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300' />
                 </div>
               </div>
 
@@ -148,8 +141,7 @@ const ModalDetails = ({ movie, showModal, setShowModal, onMouse, addListMovie })
                     <p className='text-base  text-[#ffffff] dark:text-gray-200'>
                       {movie.genre.map(genres => (
                         <span> {genres}</span>
-                      ))
-                      }
+                      ))}
                     </p>
                     {/* Géneros: <p className="text-base  text-[#ffffff] dark:text-gray-200">{JSON.parse(movie.genre).toString().split('"')}</p> */}
                   </span>

@@ -28,6 +28,8 @@ const router = useRouter()
   const [showModal, setShowModal] = useState(false)
   const [movieOptions, setMovieOptions] = useState()
   const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
+  console.log(movieOptionsStatus, 'status')
+
 
   const [icons, setIcons] = useState(false)
   const onMouseLeave = () => setIcons(false)
@@ -63,6 +65,7 @@ const router = useRouter()
   }
 
   const checkAddedMovie = async film_id => {
+    console.log('entro')
     const account_id = accountId
     await axios
       .get(
@@ -72,6 +75,7 @@ const router = useRouter()
       .then(function (response) {
         setMovieOptions(response.data.message)
         setMovieOptionsStatus(response.data.status)
+        console.log(response.data.status)
         // router.push("/")
       })
       .catch(function (error) {
@@ -166,11 +170,15 @@ const router = useRouter()
 
       {showModal !== false && (
         <ModalDetails
-          showModal={showModal}
-          setShowModal={setShowModal}
           movie={item}
-          //fucntion click add movie
+          setShowModal={setShowModal}
+          //fucntion click add and delete movie
           addListMovie={addListMovie}
+          deleteListMovieId={deleteListMovieId}
+          //status icons add and remove movie
+          movieOptionsStatus={movieOptionsStatus}
+          //capture message getCheckadd movie status
+          movieOptions={movieOptions}
         />
       )}
 

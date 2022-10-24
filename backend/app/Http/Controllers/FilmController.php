@@ -9,18 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class FilmController extends Controller
 {
-	public function index(Request $request){
-		$pageSize = $request->page_size ?? 6;
-			// $films = Film::query()
-			// ->orderBy('id', 'DESC')
-			// ->where('provider_id', 5)
-			// ->paginate($pageSize);
+    public function index(Request $request)
+    {
+        $pageSize = $request->page_size ?? 6;
+        // $films = Film::query()
+        // ->orderBy('id', 'DESC')
+        // ->where('provider_id', 5)
+        // ->paginate($pageSize);
 
-			$films = Film::all();
+        $films = Film::all();
 
-			return response()->json(
-				['status' => 'ok','data' => $films], 200
-			);
+        return response()->json(
+            ['status' => 'ok', 'data' => $films],
+            200
+        );
     }
 
     public function store(Request $request)
@@ -42,35 +44,37 @@ class FilmController extends Controller
     {
         //
     }
-	//GET FILMS CATEGORY
-	public function getFilmsCategory(Request $request, $categorie_id, $genre_id){
-		$pageSize = $request->page_size ?? 6;
-		$status = 0;
-		$films =  Film::with('genres')
-		// ->orderBy('id', 'DESC')
-		->join('genre_film', 'genre_film.film_id', '=','films.id')
-		->where('genre_film.genre_id', $genre_id)
-		->where('categorie_id', $categorie_id)
-		->where('movieStatus', $status)
-		->paginate($pageSize);
-		return response()->json(
-			['status' => 'ok','data' => $films], 200
-		);
-	}
+    //GET FILMS CATEGORY
+    public function getFilmsCategory(Request $request, $categorie_id, $genre_id)
+    {
+        $pageSize = $request->page_size ?? 6;
+        $status = 0;
+        $films =  Film::with('genres')
+            // ->orderBy('id', 'DESC')
+            ->join('genre_film', 'genre_film.film_id', '=', 'films.id')
+            ->where('genre_film.genre_id', $genre_id)
+            ->where('categorie_id', $categorie_id)
+            ->where('movieStatus', $status)
+            ->paginate($pageSize);
+        return response()->json(
+            ['status' => 'ok', 'data' => $films],
+            200
+        );
+    }
 
-	//GET FILMS GENRE
-	public function getFilmsGenre(Request $request, $genre_id){
-		$pageSize = $request->page_size ?? 6;
-		$status = 0;
+    //GET FILMS GENRE
+    public function getFilmsGenre(Request $request, $genre_id)
+    {
+        $pageSize = $request->page_size ?? 6;
+        $status = 0;
         $films = Film::with('genres')
-		->join('genre_film', 'genre_film.film_id', '=','films.id')
-		->where('genre_film.genre_id', $genre_id)
-		->where('movieStatus', $status)
-		->paginate($pageSize);
-		return response()->json(
-			['status' => 'ok','data' => $films], 200
-		);
-	}
-
-
+            ->join('genre_film', 'genre_film.film_id', '=', 'films.id')
+            ->where('genre_film.genre_id', $genre_id)
+            ->where('movieStatus', $status)
+            ->paginate($pageSize);
+        return response()->json(
+            ['status' => 'ok', 'data' => $films],
+            200
+        );
+    }
 }
