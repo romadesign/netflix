@@ -8,8 +8,7 @@ import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 
-
-export default function Browse() {
+export default function Browse () {
   const router = useRouter()
 
   //redirect page si no es provedor
@@ -35,12 +34,14 @@ export default function Browse() {
   }
 
   useEffect(() => {
-    userTypeCookie == 'client' ? router.push("/browse") : router.push('/provider');
+    userTypeCookie == 'client'
+      ? router.push('/browse')
+      : router.push('/provider')
     getAccounts()
   }, [])
 
   //Get Accounts user
-  async function getAccounts() {
+  async function getAccounts () {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/accounts/user/${userId}`,
     )
@@ -51,7 +52,7 @@ export default function Browse() {
   }
 
   //Post Account
-  const postAccount = async (event) => {
+  const postAccount = async event => {
     event.preventDefault()
     let formData = new FormData()
     formData.append('userId', userId)
@@ -63,17 +64,15 @@ export default function Browse() {
       .then(function (response) {
         console.log(response)
         router.reload()
-
       })
       .catch(function (error) {
         console.log(error)
       })
-
   }
 
-  const handleMovies = (acoundId) => {
+  const handleMovies = acoundId => {
     setCookie('accountId', acoundId)
-    router.push("/films")
+    router.push('/films')
   }
 
   return (
@@ -91,22 +90,22 @@ export default function Browse() {
             <form onSubmit={postAccount}>
               <div className={styles.content_card_add_user}>
                 <Image
-                  src="/img/perfil.png"
-                  alt="Picture perfil"
+                  src='/img/perfil.png'
+                  alt='Picture perfil'
                   datafiles={image}
                   setFile={setImage}
                 />
                 <Input
                   className={styles.input}
-                  id="name"
-                  type="text"
-                  placeholder="Nombre"
+                  id='name'
+                  type='text'
+                  placeholder='Nombre'
                   value={name}
                   onChange={event => setName(event.target.value)}
                 />
               </div>
               <div className={styles.content_button}>
-                <Button >Continuar</Button>
+                <Button>Continuar</Button>
                 <Button onClick={() => handleClick(hiddenAddProfile)}>
                   Cancelar
                 </Button>
@@ -120,22 +119,25 @@ export default function Browse() {
             <h1>¿Quién eres? Elige tu perfil</h1>
             <div className={styles.content_card}>
               <div className={styles.content_card_option}>
-                {accounts !== undefined &&
-                  <div className={styles.card_account}>{
-                    accounts.map((account) => (
+                {accounts !== undefined && (
+                  <div className={styles.card_account}>
+                    {accounts.map(account => (
                       <div
                         onClick={() => handleMovies(account.id)}
-                        key={account.id} className="w-full max-w-sm p-2 cursor-pointer">
+                        key={account.id}
+                        className='w-full max-w-sm p-2 cursor-pointer'>
                         <img
-                          src={"http://localhost:8000/profiles/" + account?.image}
+                          src={
+                            'http://localhost:8000/profiles/' + account?.image
+                          }
                           alt={account.name}
-                          className="rounded-md object-cover h-40 w-40"
+                          className='rounded-md object-cover h-40 w-40'
                         />
                         <span>{account.name}</span>
                       </div>
-                    ))
-                  }</div>
-                }
+                    ))}
+                  </div>
+                )}
               </div>
               <div className={styles.content_card_option}>
                 <div className={styles.content_perfil}>

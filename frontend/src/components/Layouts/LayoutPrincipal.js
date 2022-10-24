@@ -2,12 +2,12 @@ import Link from 'next/link'
 import styles from '../../../styles/layout.module.css'
 import React, { useState } from 'react'
 
-export default function Layout() {
+export default function Layout () {
   const [dataEmail, setDataEmail] = useState({ emailGetUrl: '' })
   return (
     <div className={styles.content}>
       <div>
-        <img className={styles.imgLayout} src="/img/background.jpg" />
+        <img className={styles.imgLayout} src='/img/background.jpg' />
         <div className={styles.concord_img_gradient}></div>
         <div className={styles.content_titles}>
           <div>
@@ -19,8 +19,8 @@ export default function Layout() {
             </p>
             <div className={styles.content_input}>
               <input
-                type="text"
-                placeholder="Dirección de correo"
+                type='text'
+                placeholder='Dirección de correo'
                 value={dataEmail.emailGetUrl}
                 onChange={event =>
                   setDataEmail({

@@ -1,5 +1,3 @@
-
-
 const countries = [
   {
     id: 1,
@@ -3859,10 +3857,8 @@ const countries = [
     name_eu: 'Catar',
     speak: 0,
   },
-];
+]
 
 module.exports = {
-
   countries,
-
-};
+}

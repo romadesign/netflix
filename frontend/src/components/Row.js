@@ -58,8 +58,8 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
       setMovies(data.data)
     }
   }
-  //Funtion pagination
 
+  //Funtion pagination
   async function changeNextPage () {}
 
   // const sliderLeft = () => {
@@ -129,7 +129,7 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
             />
           </>
         ) : (
-            <Loading />
+          <Loading />
         )}
       </div>
     </div>

@@ -8,8 +8,6 @@ import {
   FaRegThumbsUp,
   FaStar,
 } from 'react-icons/fa'
-import axios from 'axios'
-import { useAuth } from '@/hooks/auth'
 
 const ModalDetails = ({
   movie,
@@ -20,7 +18,6 @@ const ModalDetails = ({
   movieOptionsStatus,
   movieOptions,
 }) => {
-
   const [icons, setIcons] = useState(false)
   const onMouseLeave = () => setIcons(false)
 
@@ -31,7 +28,6 @@ const ModalDetails = ({
   const showIcons = () => {
     setIcons(!false)
   }
-
 
   return (
     <div className='bg-[#000000e0]  fixed overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0  md:h-full  sm:w-full md:w-full grid items-center rounded-lg m-auto  '>
@@ -115,7 +111,6 @@ const ModalDetails = ({
               <div className='md:flex md:flex-row pl-10 pr-10 pt-7'>
                 <div className='basis-2/3 text-left'>
                   <h3 className='text-xl text-left font-extrabold text-[#ffffff] dark:text-gray-200'>
-                    {/* {movieGenreList} */}
                     {movie.title}
                   </h3>
                   <span className='text-sm font-extralight text-[#ffffff] dark:text-gray-200'>
@@ -143,7 +138,6 @@ const ModalDetails = ({
                         <span> {genres}</span>
                       ))}
                     </p>
-                    {/* Géneros: <p className="text-base  text-[#ffffff] dark:text-gray-200">{JSON.parse(movie.genre).toString().split('"')}</p> */}
                   </span>
                   <span className='text-xs  text-gray-400 dark:text-gray-450'>
                     Pertenece a:

@@ -9,32 +9,37 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   //cookies save
   const setCookie = (key, value) => {
     if (getCookie('id') == null) {
-     document.cookie = key +'='+ value +'; Path=/;';
+      document.cookie = key + '=' + value + '; Path=/;'
     }
     if (getCookie('type') == null) {
-     document.cookie = key +'='+ value +'; Path=/;';
-    }else{
-      document.cookie = key +'='+ value +'; Path=/;';
+      document.cookie = key + '=' + value + '; Path=/;'
+    } else {
+      document.cookie = key + '=' + value + '; Path=/;'
     }
-
   }
 
   //cookie getdata
-  function getCookie(name) {
-    if (typeof window !== 'undefined'){
-        var value = '; ' + document.cookie
-        var parts = value.split('; ' + name + '=')
-        if (parts.length >= 2) return parts.pop().split(';').shift()
+  function getCookie (name) {
+    if (typeof window !== 'undefined') {
+      var value = '; ' + document.cookie
+      var parts = value.split('; ' + name + '=')
+      if (parts.length >= 2)
+        return parts
+          .pop()
+          .split(';')
+          .shift()
     }
   }
 
   //cookie delete
   const deleteCookie = name => {
-    if(getCookie('id')){
-        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    if (getCookie('id')) {
+      document.cookie =
+        name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
     }
-    if(getCookie('type') ){
-        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    if (getCookie('type')) {
+      document.cookie =
+        name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
     }
   }
 
@@ -89,7 +94,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     axios
       .post('/login', props)
-      .then((res) => {
+      .then(res => {
         mutate()
         console.log('token', res.data.data.token)
       })

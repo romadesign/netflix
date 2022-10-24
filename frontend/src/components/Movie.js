@@ -15,9 +15,8 @@ import { useAuth } from '@/hooks/auth'
 import ModalDetails from './ModalDetails'
 import { useRouter } from 'next/router'
 
-
 const Movie = ({ item }) => {
-const router = useRouter()
+  const router = useRouter()
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var accountId = getCookie('accountId')
@@ -29,7 +28,6 @@ const router = useRouter()
   const [movieOptions, setMovieOptions] = useState()
   const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
   console.log(movieOptionsStatus, 'status')
-
 
   const [icons, setIcons] = useState(false)
   const onMouseLeave = () => setIcons(false)
@@ -56,7 +54,6 @@ const router = useRouter()
       .then(function (response) {
         console.log(response)
         setMovieOptionsStatus(!true)
-
         // router.push("/")
       })
       .catch(function (error) {
@@ -65,7 +62,6 @@ const router = useRouter()
   }
 
   const checkAddedMovie = async film_id => {
-    console.log('entro')
     const account_id = accountId
     await axios
       .get(
@@ -84,10 +80,12 @@ const router = useRouter()
   }
 
   const deleteListMovieId = async film_id => {
-    console.log(film_id)
     const account_id = accountId
-    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}/delete`,
-    { headers: { Authorization: `Bearer ${token}` } },)
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}/delete`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
       .then(function (response) {
         console.log(response.data.message)
         setMovieOptionsStatus(!false)
@@ -100,16 +98,17 @@ const router = useRouter()
 
   return (
     <div className='container'>
-
       <div className='card'>
         <div
           className='face faceOne'
           onMouseEnter={() => checkAddedMovie(item.film_id)}>
-          {/* <div onClick={() => handleModaltwo(item.id)} className={`${style.content } sm:w-[100px] md:w-[200px] lg:w-[320px] lg:w-[320px] inline-block cursor-pointerp-[1px] `}> */}
           <div className='content'>
             <img
               className=''
-              src={'http://localhost:8000/images/' + item?.backdrop_path}
+              src={
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/` +
+                item?.backdrop_path
+              }
               alt={item?.title}
             />
           </div>
@@ -251,5 +250,3 @@ const router = useRouter()
 }
 
 export default Movie
-
-// 'image' => fake()->imageUrl($width=400, $height=400)
