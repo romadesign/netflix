@@ -54,6 +54,8 @@ const Movie = ({ item }) => {
       .then(function (response) {
         console.log(response)
         setMovieOptionsStatus(!true)
+        //update checked movie my list
+        checkAddedMovie(film_id)
         // router.push("/")
       })
       .catch(function (error) {
@@ -71,7 +73,6 @@ const Movie = ({ item }) => {
       .then(function (response) {
         setMovieOptions(response.data.message)
         setMovieOptionsStatus(response.data.status)
-        console.log(response.data.status)
         // router.push("/")
       })
       .catch(function (error) {
