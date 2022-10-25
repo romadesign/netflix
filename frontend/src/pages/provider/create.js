@@ -112,6 +112,16 @@ const Create = () => {
       .catch(function (error) {
         console.log(error)
       })
+
+      // apiPostFilm(formData, {
+        //   headers: { Authorization: `Bearer ${token}` },
+        // })
+        //   .then(res => {
+        //     console.log(res, 'entro')
+        //   })
+        //   .catch(error => {
+        //     console.log(error, 'entro') // "oh, no!"
+        //   })
   }
 
   //form controller
