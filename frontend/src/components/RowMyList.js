@@ -94,9 +94,7 @@ const RowMyList = ({ title, accountId }) => {
               size={40}
             />
           </>
-        ) : (
-          <div>Cargando datos</div>
-        )}
+        ) : null}
       </div>
     </div>
   )

@@ -102,7 +102,7 @@ class MovieListController extends Controller
 
     public function getCountryExplore(Request $request, $country)
     {
-        $pageSize = $request->page_size ?? 1;
+        $pageSize = $request->page_size ?? 6;
         $filmCountry = Film::select('*', 'id AS film_id')->with('genres')
             ->orderBy('id', 'DESC')
             ->where('country', $country)

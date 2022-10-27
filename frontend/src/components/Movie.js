@@ -27,7 +27,9 @@ const Movie = ({ item }) => {
   const [showModal, setShowModal] = useState(false)
   const [movieOptions, setMovieOptions] = useState()
   const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
-  console.log(movieOptionsStatus, 'status')
+
+  //content data movie
+  const [dataStatus, setDataStatus] = useState(false)
 
   const [icons, setIcons] = useState(false)
   const onMouseLeave = () => setIcons(false)
@@ -65,6 +67,8 @@ const Movie = ({ item }) => {
 
   const checkAddedMovie = async film_id => {
     const account_id = accountId
+     //show data movie
+     setDataStatus(!false)
     await axios
       .get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}`,
@@ -114,58 +118,60 @@ const Movie = ({ item }) => {
             />
           </div>
         </div>
-        <div className='face faceTwo'>
-          <div className='content'>
-            <div className='flex justify-between pl-5 pr-5 pt-7 pb-3 items-center '>
-              <div className='flex justify-between items-center'>
-                <div className='flex justify-between'>
-                  <FaPlay className='text-3xl cursor-pointer text-slate-300' />
-                  <div>
-                    <div className='flex justify-center flex-wrap'>
-                      {!movieOptionsStatus !== true ? (
-                        <FaPlus
-                          className='ml-3 text-3xl cursor-pointer text-slate-300'
-                          title={movieOptions}
-                          onClick={() => addListMovie(item.film_id)}></FaPlus>
-                      ) : (
-                        <FaCheckCircle
-                          className='ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
-                          title={movieOptions}
-                          onClick={() => deleteListMovieId(item.film_id)}
-                        />
-                      )}
+        {dataStatus !== false && (
+          <div className='face faceTwo'>
+            <div className='content'>
+              <div className='flex justify-between pl-5 pr-5 pt-7 pb-3 items-center '>
+                <div className='flex justify-between items-center'>
+                  <div className='flex justify-between'>
+                    <FaPlay className='text-3xl cursor-pointer text-slate-300' />
+                    <div>
+                      <div className='flex justify-center flex-wrap'>
+                        {!movieOptionsStatus !== true ? (
+                          <FaPlus
+                            className='ml-3 text-3xl cursor-pointer text-slate-300'
+                            title={movieOptions}
+                            onClick={() => addListMovie(item.film_id)}></FaPlus>
+                        ) : (
+                          <FaCheckCircle
+                            className='ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
+                            title={movieOptions}
+                            onClick={() => deleteListMovieId(item.film_id)}
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
+                  <div
+                    className='flex justify-between'
+                    onMouseEnter={showIcons}
+                    onMouseLeave={onMouseLeave}>
+                    {!icons ? (
+                      <div className='relative'>
+                        <FaRegThumbsUp className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300 ' />
+                      </div>
+                    ) : (
+                      <div className='flex justify-between bg-[#090909] h-8 rounded-[15px] left-[-40px] h-[38px] relative items-center'>
+                        <FaRegThumbsDown className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300' />
+                        <FaRegThumbsUp className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300 ' />
+                        <FaRegSmileBeam className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300' />
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div
-                  className='flex justify-between'
-                  onMouseEnter={showIcons}
-                  onMouseLeave={onMouseLeave}>
-                  {!icons ? (
-                    <div className='relative'>
-                      <FaRegThumbsUp className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300 ' />
-                    </div>
-                  ) : (
-                    <div className='flex justify-between bg-[#090909] h-8 rounded-[15px] left-[-40px] h-[38px] relative items-center'>
-                      <FaRegThumbsDown className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300' />
-                      <FaRegThumbsUp className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300 ' />
-                      <FaRegSmileBeam className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300' />
-                    </div>
-                  )}
+                <div className='flex justify-center flex-wrap'>
+                  <FaRegArrowAltCircleDown
+                    onClick={() => handleModal(item.id)}
+                    data-bs-toggle='tooltip'
+                    data-bs-placement='top'
+                    title='Episodios e información'
+                    className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
+                  />
                 </div>
-              </div>
-              <div className='flex justify-center flex-wrap'>
-                <FaRegArrowAltCircleDown
-                  onClick={() => handleModal(item.id)}
-                  data-bs-toggle='tooltip'
-                  data-bs-placement='top'
-                  title='Episodios e información'
-                  className=' ml-2 mr-2 text-2xl cursor-pointer text-slate-300'
-                />
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {showModal !== false && (
