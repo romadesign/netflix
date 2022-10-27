@@ -8,6 +8,18 @@
     height: 10vh;
 }
 
+.content_style_navbarTransition_ease_in_out{
+    background-color: #141414;
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+}
+
+.content_style_navbarTransition_int{
+    transition: all 0.5s ease-in;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+}
 
 @media (max-width: 798px) {
     .content_navbar{
