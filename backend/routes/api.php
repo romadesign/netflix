@@ -35,7 +35,7 @@ Route::get('/filmsprovider/{provider_id}', [FilmProviderController::class, 'getP
 Route::get('/categories', [CategorieController::class, 'index']);
 Route::get('/categorie/{id}', [CategorieController::class, 'show']);
 Route::post('/categorie', [CategorieController::class, 'store']); //create categorie
-Route::put('/categorie/{id}/edit', [CategorieController::class, 'update']);
+Route::post('/categorie/{id}/edit', [CategorieController::class, 'update']);
 Route::post('/categories/{id}/delete', [CategorieController::class, 'destroy']);
 
 
