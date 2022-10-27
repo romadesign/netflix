@@ -19,19 +19,18 @@ const Navigation = ({ user }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className={styles.content_navbar_principal}>
+    <nav className={router.pathname !== '/provider' && styles.content_navbar_principal}>
       {/* Primary Navigation Menu */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             {/* Logo */}
-            {/* <div className="flex-shrink-0 flex items-center">
+            <div className="flex-shrink-0 flex items-center">
               <NavLink
-                href="/provider"
-                active={router.pathname === '/provider'}>
-                Dashboard {user}
+                href="/provider">
+                Dashboard Provider
               </NavLink>
-            </div> */}
+            </div>
           </div>
 
           {/* Settings Dropdown */}

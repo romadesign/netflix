@@ -79,7 +79,9 @@ class MovieListController extends Controller
     //DELETE MOVIE LIST ACCOUNT
     public function deleteMovieIdList(Request $request)
     {
-        $data = MovieList::where('film_id', $request->film_id)->where('account_id', $request->account_id)->get();
+        $data = MovieList::where('film_id', $request->film_id)
+            ->where('account_id', $request->account_id)
+            ->get();
         $film = MovieList::find($data[0]->id);
         $film->delete();
         return response()->json(['message' => 'Movie delete list succesfully']);
@@ -88,7 +90,10 @@ class MovieListController extends Controller
     public function listExplore(Request $request)
     {
         $pageSize = $request->page_size ?? 18;
-        $films = Film::with('genres')->orderBy('id', 'DESC')->paginate($pageSize);
+        $films =  Film::select('*', 'id AS film_id')
+            ->with('genres')
+            ->orderBy('id', 'DESC')
+            ->paginate($pageSize);
         return response()->json(
             ['status' => 'ok', 'data' => $films],
             200
@@ -98,8 +103,7 @@ class MovieListController extends Controller
     public function getCountryExplore(Request $request, $country)
     {
         $pageSize = $request->page_size ?? 1;
-        // $filmCountry = DB::select("SELECT * FROM films WHERE country = '$country' ORDER BY id DESC");
-        $filmCountry = Film::with('genres')
+        $filmCountry = Film::select('*', 'id AS film_id')->with('genres')
             ->orderBy('id', 'DESC')
             ->where('country', $country)
             ->paginate($pageSize);
