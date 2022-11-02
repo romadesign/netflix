@@ -102,6 +102,12 @@ const Banner = () => {
                         {genres !== undefined &&
                           genres.map(genre => (
                             <option
+                             onClick={e =>
+                                  router.push(
+                                    '/search/genre/[id]',
+                                    `/search/genre/${genre?.id}`,
+                                  )
+                                }
                               className='text-white  text-sm bg-[black]'
                               value={genre.id}>
                               {genre.title}
