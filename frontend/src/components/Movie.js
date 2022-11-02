@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   FaCheckCircle,
-  FaHeart,
   FaPlay,
   FaPlus,
   FaRegArrowAltCircleDown,
-  FaRegHeart,
   FaRegSmileBeam,
   FaRegThumbsDown,
   FaRegThumbsUp,
@@ -23,7 +21,6 @@ const Movie = ({ item }) => {
     var token = getCookie('token')
   }
 
-  const [like, setLike] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [movieOptions, setMovieOptions] = useState()
   const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
@@ -109,7 +106,7 @@ const Movie = ({ item }) => {
           onMouseEnter={() => checkAddedMovie(item.film_id)}>
           <div className='content'>
             <img
-              className=''
+              className='p-1 rounded-lg'
               src={
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/` +
                 item?.backdrop_path

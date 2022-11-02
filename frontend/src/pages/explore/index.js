@@ -135,7 +135,7 @@ const Explore = () => {
           <Head>
             <title>Netflix</title>
           </Head>
-          {lists !== undefined && lists.length >=18 ? (
+          {lists !== undefined ? (
             <div className='h-[100vh] relative pt-20 bg-[#141414] '>
               <div className='bg-[#141414]'>
                 <div

@@ -47,7 +47,21 @@ class FilmController extends Controller
     //GET FILMS CATEGORY
     public function getFilmsCategory(Request $request, $categorie_id, $genre_id)
     {
-        $pageSize = $request->page_size ?? 6;
+        // add pagination <- other option
+        // $pageSize = $request->page_size ?? 6;
+        // $status = 0;
+        // $films =  Film::with('genres')
+        //     // ->orderBy('id', 'DESC')
+        //     ->join('genre_film', 'genre_film.film_id', '=', 'films.id')
+        //     ->where('genre_film.genre_id', $genre_id)
+        //     ->where('categorie_id', $categorie_id)
+        //     ->where('movieStatus', $status)
+        //     ->paginate($pageSize);
+        // return response()->json(
+        //     ['status' => 'ok', 'data' => $films],
+        //     200
+        // );
+
         $status = 0;
         $films =  Film::with('genres')
             // ->orderBy('id', 'DESC')
@@ -55,7 +69,7 @@ class FilmController extends Controller
             ->where('genre_film.genre_id', $genre_id)
             ->where('categorie_id', $categorie_id)
             ->where('movieStatus', $status)
-            ->paginate($pageSize);
+            ->get();
         return response()->json(
             ['status' => 'ok', 'data' => $films],
             200
@@ -65,13 +79,24 @@ class FilmController extends Controller
     //GET FILMS GENRE
     public function getFilmsGenre(Request $request, $genre_id)
     {
-        $pageSize = $request->page_size ?? 6;
+        // add pagination <- other option
+        // $pageSize = $request->page_size ?? 6;
+        // $status = 0;
+        // $films = Film::with('genres')
+        //     ->join('genre_film', 'genre_film.film_id', '=', 'films.id')
+        //     ->where('genre_film.genre_id', $genre_id)
+        //     ->where('movieStatus', $status)
+        //     ->paginate($pageSize);
+        // return response()->json(
+        //     ['status' => 'ok', 'data' => $films],
+        //     200
+        // );
+
         $status = 0;
         $films = Film::with('genres')
             ->join('genre_film', 'genre_film.film_id', '=', 'films.id')
             ->where('genre_film.genre_id', $genre_id)
-            ->where('movieStatus', $status)
-            ->paginate($pageSize);
+            ->where('movieStatus', $status)->get();
         return response()->json(
             ['status' => 'ok', 'data' => $films],
             200

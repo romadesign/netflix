@@ -15,12 +15,12 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
   const [movies, setMovies] = useState()
 
   //pagination config
-  const [pagination, setpagination] = useState('')
-  const [current_page, setcurrent_page] = useState('')
-  const [next_page_url, setnext_page_url] = useState('')
-  const [first_page_url, setfirst_page_url] = useState('')
-  const [prev_page_url, setprev_page_url] = useState('')
-  const [totalPage, settotalPage] = useState('')
+  //   const [pagination, setpagination] = useState('')
+  //   const [current_page, setcurrent_page] = useState('')
+  //   const [next_page_url, setnext_page_url] = useState('')
+  //   const [first_page_url, setfirst_page_url] = useState('')
+  //   const [prev_page_url, setprev_page_url] = useState('')
+  //   const [totalPage, settotalPage] = useState('')
 
   useEffect(() => {
     getFilms()
@@ -33,13 +33,7 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
         { headers: { Authorization: `Bearer ${token}` } },
       )
       const data = response.data.data
-      setpagination(response.data.data)
-      setcurrent_page(response.data.data.current_page)
-      setnext_page_url(response.data.data.next_page_url)
-      setfirst_page_url(response.data.data.first_page_url)
-      setprev_page_url(response.data.data.prev_page_url)
-      settotalPage(response.data.data.total)
-      setMovies(data.data)
+      setMovies(data)
     } else if (
       router.pathname === '/series' ||
       router.pathname === '/peliculas'
@@ -49,63 +43,55 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
         { headers: { Authorization: `Bearer ${token}` } },
       )
       const data = response.data.data
-      setpagination(response.data.data)
-      setcurrent_page(response.data.data.current_page)
-      setnext_page_url(response.data.data.next_page_url)
-      setfirst_page_url(response.data.data.first_page_url)
-      setprev_page_url(response.data.data.prev_page_url)
-      settotalPage(response.data.data.total)
-      setMovies(data.data)
+      setMovies(data)
     }
   }
 
-  //Funtion pagination
-  async function changeNextPage () {}
-
-  // const sliderLeft = () => {
-  // 	var slider = document.getElementById('slider' + categoryId)
-  // 	slider.scrollLeft = slider.scrollLeft - 500;
-  // }
-
-  // const sliderRigth = () => {
-  // 	var slider = document.getElementById('slider' + categoryId)
-  // 	slider.scrollLeft = slider.scrollLeft + 500;
-  // }
-
-  async function sliderLeft () {
-    const response = await axios.get(`${prev_page_url}`)
-    const data = response.data
-    setprev_page_url(data.data.prev_page_url)
-    //nextPage
-    setcurrent_page(data.data.current_page)
-    setnext_page_url(data.data.next_page_url)
-    //update data
-    setMovies(data.data.data)
-    setpagination(data.data)
-    slider.current.scrollLeft = slider.current.scrollLeft - 1200
+  const sliderLeft = () => {
+    var slider = document.getElementById('slider')
+    slider.scrollLeft = slider.scrollLeft - 1200
   }
 
-  async function sliderRigth () {
-    if (next_page_url !== null) {
-      const response = await axios.get(`${next_page_url}`)
-      const data = response.data
-      setprev_page_url(data.data.prev_page_url)
-      //nextPage
-      setcurrent_page(data.data.current_page)
-      setnext_page_url(data.data.next_page_url)
-      //update data
-      setMovies(prevResults => [...prevResults, ...data.data.data])
-      setpagination(data.data)
-      slider.current.scrollLeft = slider.current.scrollLeft + 1200
-    }
+  const sliderRigth = () => {
+    var slider = document.getElementById('slider')
+    slider.scrollLeft = slider.scrollLeft + 1200
   }
+
+  //Other options pagination
+  //   async function sliderLeft () {
+  //     const response = await axios.get(`${prev_page_url}`)
+  //     const data = response.data
+  //     setprev_page_url(data.data.prev_page_url)
+  //     //nextPage
+  //     setcurrent_page(data.data.current_page)
+  //     setnext_page_url(data.data.next_page_url)
+  //     //update data
+  //     setMovies(data.data.data)
+  //     setpagination(data.data)
+  //     slider.current.scrollLeft = slider.current.scrollLeft - 1200
+  //   }
+
+  //   async function sliderRigth () {
+  //     if (next_page_url !== null) {
+  //       const response = await axios.get(`${next_page_url}`)
+  //       const data = response.data
+  //       setprev_page_url(data.data.prev_page_url)
+  //       //nextPage
+  //       setcurrent_page(data.data.current_page)
+  //       setnext_page_url(data.data.next_page_url)
+  //       //update data
+  //       setMovies(prevResults => [...prevResults, ...data.data.data])
+  //       setpagination(data.data)
+  //       slider.current.scrollLeft = slider.current.scrollLeft + 1200
+  //     }
+  //   }
 
   return (
     <div className=''>
       <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>
         {title}
       </h2>
-      <div className='relative flex items-center group w-[98%] pl-9'>
+      <div className='relative flex items-center group pl-9'>
         {movies !== undefined ? (
           <>
             <MdChevronLeft
@@ -122,7 +108,7 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
               ))}
             </div>
             <MdChevronRight
-              disabled={next_page_url == null}
+            //   disabled={next_page_url == null}
               onClick={sliderRigth}
               className='bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
               size={40}
