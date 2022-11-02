@@ -20,7 +20,7 @@ const Banner = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 0) {
         setIsScrolled(true)
       } else {
         setIsScrolled(false)
@@ -160,7 +160,7 @@ const Banner = () => {
         <div className={styles.pqdka}></div>
       </div>
       {movieramdon !== undefined && (
-        <div key={movieramdon.id}>
+        <div className={styles.content_baner} key={movieramdon.id}>
           <h3 className={styles.banner_h3}>{movieramdon.title}</h3>
           <p className={styles.banner_p}>
             {truncate(movieramdon.description, 150)}

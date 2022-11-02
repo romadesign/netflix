@@ -41,24 +41,49 @@
 
 }
 
+/* .content_optionsUrl {
+    height: 43% !important;
+    width: 100% !important;
+} */
+
 .banner_text {
     position: absolute;
-    top: 6.4vw;
-    left: 4%;
+    top: 4rem;
+    padding-left: 2rem;
+    width: 100%;
     z-index: 1;
     font-size: 2.2222222222222223vw;
     line-height: 2.7777777777777777vw;
     font-weight: bold;
     color: white;
     display: flex;
-    z-index: 2;
+    z-index: 12;
     gap: 1rem;
+    transition: 0.7s;
 }
 
+.subnavbarContentGenre {
+    background-color: #141414;
+    position: fixed;
+    top: 0;
+    z-index: 4;
+    height: 66px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    gap: 1rem;
+    transition: 0.7s;
+}
+
+
 .banner_h3 {
-    position: absolute;
-    top: 9.4vw;
-    left: 4%;
+    /* position: absolute; */
+    /* top: 9.4vw; */
+    /* left: 4%; */
     z-index: 1;
     font-size: 3.5vw;
     font-weight: bold;
@@ -66,20 +91,22 @@
 }
 
 .banner_p {
-    position: absolute;
-    top: 14vw;
-    left: 4%;
+    /* position: absolute; */
+    /* top: 14vw; */
+    /* left: 4%; */
     z-index: 1;
     font-size: 0.8rem;
     font-weight: bold;
     color: white;
     width: 375px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .contentButtons {
-    position: absolute;
-    top: 23vw;
-    left: 4%;
+    /* position: absolute; */
+    /* top: 23vw; */
+    /* left: 4%; */
     display: flex;
     gap: 1rem;
 }
@@ -112,30 +139,24 @@
     height: 40px;
 }
 
+.content_baner {
+    position: absolute;
+    width: 100%;
+    top: 49%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
 
 
 /* youtube.com/watch?v=${trailer} */
 
 @media (max-width: 1200px) {
-    .pqdka {
-        top: 61.5%;
-    }
-
-    .banner_text {
-        top: 12.4vw;
-    }
-
-    .banner_h3 {
-        top: 15.4vw;
-    }
-
-    .banner_p {
-        top: 20vw;
-        font-size: 0.8rem;
+    .content_baner {
+        top: 37%;
     }
 
     .contentButtons {
-        top: 32vw;
         align-items: center;
     }
 
@@ -143,29 +164,26 @@
 
 @media (max-width: 680px) {
     .banner_text {
-        top: 18.4vw;
         font-size: 1.5rem;
     }
 
     .banner_h3 {
-        top: 23.4vw;
         font-size: 1.3rem;
     }
 
     .banner_p {
-        top: 29vw;
         font-size: 0.8rem;
     }
 
-    .contentButtons {
-        top: 46vw;
+
+    .content_baner {
+        top: 37%;
     }
 
 }
 
 @media (max-width: 480px) {
     .banner_text {
-        top: 25.4vw;
         font-size: 1.5rem;
         line-height: 1.4rem;
     }
@@ -182,7 +200,7 @@
 
     .contentButtons {
         top: 60vw;
-    display: block;
+        display: block;
     }
 
     .bannerButtonPlay {
@@ -192,47 +210,35 @@
 }
 
 @media (max-width: 412px) {
-    .banner_text {
+    /* .banner_text {
         top: 32.4vw;
-    }
-
+    } */
+    /*
     .banner_h3 {
         top: 48.4vw;
-    }
+    } */
 
     .banner_p {
-        top: 57vw;
+        /* top: 57vw; */
         font-size: 0.8rem;
+        width: 100%;
     }
 
-    .contentButtons {
+    /* .contentButtons {
         top: 87vw;
+    } */
+
+    .content_baner{
+        top: 26%;
     }
 
 }
 
-.subnavbar{
+.subnavbar {
     background-color: #141414;
     position: fixed;
     top: 0;
     z-index: 4;
     height: 66px;
     width: 100%;
-}
-
-
-.subnavbarContentGenre{
-    background-color: #141414;
-    position: fixed;
-    top: 0;
-    z-index: 4;
-    height: 66px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 2rem;
-    color: white;
-    font-size: 2rem;
-    font-weight: 700;
-    gap: 1rem;
 }

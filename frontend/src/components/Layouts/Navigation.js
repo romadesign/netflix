@@ -80,9 +80,13 @@ const Navigation = ({ user }) => {
 
   return (
     <nav className={styles.content_navbar_principal}>
-      <div className={`${isScrolled ? styles.content_style_navbarTransition_ease_in_out : styles.content_style_navbarTransition_int}`}>
+      <div
+        className={`${
+          isScrolled
+            ? styles.content_style_navbarTransition_ease_in_out
+            : styles.content_style_navbarTransition_int
+        }`}>
         {/* Primary Navigation Menu */}
-        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-black bg-opacity-95"> */}
         <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 '>
           <div className='flex justify-between h-16'>
             <div className='flex'>
