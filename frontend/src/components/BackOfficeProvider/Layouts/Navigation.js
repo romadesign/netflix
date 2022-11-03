@@ -19,7 +19,7 @@ const Navigation = ({ user }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className={router.pathname !== '/provider' && styles.content_navbar_principal}>
+    <nav className={router.pathname !== '/provider' && router.pathname !== '/provider/film/[id]' && router.pathname !== '/provider/create' && styles.content_navbar_principal_provider}>
       {/* Primary Navigation Menu */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">

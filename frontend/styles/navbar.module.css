@@ -8,6 +8,15 @@
     height: 10vh;
 }
 
+.content_navbar_principal_provider {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, .7) 10%, transparent);
+    height: 10vh;
+}
+
 .content_style_navbarTransition_ease_in_out {
     background-color: #141414;
     transition: all 0.5s ease-in-out;

@@ -47,7 +47,7 @@ function Image ({ datafiles, setFile }) {
           {datafiles !== '' && (
             <div className='overflow-hidden relative p-4 bg-[#cacaca45]'>
               <img
-                className='h-[200px] w-[200px] rounded-md'
+                className="h-[320px] w-[320px] rounded-md object-cover"
                 src={
                   createObjectURL !== null
                     ? createObjectURL

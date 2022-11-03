@@ -112,7 +112,7 @@ const FilmDetail = ({ films }) => {
       <Head>
         <title>Film update</title>
       </Head>
-      <div className="py-12">
+      <div className="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="flex gap-4 justify-items-center items-center">
             <div className="mb-4 w-full">
@@ -204,14 +204,6 @@ const FilmDetail = ({ films }) => {
             </div>
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <Label htmlFor="country">Country</Label>
-              {/* <Input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="country"
-                type="text"
-                placeholder="country"
-                value={updateCountry}
-                onChange={event => setUpdateCountry(event.target.value)}
-              /> */}
               <select
                 onChange={e => setUpdateCountry(e.target.value)}
                 id="countries"

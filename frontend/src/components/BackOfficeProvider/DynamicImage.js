@@ -52,11 +52,11 @@ function DynamicImage({ datafiles, setFile }) {
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-2 justify-center">
           {datafiles !== '' && (
             <div className="overflow-hidden relative p-4 bg-[#cacaca45]">
               <img
-                className="h-150 w-220 rounded-md"
+                className="h-[320px] w-[320px] rounded-md object-cover"
                 src={
                   datafiles !== null
                     ? datafiles
