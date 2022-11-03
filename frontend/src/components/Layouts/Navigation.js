@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import styles from '../../../styles/navbar.module.css'
 import axios from 'axios'
+import SubNavigation from './SubNavigation'
 
 const Navigation = ({ user }) => {
   const router = useRouter()
@@ -79,6 +80,7 @@ const Navigation = ({ user }) => {
   }
 
   return (
+   <>
     <nav className={styles.content_navbar_principal}>
       <div
         className={`${
@@ -93,7 +95,7 @@ const Navigation = ({ user }) => {
               {/* Logo */}
               <div className='flex-shrink-0 flex items-center'>
                 <NavLink href='/films' active={router.pathname === '/films'}>
-                  <img width={100} src='img/logo.png' />
+                  <img width={100} src='/img/logo.png' />
                 </NavLink>
                 <div className={styles.content_navbar}>
                   <NavLink href='/films' active={router.pathname === '/films'}>
@@ -335,6 +337,10 @@ const Navigation = ({ user }) => {
         )}
       </div>
     </nav>
+    {
+        router.pathname === '/list' || router.pathname === '/explore'  ? "" : <SubNavigation />
+    }
+   </>
   )
 }
 

@@ -75,7 +75,7 @@ const Banner = () => {
 
   return (
     <div className={styles.banner}>
-      {router.pathname === '/films' ? (
+      {/* {router.pathname === '/films' ? (
         <span className={styles.banner_text}>
           Recomendaciones diarias para {name}
         </span>
@@ -104,8 +104,8 @@ const Banner = () => {
                             <option
                              onClick={e =>
                                   router.push(
-                                    '/search/genre/[id]',
-                                    `/search/genre/${genre?.id}`,
+                                    '/series/genre/[id]',
+                                    `/series/genre/${genre?.id}`,
                                   )
                                 }
                               className='text-white  text-sm bg-[black]'
@@ -154,7 +154,7 @@ const Banner = () => {
             </div>
           )}
         </div>
-      )}
+      )} */}
       <div className={styles.content}>
         {movieramdon !== undefined && (
           <img
