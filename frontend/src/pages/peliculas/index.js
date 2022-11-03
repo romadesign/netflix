@@ -1,5 +1,6 @@
 import Banner from '@/components/Banner'
 import AppLayout from '@/components/Layouts/AppLayout'
+import SubNavigation from '@/components/Layouts/SubNavigation'
 import Row from '@/components/Row'
 import Head from 'next/head'
 import styles from '../../../styles/banner.module.css'
@@ -17,6 +18,7 @@ const Peliculas = () => {
 			<Head>
 				<title>Netflix - Peliculas</title>
 			</Head>
+            <SubNavigation title='Películas'/>
 			<div className={styles.background}>
 				<Banner />
 				<div className={styles.rows}>

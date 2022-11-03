@@ -5,7 +5,7 @@ import axios from 'axios'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 
-const genre = ({ films }) => {
+const Genre = ({ films }) => {
   const [genres, setGenres] = useState()
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const genre = ({ films }) => {
         <Head>
           <title>Genre</title>
         </Head>
-        <SubNavigation title='Series Tv'/>
+        <SubNavigation title='Películas'/>
         <div className='h-[100vh] relative pt-20 bg-[#141414] '>
           <div className='bg-[#141414]'>
             <div className=' flex flex-wrap justify-center pt-10'>
@@ -42,7 +42,7 @@ const genre = ({ films }) => {
 }
 
 export const getServerSideProps = async context => {
-  const category_id = 1
+  const category_id = 2
   const { data: films } = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/` +
       context.query.id,
@@ -55,4 +55,4 @@ export const getServerSideProps = async context => {
   }
 }
 
-export default genre
+export default Genre
