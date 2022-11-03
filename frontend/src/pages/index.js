@@ -22,7 +22,7 @@ export default function Home() {
             <div>
               <li className={styles.logo}>
                 <Link href="/">
-                  <a>NETFLIX</a>
+                  <img width={100} src='/img/logo.png' />
                 </Link>
               </li>
             </div>

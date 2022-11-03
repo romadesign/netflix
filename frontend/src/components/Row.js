@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 import Loading from '@/components/Loading'
 
-const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
+const Row = ({ title, category_id, genre_id, rowId }) => {
   const { getCookie } = useAuth()
   const token = getCookie('token')
   const router = useRouter()
@@ -48,13 +48,17 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
   }
 
   const sliderLeft = () => {
-    var slider = document.getElementById('slider')
-    slider.scrollLeft = slider.scrollLeft - 1200
+    // var slider = document.getElementById('slider' + rowId)
+    // slider.scrollLeft = slider.scrollLeft - 1200
+    slider.current.scrollLeft = slider.current.scrollLeft - 1200;
+
   }
 
   const sliderRigth = () => {
-    var slider = document.getElementById('slider')
-    slider.scrollLeft = slider.scrollLeft + 1200
+    // var slider = document.getElementById('slider' + rowId)
+    // slider.scrollLeft = slider.scrollLeft + 1200
+    slider.current.scrollLeft = slider.current.scrollLeft + 1200;
+
   }
 
   //Other options pagination
@@ -88,7 +92,7 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
 
   return (
     <div className=''>
-      <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6'>
+      <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6 '>
         {title}
       </h2>
       <div className='relative flex items-center group pl-9'>
@@ -96,12 +100,12 @@ const Row = ({ title, category_id, genre_id, setStatusLoading }) => {
           <>
             <MdChevronLeft
               onClick={sliderLeft}
-              className='bg-white rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+              className='bg-white rounded-full absolute top[10rem] opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
               size={40}
             />
             <div
-              ref={slider}
-              id={'slider'} // + categoryId
+                ref={slider}
+                //id={'slider' + rowId}
               className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide justify-center'>
               {movies.map((item, id) => (
                 <Movie key={id} item={item} />

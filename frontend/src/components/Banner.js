@@ -10,13 +10,56 @@ const Banner = () => {
   const router = useRouter()
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
-    var name = getCookie('name')
+    var accountId = getCookie('accountId')
+    var token = getCookie('token')
   }
   const [movieramdon, setMovieRamdon] = useState()
   const [genres, setGenres] = useState()
-
+//content data movie
+const [dataStatus, setDataStatus] = useState(false)
+const [movieOptions, setMovieOptions] = useState()
+  const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const deleteListMovieId = async () => {
+    const account_id = accountId
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${movieramdon.id}/accountId/${account_id}/delete`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then(function (response) {
+        console.log(response.data.message)
+        setMovieOptionsStatus(!false)
+        router.reload()
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+
+  const addListMovie = async () => {
+    let formData = new FormData()
+    formData.append('film_id', movieramdon.id)
+    formData.append('account_id', accountId)
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/list`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(function (response) {
+        console.log(response)
+        setMovieOptionsStatus(!true)
+        //update checked movie my list
+        checkAddedMovie(film_id)
+        // router.push("/")
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,86 +118,6 @@ const Banner = () => {
 
   return (
     <div className={styles.banner}>
-      {/* {router.pathname === '/films' ? (
-        <span className={styles.banner_text}>
-          Recomendaciones diarias para {name}
-        </span>
-      ) : (
-        <div>
-          {router.pathname === '/series' ? (
-            <div>
-              <div
-                className={`${
-                  !isScrolled
-                    ? styles.banner_text
-                    : styles.subnavbarContentGenre
-                }`}>
-                Series TV
-                <div className={styles.content_navbar}>
-                  <div className=''>
-                    <div className=''>
-                      <select className='text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[100px] border-inherit'>
-                        <option
-                          className='text-white  text-sm bg-[black]'
-                          selected>
-                          Géneros
-                        </option>
-                        {genres !== undefined &&
-                          genres.map(genre => (
-                            <option
-                             onClick={e =>
-                                  router.push(
-                                    '/series/genre/[id]',
-                                    `/series/genre/${genre?.id}`,
-                                  )
-                                }
-                              className='text-white  text-sm bg-[black]'
-                              value={genre.id}>
-                              {genre.title}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <div
-                className={`${
-                  !isScrolled
-                    ? styles.banner_text
-                    : styles.subnavbarContentGenre
-                }`}>
-                Películas
-                <div className={styles.content_navbar}>
-                  <div className=''>
-                    <div className=''>
-                      <select className='text-sm text-white bg-[#2e2e2e87] pl-2 pr-2 border-[1px] w-[100px] border-inherit'>
-                        <option
-                          className='text-white  text-sm bg-[black]'
-                          selected>
-                          Géneros
-                        </option>
-                        {genres !== undefined &&
-                          genres.map(genre => (
-                            <option
-                              key={genre.id}
-                              className='text-white  text-sm bg-[black]'
-                              value={genre.id}>
-                              {genre.title}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )} */}
       <div className={styles.content}>
         {movieramdon !== undefined && (
           <img
@@ -191,9 +154,15 @@ const Banner = () => {
       )}
       {showModal !== false && (
         <ModalDetails
-          showModal={showModal}
-          setShowModal={setShowModal}
           movie={movieramdon}
+          setShowModal={setShowModal}
+          //fucntion click add and delete movie
+          addListMovie={addListMovie}
+          deleteListMovieId={deleteListMovieId}
+          //status icons add and remove movie
+          movieOptionsStatus={movieOptionsStatus}
+          //capture message getCheckadd movie status
+          movieOptions={movieOptions}
           onMouse={onMouseLeave}
         />
       )}

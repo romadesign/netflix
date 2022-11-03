@@ -1,10 +1,12 @@
-.content{
+.content {
     position: relative;
 }
-.content_data{
+
+.content_data {
     background-color: red;
 }
-.conent_login{
+
+.conent_login {
     position: absolute;
     top: 0;
     height: 100vh;
@@ -13,9 +15,11 @@
     justify-content: center;
     align-items: center;
 }
-.concord_img_gradient{
-    background: rgb(3 0 34 / 50%);
-    background-image: linear-gradient(0deg,transparent 50%,rgb(3, 0, 34)),radial-gradient(50% 100%,transparent 0,rgb(3, 0, 34) 100%);
+
+.concord_img_gradient {
+    background: rgba(0, 0, 0, 0.5);
+    background-image: none;
+    background-image: linear-gradient(0deg, #0000 50%, rgb(0, 0, 0)), radial-gradient(50% 100%, transparent 0, rgb(0, 0, 0) 100%);
     bottom: 0;
     left: 0;
     position: absolute;
@@ -23,19 +27,22 @@
     top: 0;
     height: auto;
 }
-.imgLayout{
+
+.imgLayout {
     height: 100vh;
     width: 100%;
     background-size: cover;
     -o-object-fit: cover;
     object-fit: cover;
 }
-.with_content{
-    background-color:#02001cdb;
+
+.with_content {
+    background-color: #000000db;
     width: 60%;
     padding: 60px 68px 40px;
     margin: 0 auto;
 }
+
 .with_content input {
     font-size: 1rem;
     padding: 1rem;
@@ -47,6 +54,7 @@
     height: 50px;
     margin: 1rem 0;
 }
+
 .with_content input::placeholder {
     color: #c9c9c9;
     font-size: 14px;
@@ -54,16 +62,18 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    transition: font .1s ease,top .1s ease,transform .1s ease;
+    transition: font .1s ease, top .1s ease, transform .1s ease;
 }
-.with_content h4{
+
+.with_content h4 {
     color: #fff;
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 28px;
 }
-.with_content .button{
-    background-color: #08ffa3;
+
+.with_content .button {
+    background-color: red;
     border-radius: 4px;
     font-size: 16px;
     font-weight: 700;
@@ -73,39 +83,46 @@
     display: inline-block;
     line-height: 1em;
     margin-right: 0.5em;
-    color: black;
+    color: white;
 }
-.with_content h6{
+
+.with_content h6 {
     color: #b3b3b3;
     font-size: 13px;
     font-weight: 500;
 }
-.with_content h5{
+
+.with_content h5 {
     color: #737373;
     font-size: 16px;
     font-weight: 500;
     margin-top: 16px;
 }
-.with_content a{
+
+.with_content a {
     color: white;
     cursor: pointer;
 }
-.content_options{
+
+.content_options {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.check{
+
+.check {
     align-items: center;
     display: flex;
     color: #b3b3b3;
     font-size: 13px;
     font-weight: 500;
 }
+
 .check input[type="checkbox"] {
     width: 17px;
 }
-.check input:checked{
+
+.check input:checked {
     background: #737373;
     border: 0;
     border-radius: 2px;
@@ -113,13 +130,15 @@
     left: -20px;
     width: 16px;
 }
-.content_general_input{
+
+.content_general_input {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
-.genresContent{
+
+.genresContent {
     background-color: #575ad5;
     color: white;
     position: relative;
@@ -133,7 +152,8 @@
     cursor: pointer;
     font-size: 0.8rem;
 }
-.genresinput{
+
+.genresinput {
     height: 30px;
     justify-content: center;
     align-items: center;
@@ -144,12 +164,12 @@
 
 .genresContent input[type=checkbox] {
     width: 95px;
-    height: 30px ;
+    height: 30px;
     opacity: 0;
 
 }
 
-.content_general_input_selected{
+.content_general_input_selected {
     background-color: #047e14;
     color: white;
     position: relative;
@@ -164,7 +184,7 @@
     font-size: 0.8rem;
 }
 
-.genresContentListGet{
+.genresContentListGet {
     background-color: #047e14;
     color: white;
     position: relative;

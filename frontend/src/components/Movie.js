@@ -118,7 +118,7 @@ const Movie = ({ item }) => {
         {dataStatus !== false && (
           <div className='face faceTwo'>
             <div className='content'>
-              <div className='flex justify-between pl-5 pr-5 pt-7 pb-3 items-center '>
+              <div className='flex justify-between pl-5 pr-5 pt-5  items-center '>
                 <div className='flex justify-between items-center'>
                   <div className='flex justify-between'>
                     <FaPlay className='text-3xl cursor-pointer text-slate-300' />
@@ -190,7 +190,7 @@ const Movie = ({ item }) => {
           position: relative;
           top: -45px;
           width: 300px;
-          height: 261px;
+          height: 280px;
         }
         .container .card {
           cursor: pointer;
@@ -200,6 +200,7 @@ const Movie = ({ item }) => {
           z-index: 3;
           transition: 0.9s;
           width: 300px;
+          height: 0;
         }
 
         .container .card .face {
@@ -215,7 +216,7 @@ const Movie = ({ item }) => {
 
         .container .card:hover .face.faceOne {
           transform: translateY(46px);
-          transition: 1s;
+          transition: 2s;
         }
 
         .container .card .face.faceOne .content {
@@ -230,7 +231,7 @@ const Movie = ({ item }) => {
 
         .container .card:hover .face.faceTwo {
           transform: translateY(34px);
-          transition: 1s;
+          transition: 2s;
         }
         .icons_add_movie {
           position: relative;

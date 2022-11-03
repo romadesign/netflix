@@ -19,7 +19,7 @@ const Genre = ({ films }) => {
     const data = response.data.data
     setGenres(data)
   }
-  console.log(films)
+
   return (
     <>
       <AppLayout>

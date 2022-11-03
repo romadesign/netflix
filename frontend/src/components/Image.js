@@ -31,7 +31,7 @@ function Image ({ datafiles, setFile }) {
             <input
               type='file'
               onChange={handleFileImage}
-              className='h-full w-full bg-green-200 opacity-0 z-10 absolute'
+              className='h-full w-full bg-green-200 opacity-0 z-10 left-0 absolute cursor-pointer'
               multiple
               name='files[]'
             />
@@ -43,11 +43,11 @@ function Image ({ datafiles, setFile }) {
             </div>
           </div>
         )}
-        <div className='flex flex-wrap gap-2 mt-2'>
+        <div className='flex flex-wrap gap-2 mt-2 justify-center'>
           {datafiles !== '' && (
             <div className='overflow-hidden relative p-4 bg-[#cacaca45]'>
               <img
-                className='h-70 w-90 rounded-md'
+                className='h-[200px] w-[200px] rounded-md'
                 src={
                   createObjectURL !== null
                     ? createObjectURL
