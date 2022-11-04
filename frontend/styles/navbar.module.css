@@ -45,13 +45,14 @@
     z-index: 1;
     padding: 1rem 2rem;
 }
-.subnavbar_text_filmsUrl{
+
+.subnavbar_text_filmsUrl {
     font-size: 2rem;
     color: white;
     font-weight: 700;
 }
 
-.subnavbarFilms{
+.subnavbarFilms {
     position: absolute;
     top: 4rem;
     width: 100%;
@@ -91,3 +92,53 @@
     padding: 1rem 2rem;
 }
 
+.content_sub_navbar {
+    background-color: #0d0d0dd6;
+    font-size: 0.9rem;
+    font-weight: 400;
+    border: 2px solid #dfdfdf;
+    border-radius: 0.3rem;
+}
+
+.urlId a {
+    padding: 0rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.urlId a:hover {
+    background-color: rgb(224, 224, 224);
+    padding: 0rem 2rem;
+    display: flex;
+    justify-content: center;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.select_options {
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 0.2rem;
+    padding: 0rem 2rem;
+}
+
+.select_options:hover {
+    background-color: rgb(224, 224, 224);
+    border: 1px solid white;
+    color: black;
+    font-weight: 600;
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+
+.content_navbarOther{
+    background-color: #0d0d0dd6;
+    font-size: 0.9rem;
+    font-weight: 400;
+    border: 2px solid #dfdfdf;
+    border-radius: 0.3rem;
+    position: absolute;
+}

@@ -3,30 +3,17 @@ import SubNavigation from '@/components/Layouts/SubNavigation'
 import Movie from '@/components/Movie'
 import axios from 'axios'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 
 const genre = ({ films }) => {
-  const [genres, setGenres] = useState()
 
-  useEffect(() => {
-    getGenres()
-  }, [])
 
-  async function getGenres () {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
-    )
-    const data = response.data.data
-    setGenres(data)
-  }
-  console.log(films)
   return (
     <>
       <AppLayout>
         <Head>
           <title>Genre</title>
         </Head>
-        <SubNavigation title='Series Tv'/>
+        <SubNavigation title='Series Tv' />
         <div className='h-[100vh] relative pt-20 bg-[#141414] '>
           <div className='bg-[#141414]'>
             <div className=' flex flex-wrap justify-center pt-10'>
@@ -42,6 +29,7 @@ const genre = ({ films }) => {
 }
 
 export const getServerSideProps = async context => {
+  console.log(context.query.id)
   const category_id = 1
   const { data: films } = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/` +
