@@ -19,7 +19,6 @@ const Explore = () => {
   }
 
   const [lists, setLists] = useState([])
-  console.log(lists)
 
   const [pagination, setpagination] = useState('')
   const [current_page, setcurrent_page] = useState('')

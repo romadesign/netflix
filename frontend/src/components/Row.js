@@ -7,123 +7,123 @@ import { useAuth } from '@/hooks/auth'
 import Loading from '@/components/Loading'
 
 const Row = ({ title, category_id, genre_id, rowId }) => {
-  const { getCookie } = useAuth()
-  const token = getCookie('token')
-  const router = useRouter()
+    const { getCookie } = useAuth()
+    const token = getCookie('token')
+    const router = useRouter()
 
-  const slider = useRef()
-  const [movies, setMovies] = useState()
+    const slider = useRef()
+    const [movies, setMovies] = useState()
+    console.log(movies)
+    useEffect(() => {
+        getFilms()
+    }, [])
 
-  //pagination config
-  //   const [pagination, setpagination] = useState('')
-  //   const [current_page, setcurrent_page] = useState('')
-  //   const [next_page_url, setnext_page_url] = useState('')
-  //   const [first_page_url, setfirst_page_url] = useState('')
-  //   const [prev_page_url, setprev_page_url] = useState('')
-  //   const [totalPage, settotalPage] = useState('')
-
-  useEffect(() => {
-    getFilms()
-  }, [])
-
-  async function getFilms () {
-    if (router.pathname === '/films') {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const data = response.data.data
-      setMovies(data)
-    } else if (
-      router.pathname === '/series' ||
-      router.pathname === '/peliculas'
-    ) {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const data = response.data.data
-      setMovies(data)
+    async function getFilms() {
+        const abortController = new AbortController()
+        if (router.pathname === '/films') {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmsgenre/${genre_id}`,
+                { headers: { Authorization: `Bearer ${token}` } },
+                { signal: abortController.signal }
+            )
+            const data = response.data.data
+            setMovies(data)
+        } else if (
+            router.pathname === '/series' ||
+            router.pathname === '/peliculas'
+        ) {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmscategory/${category_id}/filmsgenre/${genre_id}`,
+                { headers: { Authorization: `Bearer ${token}` } }, { signal: abortController.signal }
+            )
+            const data = response.data.data
+            setMovies(data)
+            return () => {
+            }
+        }
+        return () => {
+            abortController.abort()
+            setTimeout(() => abortController.abort(), 6000)
+        }
     }
-  }
 
-  const sliderLeft = () => {
-    // var slider = document.getElementById('slider' + rowId)
-    // slider.scrollLeft = slider.scrollLeft - 1200
-    slider.current.scrollLeft = slider.current.scrollLeft - 1200;
+    const sliderLeft = () => {
+        // var slider = document.getElementById('slider' + rowId)
+        // slider.scrollLeft = slider.scrollLeft - 1200
+        slider.current.scrollLeft = slider.current.scrollLeft - 1200;
 
-  }
+    }
 
-  const sliderRigth = () => {
-    // var slider = document.getElementById('slider' + rowId)
-    // slider.scrollLeft = slider.scrollLeft + 1200
-    slider.current.scrollLeft = slider.current.scrollLeft + 1200;
+    const sliderRigth = () => {
+        // var slider = document.getElementById('slider' + rowId)
+        // slider.scrollLeft = slider.scrollLeft + 1200
+        slider.current.scrollLeft = slider.current.scrollLeft + 1200;
 
-  }
+    }
 
-  //Other options pagination
-  //   async function sliderLeft () {
-  //     const response = await axios.get(`${prev_page_url}`)
-  //     const data = response.data
-  //     setprev_page_url(data.data.prev_page_url)
-  //     //nextPage
-  //     setcurrent_page(data.data.current_page)
-  //     setnext_page_url(data.data.next_page_url)
-  //     //update data
-  //     setMovies(data.data.data)
-  //     setpagination(data.data)
-  //     slider.current.scrollLeft = slider.current.scrollLeft - 1200
-  //   }
+    //Other options pagination
+    //   async function sliderLeft () {
+    //     const response = await axios.get(`${prev_page_url}`)
+    //     const data = response.data
+    //     setprev_page_url(data.data.prev_page_url)
+    //     //nextPage
+    //     setcurrent_page(data.data.current_page)
+    //     setnext_page_url(data.data.next_page_url)
+    //     //update data
+    //     setMovies(data.data.data)
+    //     setpagination(data.data)
+    //     slider.current.scrollLeft = slider.current.scrollLeft - 1200
+    //   }
 
-  //   async function sliderRigth () {
-  //     if (next_page_url !== null) {
-  //       const response = await axios.get(`${next_page_url}`)
-  //       const data = response.data
-  //       setprev_page_url(data.data.prev_page_url)
-  //       //nextPage
-  //       setcurrent_page(data.data.current_page)
-  //       setnext_page_url(data.data.next_page_url)
-  //       //update data
-  //       setMovies(prevResults => [...prevResults, ...data.data.data])
-  //       setpagination(data.data)
-  //       slider.current.scrollLeft = slider.current.scrollLeft + 1200
-  //     }
-  //   }
+    //   async function sliderRigth () {
+    //     if (next_page_url !== null) {
+    //       const response = await axios.get(`${next_page_url}`)
+    //       const data = response.data
+    //       setprev_page_url(data.data.prev_page_url)
+    //       //nextPage
+    //       setcurrent_page(data.data.current_page)
+    //       setnext_page_url(data.data.next_page_url)
+    //       //update data
+    //       setMovies(prevResults => [...prevResults, ...data.data.data])
+    //       setpagination(data.data)
+    //       slider.current.scrollLeft = slider.current.scrollLeft + 1200
+    //     }
+    //   }
 
-  return (
-    <div className=''>
-      <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6 '>
-        {title}
-      </h2>
-      <div className='relative flex items-center group pl-9'>
-        {movies !== undefined ? (
-          <>
-            <MdChevronLeft
-              onClick={sliderLeft}
-              className='bg-white rounded-full absolute top[10rem] opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
-              size={40}
-            />
-            <div
-                ref={slider}
-                //id={'slider' + rowId}
-              className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide justify-center'>
-              {movies.map((item, id) => (
-                <Movie key={id} item={item} />
-              ))}
+    return (
+        <div className=''>
+            <h2 className=' absolute text-white font-bold md:text-xl pt-3 pl-6 '>
+                {title}
+            </h2>
+            <div className='relative flex items-center group pl-9'>
+                {movies !== undefined ? (
+                    <>
+                        <MdChevronLeft
+                            onClick={sliderLeft}
+                            className='bg-white rounded-full absolute top[10rem] opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+                            size={40}
+                        />
+                        <div
+                            ref={slider}
+                            //id={'slider' + rowId}
+                            className='w-full h-full overflow-x-scroll text-center flex scroll-smooth scrollbar-hide justify-center'>
+                            {movies.map((item, id) => (
+                                <Movie key={id} item={item} />
+                            ))}
+                        </div>
+                        <MdChevronRight
+                            //   disabled={next_page_url == null}
+                            onClick={sliderRigth}
+                            className='bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+                            size={40}
+                        />
+                    </>
+                ) : (
+                    <Loading />
+                )}
             </div>
-            <MdChevronRight
-            //   disabled={next_page_url == null}
-              onClick={sliderRigth}
-              className='bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
-              size={40}
-            />
-          </>
-        ) : (
-          <Loading />
-        )}
-      </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default Row
