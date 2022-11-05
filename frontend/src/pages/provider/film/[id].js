@@ -13,6 +13,7 @@ import DynamicGenres from '@/components/BackOfficeProvider/DynamicGenres'
 import { countries } from '@/components/countrieList'
 
 const FilmDetail = ({ films }) => {
+    const router = useRouter()
   const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var userIdCookie = getCookie('id')
@@ -101,7 +102,7 @@ const FilmDetail = ({ films }) => {
       )
       .then(function (response) {
         console.log(response, 'llega')
-        // router.push("/")
+        router.push(`/provider`)
       })
       .catch(function (error) {
         console.log(error)
