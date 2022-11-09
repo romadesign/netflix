@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Label from '../Label'
 
 function DynamicImage({ datafiles, setFile }) {
   const [hideInputSelectImage, sethideInputSelectImage] = useState(true)
@@ -34,6 +35,8 @@ function DynamicImage({ datafiles, setFile }) {
   return (
     <div className="py-3 justify-center items-center px-2">
       <div className="p-2">
+      <Label htmlFor='rating'>Poster path</Label>
+
         {hideInputSelectImage !== false && (
           <div className="h-32 w-full relative border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted">
             <input
