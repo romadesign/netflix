@@ -48,18 +48,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     axios
       .get('/api/user')
       .then(res => {
-        // if (res.data.role === 'provider') {
-        //   router.push('/provider')
-        //   return res.data.role
-        // }
-        // if (res.data.role === 'client') {
-        //   router.push('/dashboard')
-        // }
         const userID = res.data.id
         const roleTYpe = res.data.role
         setCookie('id', userID)
         setCookie('type', roleTYpe)
-
         return res.data
       })
       .catch(error => {

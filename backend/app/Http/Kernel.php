@@ -41,7 +41,8 @@ class Kernel extends HttpKernel
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
+            // 'throttle:api',
+            'throttle:120,1', //Permite realizar más solicitudes por minuto solución para error (429) Too Many Requests
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];

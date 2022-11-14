@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { Api } from '@/hooks/api'
 
 const SubNavigation = ({ title }) => {
   const router = useRouter()
+  const { getCookie } = useAuth()
+  const { apiGetGenres } = Api()
+
   const query = router.query
   const genreGetUrl = query.type
 
-  const { getCookie } = useAuth()
   if (typeof window !== 'undefined') {
     var name = getCookie('name')
   }
@@ -41,12 +44,15 @@ const SubNavigation = ({ title }) => {
     getGenres()
   }, [])
 
-  async function getGenres () {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
-    )
-    const data = response.data.data
-    setGenres(data)
+  function getGenres () {
+    apiGetGenres()
+      .then(res => {
+        const data = res.data.data
+        setGenres(data)
+      })
+      .catch(error => {
+        console.log(error, 'entro') // "oh, no!"
+      })
   }
 
   const handleChange = e => {

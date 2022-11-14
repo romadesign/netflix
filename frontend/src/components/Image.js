@@ -27,7 +27,7 @@ function Image ({ datafiles, setFile }) {
   return (
     <div className='py-3 justify-center items-center px-2'>
       <div className='p-2'>
-      <Label htmlFor='rating'>Backdrop path</Label>
+        <Label htmlFor='rating'>Backdrop path</Label>
         {hideInputSelectImage !== false && (
           <div className='h-32 w-full relative border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted'>
             <input
@@ -49,7 +49,7 @@ function Image ({ datafiles, setFile }) {
           {datafiles !== '' && (
             <div className='overflow-hidden relative p-4 bg-[#cacaca45]'>
               <img
-                className="h-[320px] w-[320px] rounded-md object-cover"
+                className='h-[320px] w-[320px] rounded-md object-cover'
                 src={
                   createObjectURL !== null
                     ? createObjectURL

@@ -44,7 +44,7 @@ export const Api = () => {
   }
   //Get countrie movies
   const apiGetMovieProvider = async provider_id => {
-    const data = await axios.get(`/filmsprovider/${provider_id}`)
+    const data = await axios.get(`/api/filmsprovider/${provider_id}`)
     return data
   }
 
@@ -83,7 +83,7 @@ export const Api = () => {
   }
   //Films whit genre id
   const apiGetFilmsByGenre = async genre_id => {
-    const data = await axios.get(`/api/categorie/${genre_id}`)
+    const data = await axios.get(`/api/filmsgenre/${genre_id}`)
     return data
   }
 
@@ -117,7 +117,7 @@ export const Api = () => {
   //FILMS LIST ACCOUNT
   //get explore list
   const apiGetListExplore = async () => {
-    const data = await axios.get(`/api/list/explore`)
+    const data = await axios.get(`/api/lists/explore`)
     return data
   }
   //get list
@@ -132,7 +132,7 @@ export const Api = () => {
   }
   //post add movie to my list
   const apiPostAddFilmList = async (formData) => {
-    const data = await axios.get(`/api/list`, formData)
+    const data = await axios.post(`/api/list`, formData)
     return data
   }
   //get search movies by country
@@ -146,8 +146,18 @@ export const Api = () => {
     return data
   }
   //post remove movie from my list
-  const apiPostDeleteFilmList = async () => {
-    const data = await axios.get(`/api/filmId/${film_id}/accountId/${account_id}/delete`)
+  const apiPostDeleteFilmList = async (film_id, account_id) => {
+    const data = await axios.post(`/api/filmId/${film_id}/accountId/${account_id}/delete`)
+    return data
+  }
+
+  const apiGetImage = (img) => {
+    const data = `http://localhost:8000/images/${img}`
+    return data
+  }
+
+  const apiGetImageProfile = (img) => {
+    const data = `http://localhost:8000/profiles/${img}`
     return data
   }
 
@@ -186,5 +196,9 @@ export const Api = () => {
     apiGetSearchFilmCountry,
     apiGetSearchFilmsByAccount,
     apiPostDeleteFilmList,
+
+    //Api image
+    apiGetImage,
+    apiGetImageProfile,
   }
 }

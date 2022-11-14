@@ -5,19 +5,22 @@ import { useAuth } from '@/hooks/auth'
 import { FaPlay, FaInfoCircle } from 'react-icons/fa'
 import ModalDetails from '@/components/ModalDetails'
 import { useRouter } from 'next/router'
+import { Api } from '@/hooks/api'
 
 const Banner = () => {
   const router = useRouter()
   const { getCookie } = useAuth()
+  const { apiGetShowRandomFilm, apiGetGenres, apiGetImage } = Api()
+
   if (typeof window !== 'undefined') {
     var accountId = getCookie('accountId')
     var token = getCookie('token')
   }
   const [movieramdon, setMovieRamdon] = useState()
   const [genres, setGenres] = useState()
-//content data movie
-const [dataStatus, setDataStatus] = useState(false)
-const [movieOptions, setMovieOptions] = useState()
+  //content data movie
+  const [dataStatus, setDataStatus] = useState(false)
+  const [movieOptions, setMovieOptions] = useState()
   const [movieOptionsStatus, setMovieOptionsStatus] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -39,17 +42,14 @@ const [movieOptions, setMovieOptions] = useState()
       })
   }
 
-
-  const addListMovie = async () => {
+  const addListMovie = () => {
     let formData = new FormData()
     formData.append('film_id', movieramdon.id)
     formData.append('account_id', accountId)
-    await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/list`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+
+    //get API
+    apiPostAddFilmList(formData)
       .then(function (response) {
-        console.log(response)
         setMovieOptionsStatus(!true)
         //update checked movie my list
         checkAddedMovie(film_id)
@@ -59,7 +59,6 @@ const [movieOptions, setMovieOptions] = useState()
         console.log(error)
       })
   }
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,19 +90,25 @@ const [movieOptions, setMovieOptions] = useState()
   }, [])
 
   async function getMovie () {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movieramdon`,
-    )
-    const data = response.data
-    setMovieRamdon(data)
+    apiGetShowRandomFilm()
+      .then(res => {
+        const data = res.data
+        setMovieRamdon(data)
+      })
+      .catch(error => {
+        console.log(error, 'entro') // "oh, no!"
+      })
   }
 
   async function getGenres () {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/genres`,
-    )
-    const data = response.data.data
-    setGenres(data)
+    apiGetGenres()
+      .then(res => {
+        const data = res.data.data
+        setGenres(data)
+      })
+      .catch(error => {
+        console.log(error, 'entro') // "oh, no!"
+      })
   }
 
   const handleModal = movieId => {
@@ -122,7 +127,8 @@ const [movieOptions, setMovieOptions] = useState()
         {movieramdon !== undefined && (
           <img
             className={styles.banner_image}
-            src={'http://localhost:8000/images/' + movieramdon.backdrop_path}
+            // src={'http://localhost:8000/images/' + movieramdon.backdrop_path}
+            src={apiGetImage(movieramdon.backdrop_path)}
             alt={movieramdon.title}
           />
         )}

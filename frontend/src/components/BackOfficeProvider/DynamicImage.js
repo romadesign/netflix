@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Label from '../Label'
 
-function DynamicImage({ datafiles, setFile }) {
+function DynamicImage ({ datafiles, setFile }) {
   const [hideInputSelectImage, sethideInputSelectImage] = useState(true)
   const handleFile = e => {
     const files = e.target.files
@@ -33,33 +33,33 @@ function DynamicImage({ datafiles, setFile }) {
   }
 
   return (
-    <div className="py-3 justify-center items-center px-2">
-      <div className="p-2">
-      <Label htmlFor='rating'>Poster path</Label>
+    <div className='py-3 justify-center items-center px-2'>
+      <div className='p-2'>
+        <Label htmlFor='rating'>Poster path</Label>
 
         {hideInputSelectImage !== false && (
-          <div className="h-32 w-full relative border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted">
+          <div className='h-32 w-full relative border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted'>
             <input
-              type="file"
+              type='file'
               onChange={handleFile}
-              className="h-full w-full bg-green-200 opacity-0 z-10 absolute"
+              className='h-full w-full bg-green-200 opacity-0 z-10 absolute'
               multiple
-              name="files[]"
+              name='files[]'
             />
-            <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
-              <div className="flex flex-col">
-                <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
-                <span className="text-[12px]">{`Drag and Drop a file`}</span>
+            <div className='h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0'>
+              <div className='flex flex-col'>
+                <i className='mdi mdi-folder-open text-[30px] text-gray-400 text-center'></i>
+                <span className='text-[12px]'>{`Drag and Drop a file`}</span>
               </div>
             </div>
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2 mt-2 justify-center">
+        <div className='flex flex-wrap gap-2 mt-2 justify-center'>
           {datafiles !== '' && (
-            <div className="overflow-hidden relative p-4 bg-[#cacaca45]">
+            <div className='overflow-hidden relative p-4 bg-[#cacaca45]'>
               <img
-                className="h-[320px] w-[320px] rounded-md object-cover"
+                className='h-[320px] w-[320px] rounded-md object-cover'
                 src={
                   datafiles !== null
                     ? datafiles
@@ -69,18 +69,18 @@ function DynamicImage({ datafiles, setFile }) {
               />
               <button
                 onClick={handleClose}
-                className="absolute top-0 right-0 text-center bg-[#ffffffa3] hover focus:outline-none">
+                className='absolute top-0 right-0 text-center bg-[#ffffffa3] hover focus:outline-none'>
                 <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  data-prefix="fas"
-                  data-icon="times"
-                  className="w-3 m-3"
-                  role="img"
-                  viewBox="0 0 352 512">
+                  aria-hidden='true'
+                  focusable='false'
+                  data-prefix='fas'
+                  data-icon='times'
+                  className='w-3 m-3'
+                  role='img'
+                  viewBox='0 0 352 512'>
                   <path
-                    fill="currentColor"
-                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
+                    fill='currentColor'
+                    d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'></path>
                 </svg>
               </button>
             </div>

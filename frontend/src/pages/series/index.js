@@ -16,7 +16,7 @@ const Series = () => {
       <Head>
         <title>Netflix - Series</title>
       </Head>
-      <SubNavigation title='Series Tv'/>
+      <SubNavigation title='Series Tv' />
       <div className={styles.background}>
         <Banner />
         <div className={styles.rows}>

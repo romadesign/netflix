@@ -7,12 +7,15 @@ import Head from 'next/head'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { Api } from '@/hooks/api'
 
 export default function Browse () {
   const router = useRouter()
+  const { apiGetAccountsByUser, apiPostCreateAccount, apiGetImageProfile } = Api()
 
   //redirect page si no es provedor
   const { getCookie, setCookie } = useAuth()
+
   if (typeof window !== 'undefined') {
     var userIdCookie = getCookie('id')
     var userTypeCookie = getCookie('type')
@@ -41,14 +44,17 @@ export default function Browse () {
   }, [])
 
   //Get Accounts user
-  async function getAccounts () {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/accounts/user/${userId}`,
-    )
-    const data = response.data
-    if (data.length > 0) {
-      setAccounts(data)
-    }
+  function getAccounts () {
+    apiGetAccountsByUser(userId)
+      .then(res => {
+        const data = res.data
+        if (data.length > 0) {
+          setAccounts(data)
+        }
+      })
+      .catch(error => {
+        console.log(error, 'entro') // "oh, no!"
+      })
   }
 
   //Post Account
@@ -59,8 +65,7 @@ export default function Browse () {
     formData.append('userType', userType)
     formData.append('name', name)
     formData.append('image', image)
-    await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/account`, formData)
+    apiPostCreateAccount(formData)
       .then(function (response) {
         console.log(response)
         router.reload()
@@ -127,9 +132,7 @@ export default function Browse () {
                         key={account.id}
                         className='w-full max-w-sm p-2 cursor-pointer'>
                         <img
-                          src={
-                            'http://localhost:8000/profiles/' + account?.image
-                          }
+                          src={apiGetImageProfile(account?.image)}
                           alt={account.name}
                           className='rounded-md object-cover h-40 w-40'
                         />

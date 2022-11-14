@@ -1,10 +1,6 @@
 import axios from 'axios'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 const Pagination = ({
   setFilms,
-  pagination,
   setpagination,
   current_page,
   next_page_url,
@@ -13,8 +9,7 @@ const Pagination = ({
   setnext_page_url,
   setprev_page_url,
 }) => {
-
-  async function changePrevPage() {
+  async function changePrevPage () {
     const response = await axios.get(`${prev_page_url}`)
     const data = response.data
 
@@ -29,7 +24,7 @@ const Pagination = ({
     setpagination(data.data)
   }
 
-  async function changeNextPage() {
+  async function changeNextPage () {
     const response = await axios.get(`${next_page_url}`)
     const data = response.data
 
@@ -40,28 +35,28 @@ const Pagination = ({
     setnext_page_url(data.data.next_page_url)
 
     //update data
-    setFilms((prevResults) => [...prevResults, ...data.data.data]); 
+    setFilms(prevResults => [...prevResults, ...data.data.data])
     setpagination(data.data)
   }
 
   return (
-    <div className="pt-2 grid justify-items-center">
-      <nav aria-label="Page navigation example">
-        <ul className="inline-flex -space-x-px">
+    <div className='pt-2 grid justify-items-center'>
+      <nav aria-label='Page navigation example'>
+        <ul className='inline-flex -space-x-px'>
           <button
             disabled={prev_page_url == null}
             onClick={changePrevPage}
-            className="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            className='py-2 px-3 ml-0 leading-tight text-gray-500 bg-white  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
             Atrás
           </button>
 
-          <li className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <li className='py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
             {current_page}
           </li>
           <button
-            disabled={next_page_url ==  null}
+            disabled={next_page_url == null}
             onClick={changeNextPage}
-            className="py-2 px-3 leading-tight text-gray-500 bg-white  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            className='py-2 px-3 leading-tight text-gray-500 bg-white  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
             Siguiente
           </button>
         </ul>

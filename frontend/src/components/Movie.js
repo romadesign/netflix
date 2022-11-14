@@ -12,10 +12,18 @@ import axios from 'axios'
 import { useAuth } from '@/hooks/auth'
 import ModalDetails from './ModalDetails'
 import { useRouter } from 'next/router'
+import { Api } from '@/hooks/api'
 
 const Movie = ({ item }) => {
   const router = useRouter()
   const { getCookie } = useAuth()
+  const {
+    apiPostAddFilmList,
+    apiGetSearchFilmsByAccount,
+    apiPostDeleteFilmList,
+    apiGetImage,
+  } = Api()
+
   if (typeof window !== 'undefined') {
     var accountId = getCookie('accountId')
     var token = getCookie('token')
@@ -42,16 +50,16 @@ const Movie = ({ item }) => {
     setIcons(!false)
   }
 
-  const addListMovie = async film_id => {
+  const addListMovie = film_id => {
     let formData = new FormData()
     formData.append('film_id', film_id)
     formData.append('account_id', accountId)
-    await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/list`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(function (response) {
-        console.log(response)
+
+    apiPostAddFilmList(formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(function (res) {
+        console.log(res)
         setMovieOptionsStatus(!true)
         //update checked movie my list
         checkAddedMovie(film_id)
@@ -64,16 +72,13 @@ const Movie = ({ item }) => {
 
   const checkAddedMovie = async film_id => {
     const account_id = accountId
-     //show data movie
-     setDataStatus(!false)
-    await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      .then(function (response) {
-        setMovieOptions(response.data.message)
-        setMovieOptionsStatus(response.data.status)
+    //show data movie
+    setDataStatus(!false)
+    //get Api
+    apiGetSearchFilmsByAccount(film_id, account_id)
+      .then(function (res) {
+        setMovieOptions(res.data.message)
+        setMovieOptionsStatus(res.data.status)
         // router.push("/")
       })
       .catch(function (error) {
@@ -83,13 +88,12 @@ const Movie = ({ item }) => {
 
   const deleteListMovieId = async film_id => {
     const account_id = accountId
-    await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/filmId/${film_id}/accountId/${account_id}/delete`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      .then(function (response) {
-        console.log(response.data.message)
+
+    apiPostDeleteFilmList(film_id, account_id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(function (res) {
+        console.log(res.data.message)
         setMovieOptionsStatus(!false)
         router.reload()
       })
@@ -107,10 +111,7 @@ const Movie = ({ item }) => {
           <div className='content'>
             <img
               className='p-1 rounded-lg'
-              src={
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/images/` +
-                item?.backdrop_path
-              }
+              src={apiGetImage(item?.backdrop_path)}
               alt={item?.title}
             />
           </div>
