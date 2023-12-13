@@ -152,12 +152,12 @@ export const Api = () => {
   }
 
   const apiGetImage = (img) => {
-    const data = `http://localhost:8000/images/${img}`
+    const data = `http://localhost/images/${img}`
     return data
   }
 
   const apiGetImageProfile = (img) => {
-    const data = `http://localhost:8000/profiles/${img}`
+    const data = `http://localhost/profiles/${img}`
     return data
   }
 

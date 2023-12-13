@@ -62,3 +62,14 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+# Iniciar proyecto con docker
+docker compose up -d
+docker ps
+docker exec -it "nombre del contenedor 'netflix-app'" /bin/bash
+composer install 
+
