@@ -17,4 +17,4 @@ RUN apk update && \
 # nginx config file
 COPY ./infra/docker/nginx/*.conf /etc/nginx/conf.d/
 
-WORKDIR /work/backend
+WORKDIR /backend

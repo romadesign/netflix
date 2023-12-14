@@ -73,3 +73,6 @@ docker ps
 docker exec -it "nombre del contenedor 'netflix-app'" /bin/bash
 composer install 
 
+# Php admin login
+user: phper
+password: secret

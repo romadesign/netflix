@@ -17,7 +17,7 @@ services:
           nocopy: true
       - type: bind
         source: ./backend
-        target: /work/backend
+        target: /backend
       - type: volume
         source: psysh-store
         target: /root/.config/psysh
@@ -27,7 +27,7 @@ services:
       - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
-      - DB_DATABASE=${DB_NAME:-laravel_local}
+      - DB_DATABASE=${DB_NAME:-netflix}
       - DB_USERNAME=${DB_USER:-phper}
       - DB_PASSWORD=${DB_PASS:-secret}
     networks:
@@ -50,7 +50,7 @@ services:
           nocopy: true
       - type: bind
         source: ./backend
-        target: /work/backend
+        target: /backend
     networks:
       - mynetwork  # Asignar la red
 
@@ -70,7 +70,7 @@ services:
         volume:
           nocopy: true
     environment:
-      - MYSQL_DATABASE=${DB_NAME:-laravel_local}
+      - MYSQL_DATABASE=${DB_NAME:-netflix}
       - MYSQL_USER=${DB_USER:-phper}
       - MYSQL_PASSWORD=${DB_PASS:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASS:-secret}
